@@ -349,7 +349,7 @@ button{cursor:pointer}
 <!-- AUTH -->
 <div id="auth-screen" class="hidden">
 
-  <!-- LOGIN -->
+  <!-- ① LOGIN -->
   <div class="auth-card" id="v-login">
     <div class="auth-logo">
       <div class="logo-mark">OKR<span>Hub</span></div>
@@ -367,16 +367,19 @@ button{cursor:pointer}
     </div>
     <button class="auth-submit" id="l-btn" onclick="doLogin()">Iniciar sesión</button>
     <div class="auth-err" id="l-err"></div>
+    <div class="auth-switch-line" style="margin-top:12px">
+      <a onclick="showV('v-forgot')" style="color:var(--muted);font-weight:500">¿Olvidaste tu contraseña?</a>
+    </div>
     <div class="auth-switch-line">¿No tienes cuenta? <a onclick="showV('v-register')">Crear cuenta</a></div>
   </div>
 
-  <!-- REGISTER -->
+  <!-- ② REGISTER -->
   <div class="auth-card hidden" id="v-register">
     <div class="auth-logo">
       <div class="logo-mark">OKR<span>Hub</span></div>
     </div>
     <div class="auth-title">Crear cuenta</div>
-    <div class="auth-subtitle">Te enviaremos un correo de verificación</div>
+    <div class="auth-subtitle">Te enviaremos un correo para verificar tu identidad</div>
     <div class="form-group">
       <label class="form-label">Nombre completo</label>
       <input class="form-input" id="r-name" type="text" placeholder="Tu nombre">
@@ -393,43 +396,74 @@ button{cursor:pointer}
       <label class="form-label">Cargo / Rol</label>
       <input class="form-input" id="r-role" type="text" placeholder="ej: Analista de Innovación">
     </div>
-    <button class="auth-submit" id="r-btn" onclick="doRegister()">Registrarme</button>
+    <button class="auth-submit" id="r-btn" onclick="doRegister()">Crear cuenta</button>
     <div class="auth-err" id="r-err"></div>
     <div class="auth-switch-line">¿Ya tienes cuenta? <a onclick="showV('v-login')">Iniciar sesión</a></div>
   </div>
 
-  <!-- PENDING VERIFY -->
+  <!-- ③ REGISTRO EXITOSO — REVISA TU CORREO -->
   <div class="auth-card hidden verify-card" id="v-pending">
     <div class="verify-icon">📬</div>
-    <div class="verify-title">Revisa tu correo</div>
+    <div class="verify-title">¡Revisa tu correo!</div>
     <div class="verify-text">
-      Enviamos un enlace de verificación a<br>
-      <span class="email-pill" id="v-email-shown">—</span><br>
-      Haz clic en el enlace del correo para activar tu cuenta. Luego vuelve aquí e inicia sesión.
+      Te enviamos un enlace de verificación a<br>
+      <span class="email-pill" id="v-email-shown">—</span><br><br>
+      Abre ese correo y haz clic en el botón de verificación.<br>
+      Luego vuelve aquí e inicia sesión.
+      <span style="font-size:12px;color:var(--faint);display:block;margin-top:8px">
+        ¿No lo encuentras? Revisa tu carpeta de <strong>spam</strong> o correo no deseado.
+      </span>
     </div>
-    <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
-      <button class="auth-submit" id="resend-btn" onclick="resendVerification()" style="background:var(--ghost);color:var(--ink);border:1px solid var(--border)">Reenviar correo</button>
+    <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+      <button class="auth-submit" id="resend-btn" onclick="doResend('resend-btn','resend-ok')">
+        Reenviar correo de verificación
+      </button>
       <div class="auth-ok" id="resend-ok"></div>
-      <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:4px" onclick="showV('v-login')">← Volver al login</button>
+      <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:2px" onclick="showV('v-login')">
+        ← Ya verifiqué, ir al login
+      </button>
     </div>
   </div>
 
-  <!-- EMAIL NOT VERIFIED (logged in but not verified) -->
+  <!-- ④ INTENTO DE LOGIN SIN VERIFICAR CORREO -->
   <div class="auth-card hidden verify-card" id="v-notverified">
-    <div class="verify-icon">📧</div>
-    <div class="verify-title">Correo sin verificar</div>
+    <div class="verify-icon">⚠️</div>
+    <div class="verify-title">Correo no verificado</div>
     <div class="verify-text">
-      Todavía no has verificado tu cuenta.<br>
-      Revisa la bandeja de entrada de<br>
-      <span class="email-pill" id="nv-email-shown">tu correo</span><br>
-      y haz clic en el enlace de verificación.<br>
-      <span style="font-size:12px;color:var(--faint);display:block;margin-top:6px">¿No lo encuentras? Revisa la carpeta de <strong>spam</strong>.</span>
+      Tienes una cuenta registrada con<br>
+      <span class="email-pill" id="nv-email-shown">—</span><br><br>
+      pero aún no has verificado tu correo.<br>
+      Revisa tu bandeja de entrada y haz clic en el enlace que te enviamos.
+      <span style="font-size:12px;color:var(--faint);display:block;margin-top:8px">
+        ¿No lo encuentras? Revisa <strong>spam</strong> o solicita un nuevo correo.
+      </span>
     </div>
-    <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
-      <button class="auth-submit" onclick="resendVerification2()">Reenviar correo de verificación</button>
-      <div class="auth-ok" id="rv-ok"></div>
-      <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:4px" onclick="showV('v-login')">← Volver al login</button>
+    <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+      <button class="auth-submit" id="resend2-btn" onclick="doResend('resend2-btn','resend2-ok')">
+        Reenviar correo de verificación
+      </button>
+      <div class="auth-ok" id="resend2-ok"></div>
+      <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:2px" onclick="showV('v-login')">
+        ← Volver al login
+      </button>
     </div>
+  </div>
+
+  <!-- ⑤ OLVIDÉ MI CONTRASEÑA -->
+  <div class="auth-card hidden" id="v-forgot">
+    <div class="auth-logo">
+      <div class="logo-mark">OKR<span>Hub</span></div>
+    </div>
+    <div class="auth-title">Recuperar contraseña</div>
+    <div class="auth-subtitle">Te enviaremos un enlace para restablecer tu contraseña</div>
+    <div class="form-group">
+      <label class="form-label">Correo electrónico</label>
+      <input class="form-input" id="f-email" type="email" placeholder="tu@correo.com">
+    </div>
+    <button class="auth-submit" id="f-btn" onclick="doForgot()">Enviar enlace</button>
+    <div class="auth-err" id="f-err"></div>
+    <div class="auth-ok" id="f-ok"></div>
+    <div class="auth-switch-line"><a onclick="showV('v-login')">← Volver al login</a></div>
   </div>
 
 </div>
@@ -719,115 +753,107 @@ window.doRegister = async function() {
     console.error('Register error:', e.code, e.message);
     showErr('r-err', firebaseErrMsg(e.code));
   } finally {
-    btn.disabled=false; btn.textContent='Registrarme';
+    btn.disabled = false; btn.textContent = 'Crear cuenta';
   }
 };
 
-window.resendVerification = async function() {
-  const btn = document.getElementById('resend-btn');
-  btn.disabled = true; btn.textContent = 'Enviando…';
+// ── RESEND (unified) ─────────────────────────────
+window.doResend = async function(btnId, okId) {
+  const btn = document.getElementById(btnId);
+  const ok  = document.getElementById(okId);
+  if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
   try {
-    // If we still have the user object in memory use it
-    if (pendingRegUser && !pendingRegUser.emailVerified) {
+    if (pendingRegUser) {
       await sendEmailVerification(pendingRegUser, { url: SITE_URL });
+      if (ok) { ok.textContent = '✓ Correo reenviado. Revisa también spam.'; ok.classList.add('show'); }
+      setTimeout(() => ok && ok.classList.remove('show'), 7000);
     } else {
-      // After page reload pendingRegUser is lost — show message to check spam
-      notif('info','Revisa tu carpeta de spam','Si no encuentras el correo, intenta registrarte de nuevo.');
-      btn.disabled = false; btn.textContent = 'Reenviar correo';
-      return;
-    }
-    const ok=document.getElementById('resend-ok');
-    ok.textContent='✓ Correo reenviado — revisa también spam'; ok.classList.add('show');
-    setTimeout(()=>ok.classList.remove('show'),6000);
-  } catch(e) {
-    notif('error','Error al reenviar', e.message||'Intenta de nuevo en unos minutos.');
-  } finally {
-    btn.disabled = false; btn.textContent = 'Reenviar correo';
-  }
-};
-window.resendVerification2 = async function() {
-  const btn2 = document.querySelector('#v-notverified .auth-submit');
-  if (btn2) { btn2.disabled=true; btn2.textContent='Enviando…'; }
-  try {
-    if (pendingRegUser && !pendingRegUser.emailVerified) {
-      await sendEmailVerification(pendingRegUser, { url: SITE_URL });
-      const ok=document.getElementById('rv-ok');
-      ok.textContent='✓ Correo reenviado — revisa también la carpeta de spam'; ok.classList.add('show');
-      setTimeout(()=>ok.classList.remove('show'),7000);
-    } else {
-      notif('info','Sesión expirada','Por favor, vuelve al login e intenta de nuevo.');
+      notif('info', 'Vuelve al login', 'La sesión expiró. Intenta iniciar sesión de nuevo.');
       showV('v-login');
     }
   } catch(e) {
-    console.error('Resend error:', e);
-    notif('error','Error al reenviar', e.message||'Intenta de nuevo.');
+    console.error('Resend error:', e.code);
+    if (e.code === 'auth/too-many-requests') {
+      notif('warning', 'Espera un momento', 'Firebase limita el reenvío. Intenta en unos minutos.');
+    } else {
+      notif('error', 'Error al reenviar', e.message || 'Intenta de nuevo.');
+    }
   } finally {
-    if (btn2) { btn2.disabled=false; btn2.textContent='Reenviar correo de verificación'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Reenviar correo de verificación'; }
   }
 };
-window.doLogout = async function() {
-  await signOut(auth);
-  CU_USER=null; CU_DOC=null;
-  document.getElementById('app-shell').classList.add('hidden');
-  document.getElementById('auth-screen').classList.remove('hidden');
-  showV('v-login');
-};
 
-function showErr(id,msg){const el=document.getElementById(id);el.textContent=msg;el.classList.add('show');}
-function firebaseErrMsg(code){
-  const MAP={
-    'auth/invalid-email':'Correo inválido.',
-    'auth/user-not-found':'Usuario no encontrado.',
-    'auth/wrong-password':'Contraseña incorrecta.',
-    'auth/email-already-in-use':'Este correo ya está registrado.',
-    'auth/weak-password':'Contraseña muy débil (mínimo 6 caracteres).',
-    'auth/invalid-credential':'Correo o contraseña incorrectos.',
-    'auth/too-many-requests':'Demasiados intentos fallidos. Espera unos minutos.',
-    'auth/network-request-failed':'Error de red. Verifica tu conexión a internet.',
-    'auth/api-key-not-valid':'Configuración de Firebase inválida. Contacta al administrador.',
-    'auth/unauthorized-domain':'Este dominio no está autorizado en Firebase. Agrega lucasyamil.github.io en Authentication → Settings → Authorized domains.',
-  };
-  return MAP[code]||`Error (${code}). Si persiste, contacta al administrador.`;
-}
+// ── FORGOT PASSWORD ───────────────────────────────
+window.doForgot = async function() {
+  const email = document.getElementById('f-email').value.trim().toLowerCase();
+  const btn   = document.getElementById('f-btn');
+  const errEl = document.getElementById('f-err');
+  const ok    = document.getElementById('f-ok');
+  errEl.textContent = ''; errEl.classList.remove('show');
+  ok.classList.remove('show');
+  if (!email) { errEl.textContent = 'Ingresa tu correo electrónico.'; errEl.classList.add('show'); return; }
+  btn.disabled = true; btn.textContent = 'Enviando…';
+  try {
+    const { sendPasswordResetEmail } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
+    await sendPasswordResetEmail(auth, email, { url: SITE_URL });
+    ok.textContent = '✓ Correo enviado. Revisa tu bandeja (y spam).';
+    ok.classList.add('show');
+    btn.textContent = '✓ Enviado';
+  } catch(e) {
+    console.error('Forgot error:', e.code);
+    btn.disabled = false; btn.textContent = 'Enviar enlace';
+    const FM = {
+      'auth/user-not-found': 'No existe una cuenta con ese correo.',
+      'auth/invalid-email':  'El formato del correo no es válido.',
+    };
+    errEl.textContent = FM[e.code] || firebaseErrMsg(e.code);
+    errEl.classList.add('show');
+  }
+};
 
 // ── AUTH STATE LISTENER ───────────────────────────
 onAuthStateChanged(auth, async user => {
   document.getElementById('loading').classList.add('hidden');
+
   if (user && user.emailVerified) {
+    // ✅ Logged in AND verified → load data and open app
     CU_USER = user;
-    // Load Firestore data
     let data = await loadData(user.uid);
     if (!data) {
-      // First login after verify — recover from sessionStorage if available
-      const isLucas = user.email===LUCAS_EMAIL;
-      const cached = sessionStorage.getItem('pendingUserData_'+user.uid);
+      // Firestore data missing — recover from sessionStorage if we saved it during register
+      const isLucas = user.email === LUCAS_EMAIL;
+      const cached  = sessionStorage.getItem('pending_' + user.uid);
       let name = user.displayName || user.email;
       let role = 'Usuario';
       if (cached) {
-        try { const c=JSON.parse(cached); name=c.name||name; role=c.role||role; } catch(e){}
-        sessionStorage.removeItem('pendingUserData_'+user.uid);
+        try { const c = JSON.parse(cached); name = c.name || name; role = c.role || role; } catch(e) {}
+        sessionStorage.removeItem('pending_' + user.uid);
       }
-      data = { name, role, okrs: isLucas?lucasOKRs():[],caps: isLucas?lucasCaps():[] };
-      try { await setDoc(doc(db,'users',user.uid), {...data, updatedAt:serverTimestamp()}); } catch(e){ console.warn('Firestore write failed:', e); }
+      data = { name, role, okrs: isLucas ? lucasOKRs() : [], caps: isLucas ? lucasCaps() : [] };
+      try {
+        await setDoc(doc(db, 'users', user.uid), { ...data, updatedAt: serverTimestamp() });
+      } catch(e) { console.warn('Firestore write on first login failed:', e.code); }
     }
     CU_DOC = data;
     document.getElementById('auth-screen').classList.add('hidden');
     document.getElementById('app-shell').classList.remove('hidden');
-    document.getElementById('sb-name').textContent = CU_DOC.name||user.displayName||user.email;
-    document.getElementById('sb-role').textContent = CU_DOC.role||'—';
-    document.getElementById('sb-av').textContent   = (CU_DOC.name||user.displayName||'?').charAt(0).toUpperCase();
+    document.getElementById('sb-name').textContent = CU_DOC.name || user.displayName || user.email;
+    document.getElementById('sb-role').textContent = CU_DOC.role || '—';
+    document.getElementById('sb-av').textContent   = (CU_DOC.name || user.displayName || '?').charAt(0).toUpperCase();
     checkOverdue();
     goPage('dashboard');
     scheduleAlerts();
+
   } else if (user && !user.emailVerified) {
-    // Logged in but not verified
-    CU_USER = user;
+    // ⚠️  Logged in but NOT verified — sign them out and show warning
     pendingRegUser = user;
-    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('nv-email-shown').textContent = user.email;
+    await signOut(auth);
     document.getElementById('auth-screen').classList.remove('hidden');
     showV('v-notverified');
-    await signOut(auth);
+
   } else {
+    // Not logged in → show login
     document.getElementById('auth-screen').classList.remove('hidden');
     showV('v-login');
   }
