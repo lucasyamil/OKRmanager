@@ -1787,38 +1787,43 @@ function okrPanelHTML(item) {
     <div class="desc-card">${item.desc||'Sin descripción. Edita este OKR para agregar pasos y notas.'}</div>
   </div>`;
 
-  // Build checklist editor rows using array join (no nested template literals)
-  const ckRows = (item.checklist||[]).map(function(c,i) {
+  // Build checklist editor rows
+  var ckRows = (item.checklist||[]).map(function(c,i){
+    var chk = c.done ? ' checked' : '';
+    var val = (c.text||'').replace(/"/g,'&quot;');
+    var eid = item.id;
     return '<div class="ck-row" style="margin-bottom:6px">'
-      + '<input type="checkbox"' + (c.done?' checked':'') + ' onchange="tgCk(''+item.id+'','+i+',this.checked)" style="accent-color:var(--indigo-600);width:15px;height:15px;cursor:pointer;flex-shrink:0">'
-      + '<input class="ck-add-input" style="flex:1;margin:0 8px" value="' + c.text.replace(/"/g,'&quot;') + '" onchange="editCkText(''+item.id+'','+i+',this.value)" onblur="editCkText(''+item.id+'','+i+',this.value)">'
-      + '<button class="ck-del" onclick="rmCk(''+item.id+'','+i+')">✕</button>'
+      + '<input type="checkbox"'+chk+' onchange="tgCk(\\\'' +eid+ '\\\','+i+',this.checked)" style="accent-color:var(--indigo-600);width:15px;height:15px;cursor:pointer;flex-shrink:0">'
+      + '<input class="ck-add-input" style="flex:1;margin:0 8px" value="'+val+'" onchange="editCkText(\\\'' +eid+ '\\\','+i+',this.value)" onblur="editCkText(\\\'' +eid+ '\\\','+i+',this.value)">'
+      + '<button class="ck-del" onclick="rmCk(\\\'' +eid+ '\\\','+i+')">✕</button>'
       + '</div>';
   }).join('');
 
-  const editBody = '<div class="panel-body' + (tab==='edit'?'':' hidden') + '" id="edit-tab-' + item.id + '">'
+  var _id=item.id, _tit=item.title.replace(/"/g,'&quot;'), _desc=item.desc||'', _dl=item.deadline||'', _diff=item.diff||'MEDIO';
+  var _hidE = tab==='edit' ? '' : ' hidden';
+  var editBody = '<div class="panel-body'+_hidE+'" id="edit-tab-'+_id+'">'
     + '<div class="edit-form">'
     + '<div class="edit-field"><label>Título</label>'
-    + '<input class="edit-inp" id="et-' + item.id + '" value="' + item.title.replace(/"/g,'&quot;') + '" placeholder="Título del OKR"></div>'
+    + '<input class="edit-inp" id="et-'+_id+'" value="'+_tit+'" placeholder="Título del OKR"></div>'
     + '<div class="edit-field"><label>Descripción</label>'
-    + '<textarea class="edit-inp edit-ta" id="ed-' + item.id + '" placeholder="¿Qué necesitas hacer para lograrlo?">' + (item.desc||'') + '</textarea></div>'
+    + '<textarea class="edit-inp edit-ta" id="ed-'+_id+'" placeholder="¿Qué necesitas hacer para lograrlo?">'+_desc+'</textarea></div>'
     + '<div class="edit-field"><label>Checklist</label>'
-    + '<div style="display:flex;flex-direction:column;gap:0;margin-bottom:8px">' + ckRows + '</div>'
+    + '<div style="display:flex;flex-direction:column;gap:0;margin-bottom:8px">'+ckRows+'</div>'
     + '<div class="ck-add">'
-    + '<input class="ck-add-input" id="aci-edit-' + item.id + '" placeholder="Agregar paso…" onkeydown="if(event.key==='Enter'){event.preventDefault();addCkFromEdit('' + item.id + '')}">'
-    + '<button class="ck-add-btn" onclick="addCkFromEdit('' + item.id + '')">+</button>'
+    + '<input class="ck-add-input" id="aci-edit-'+_id+'" placeholder="Agregar paso…" onkeydown="if(event.key===\'Enter\'){event.preventDefault();addCkFromEdit(\''+_id+'\')}">'
+    + '<button class="ck-add-btn" onclick="addCkFromEdit(\''+_id+'\')" >+</button>'
     + '</div></div>'
     + '<div class="edit-row2">'
     + '<div class="edit-field"><label>Dificultad</label>'
-    + '<select class="edit-inp edit-sel" id="edf-' + item.id + '">'
-    + '<option' + (item.diff==='FÁCIL'?' selected':'') + '>FÁCIL</option>'
-    + '<option' + (item.diff==='MEDIO'?' selected':'') + '>MEDIO</option>'
-    + '<option' + (item.diff==='DIFÍCIL'?' selected':'') + '>DIFÍCIL</option>'
+    + '<select class="edit-inp edit-sel" id="edf-'+_id+'">'
+    + '<option'+(_diff==='FÁCIL'?' selected':'')+'>FÁCIL</option>'
+    + '<option'+(_diff==='MEDIO'?' selected':'')+'>MEDIO</option>'
+    + '<option'+(_diff==='DIFÍCIL'?' selected':'')+'>DIFÍCIL</option>'
     + '</select></div>'
     + '<div class="edit-field"><label>Fecha límite</label>'
-    + '<input class="edit-inp" id="edl-' + item.id + '" type="date" value="' + (item.deadline||'') + '"></div>'
+    + '<input class="edit-inp" id="edl-'+_id+'" type="date" value="'+_dl+'"></div>'
     + '</div>'
-    + '<button class="save-edits" onclick="svOKR('' + item.id + '')">Guardar cambios</button>'
+    + '<button class="save-edits" onclick="svOKR(\''+_id+'\')" >Guardar cambios</button>'
     + '</div></div>';
 
   return `
