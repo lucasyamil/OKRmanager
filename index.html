@@ -14,7 +14,7 @@
   --gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-300:#D1D5DB;
   --gray-400:#9CA3AF;--gray-500:#6B7280;--gray-600:#4B5563;--gray-700:#374151;
   --gray-800:#1F2937;--gray-900:#111827;
-
+ 
   /* Brand accent — indigo + electric blue */
   --indigo-50:#EEF2FF;--indigo-100:#E0E7FF;--indigo-500:#6366F1;--indigo-600:#4F46E5;--indigo-700:#4338CA;
   /* Status colors */
@@ -24,7 +24,7 @@
   --blue-50:#EFF6FF;--blue-100:#DBEAFE;--blue-500:#3B82F6;--blue-600:#2563EB;
   --purple-50:#FAF5FF;--purple-500:#A855F7;--purple-600:#9333EA;
   --teal-50:#F0FDFA;--teal-500:#14B8A6;--teal-600:#0D9488;
-
+ 
   --r:8px;--r-lg:12px;--r-xl:16px;--r-full:9999px;
   --f:'DM Sans',system-ui,sans-serif;
   --f-display:'Instrument Serif',Georgia,serif;
@@ -39,7 +39,7 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 input,select,textarea{font:inherit;border:none;outline:none}
 a{color:inherit;text-decoration:none}
 .hidden{display:none!important}
-
+ 
 /* ── ANIMATIONS ───────────────────────────────── */
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
@@ -50,7 +50,7 @@ a{color:inherit;text-decoration:none}
 .anim-fade{animation:fadeIn .25s ease}
 .spinner{width:18px;height:18px;border:2px solid var(--gray-200);border-top-color:var(--indigo-600);border-radius:50%;animation:spin .65s linear infinite;flex-shrink:0}
 .spinner-w{border-color:rgba(255,255,255,.3);border-top-color:#fff}
-
+ 
 /* ── FORM COMPONENTS ──────────────────────────── */
 .field{display:flex;flex-direction:column;gap:5px}
 .field-label{font-size:13px;font-weight:600;color:var(--gray-600)}
@@ -82,7 +82,7 @@ a{color:inherit;text-decoration:none}
   transition:border var(--tr);
 }
 .textarea:focus{border-color:var(--indigo-500);box-shadow:0 0 0 3px var(--indigo-50);background:#fff}
-
+ 
 /* ── BUTTONS ──────────────────────────────────── */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:var(--r);font-size:14px;font-weight:600;transition:all var(--tr);white-space:nowrap}
 .btn-primary{background:var(--indigo-600);color:#fff}
@@ -99,14 +99,14 @@ a{color:inherit;text-decoration:none}
 .btn-icon{padding:7px;border-radius:var(--r);color:var(--gray-400);transition:all var(--tr)}
 .btn-icon:hover{background:var(--gray-100);color:var(--gray-700)}
 .btn-icon.danger:hover{background:var(--red-50);color:var(--red-500)}
-
+ 
 /* ── ALERT ────────────────────────────────────── */
 .alert{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-radius:var(--r);font-size:13px;animation:slideDown .25s ease}
 .alert-error{background:var(--red-50);border:1px solid var(--red-100);color:var(--red-600)}
 .alert-success{background:var(--green-50);border:1px solid var(--green-100);color:var(--green-700)}
 .alert-warning{background:var(--amber-50);border:1px solid var(--amber-100);color:var(--amber-600)}
 .alert-info{background:var(--indigo-50);border:1px solid var(--indigo-100);color:var(--indigo-700)}
-
+ 
 /* ── BADGES ───────────────────────────────────── */
 .badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:var(--r-full);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
 .badge-indigo{background:var(--indigo-50);color:var(--indigo-600)}
@@ -117,7 +117,7 @@ a{color:inherit;text-decoration:none}
 .badge-purple{background:var(--purple-50);color:var(--purple-600)}
 .badge-gray{background:var(--gray-100);color:var(--gray-500)}
 .badge-teal{background:var(--teal-50);color:var(--teal-600)}
-
+ 
 /* ── CHIPS (filter toggles) ───────────────────── */
 .chip{
   display:inline-flex;align-items:center;gap:5px;padding:5px 13px;
@@ -129,11 +129,11 @@ a{color:inherit;text-decoration:none}
 .chip.active{background:var(--gray-900);color:#fff;border-color:var(--gray-900)}
 .chip.active-indigo{background:var(--indigo-600);color:#fff;border-color:var(--indigo-600)}
 .chip-sm{padding:3px 10px;font-size:12px}
-
+ 
 /* ── CARD ─────────────────────────────────────── */
 .card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:22px}
 .card-lg{padding:28px}
-
+ 
 /* ── MODAL ────────────────────────────────────── */
 .modal-overlay{
   position:fixed;inset:0;background:rgba(17,24,39,.45);backdrop-filter:blur(4px);
@@ -146,21 +146,21 @@ a{color:inherit;text-decoration:none}
   animation:slideUp .25s ease;box-shadow:var(--sh-lg);
 }
 .modal-sm{max-width:420px}
-
+ 
 /* ── PROGRESS BAR ─────────────────────────────── */
 .prog-track{background:var(--gray-100);border-radius:var(--r-full);overflow:hidden}
 .prog-fill{height:100%;border-radius:var(--r-full);transition:width .5s ease;background:var(--indigo-600)}
 .prog-fill.green{background:var(--green-500)}
 .prog-fill.amber{background:var(--amber-500)}
 .prog-fill.red{background:var(--red-500)}
-
+ 
 /* ── DIVIDER ──────────────────────────────────── */
 .divider{height:1px;background:var(--gray-100);margin:16px 0}
 .divider-text{position:relative;margin:20px 0}
 .divider-text::before{content:'';position:absolute;inset:0;display:flex;align-items:center}
 .divider-text::before{background:none;border-top:1px solid var(--gray-200);top:50%;height:0}
 .divider-text span{position:relative;padding:0 12px;background:#fff;color:var(--gray-400);font-size:13px;display:flex;justify-content:center}
-
+ 
 /* ── NOTIF STACK ──────────────────────────────── */
 #notif-stack{position:fixed;top:18px;right:18px;z-index:9999;display:flex;flex-direction:column;gap:9px;pointer-events:none}
 .notif{pointer-events:all;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:13px 16px;min-width:290px;max-width:360px;display:flex;align-items:flex-start;gap:11px;box-shadow:var(--sh-lg);animation:slideUp .22s ease}
@@ -170,7 +170,7 @@ a{color:inherit;text-decoration:none}
 .notif.info{border-left:4px solid var(--indigo-600)}
 .notif-title{font-size:13px;font-weight:700;color:var(--gray-900)}
 .notif-msg{font-size:12px;color:var(--gray-500);margin-top:2px}
-
+ 
 /* ── AUTH PAGES ───────────────────────────────── */
 .auth-page{
   min-height:100vh;display:flex;flex-direction:column;align-items:center;
@@ -184,19 +184,19 @@ a{color:inherit;text-decoration:none}
 .auth-brand-name span{color:var(--indigo-600);font-style:italic}
 .auth-card{position:relative;z-index:1;width:100%;max-width:420px}
 .auth-footer{position:relative;z-index:1;margin-top:24px;font-size:13px;color:var(--gray-400);text-align:center}
-
+ 
 /* verify screen special */
 .verify-icon-wrap{width:60px;height:60px;background:var(--indigo-50);border-radius:var(--r-xl);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:26px}
-
+ 
 /* ── STEP DOTS ────────────────────────────────── */
 .step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:6px}
 .step-dot{height:5px;border-radius:3px;background:var(--gray-200);transition:all .3s}
 .step-dot.active{width:32px;background:var(--indigo-600)}
 .step-dot:not(.active){width:18px}
-
+ 
 /* ── APP SHELL ────────────────────────────────── */
 .app-shell{display:flex;min-height:100vh}
-
+ 
 /* sidebar */
 .sidebar{
   width:264px;background:#fff;border-right:1px solid var(--gray-200);
@@ -212,7 +212,7 @@ a{color:inherit;text-decoration:none}
 .sidebar-brand-name{font-family:var(--f-display);font-size:19px;color:var(--gray-900)}
 .sidebar-brand-name span{color:var(--indigo-600);font-style:italic}
 .sidebar-brand-year{font-size:11px;font-weight:700;color:var(--gray-400);background:var(--gray-100);padding:2px 7px;border-radius:var(--r-full);margin-left:auto}
-
+ 
 .sidebar-nav{flex:1;padding:12px;overflow-y:auto}
 .nav-section-label{font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1.2px;padding:8px 12px 4px}
 .nav-item{
@@ -225,16 +225,16 @@ a{color:inherit;text-decoration:none}
 .nav-item .nav-icon{font-size:17px;width:22px;text-align:center;flex-shrink:0}
 .nav-item .nav-label{flex:1}
 .nav-item .nav-badge{font-size:11px;font-weight:700;background:var(--indigo-100);color:var(--indigo-700);padding:1px 7px;border-radius:var(--r-full)}
-
+ 
 .sidebar-user{padding:12px;border-top:1px solid var(--gray-100)}
 .sidebar-user-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r);background:var(--gray-50);border:1px solid var(--gray-200)}
 .sidebar-avatar{width:34px;height:34px;border-radius:50%;background:var(--indigo-600);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .sidebar-user-info{flex:1;min-width:0}
 .sidebar-user-name{font-size:13px;font-weight:600;color:var(--gray-800);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sidebar-user-role{font-size:11px;color:var(--gray-400);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
+ 
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(17,24,39,.2);backdrop-filter:blur(2px);z-index:90}
-
+ 
 /* main area */
 .main-area{flex:1;margin-left:264px;display:flex;flex-direction:column;min-height:100vh}
 .topbar{
@@ -244,13 +244,13 @@ a{color:inherit;text-decoration:none}
 .topbar-title{font-size:17px;font-weight:700;color:var(--gray-900);flex:1;letter-spacing:-.2px}
 .topbar-menu-btn{display:none;padding:8px;color:var(--gray-500)}
 .page-content{flex:1;padding:24px 28px;max-width:1100px;width:100%;margin:0 auto}
-
+ 
 /* sync dot */
 .sync-wrap{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-400)}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green-500)}
 .sync-dot.syncing{background:var(--amber-500);animation:pulse 1s infinite}
 .sync-dot.err{background:var(--red-500)}
-
+ 
 /* ── SEARCH + FILTER TOOLBAR ──────────────────── */
 /* ── FILTER BAR ───────────────────────────────── */
 .list-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px}
@@ -279,7 +279,7 @@ a{color:inherit;text-decoration:none}
 .af-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;background:var(--indigo-50);border:1px solid var(--indigo-100);border-radius:var(--r-full);font-size:12px;font-weight:600;color:var(--indigo-700)}
 .af-pill button{background:none;border:none;color:var(--indigo-400);cursor:pointer;font-size:13px;padding:0 2px;line-height:1}
 .af-pill button:hover{color:var(--indigo-700)}
-
+ 
 /* ── DASHBOARD ────────────────────────────────── */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
 .stat-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:20px 18px;position:relative;overflow:hidden;transition:box-shadow var(--tr)}
@@ -290,7 +290,7 @@ a{color:inherit;text-decoration:none}
 .stat-note{font-size:12px;color:var(--gray-400);margin-top:5px}
 .stat-bar{height:3px;background:var(--gray-100);border-radius:2px;margin-top:10px}
 .stat-bar-fill{height:3px;border-radius:2px;background:var(--indigo-600);transition:width .5s}
-
+ 
 .q-dash-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:20px;margin-bottom:14px}
 .q-dash-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .q-dash-badge{background:var(--indigo-600);color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:var(--r-full);letter-spacing:.5px}
@@ -301,7 +301,7 @@ a{color:inherit;text-decoration:none}
 .q-stat-mini{text-align:center;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--r);padding:12px}
 .q-stat-mini-val{font-size:24px;font-weight:800;color:var(--gray-900);letter-spacing:-1px}
 .q-stat-mini-lbl{font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-
+ 
 /* ── Q SECTION ────────────────────────────────── */
 .q-section{margin-bottom:28px}
 .q-sec-head{
@@ -328,7 +328,7 @@ a{color:inherit;text-decoration:none}
 .q-sec-fill.done{background:var(--green-500)}
 .q-sec-pct{font-size:12px;font-weight:700;color:var(--gray-500);white-space:nowrap}
 .q-sec-count{font-size:11px;color:var(--gray-400);white-space:nowrap}
-
+ 
 /* ── OKR CARD — clean, title-first ───────────── */
 .okr-card{
   background:#fff;border:1px solid var(--gray-200);
@@ -338,7 +338,7 @@ a{color:inherit;text-decoration:none}
 .okr-card:hover{box-shadow:var(--sh-sm);border-color:var(--gray-300)}
 .okr-card.is-over{border-left:3px solid var(--red-500)}
 .okr-card.is-urg{border-left:3px solid var(--amber-500)}
-
+ 
 /* Card main row */
 .okr-row{
   display:grid;
@@ -357,7 +357,7 @@ a{color:inherit;text-decoration:none}
 }
 .okr-toggle:hover{background:var(--gray-200);color:var(--gray-700)}
 .okr-toggle.open{background:var(--indigo-600);color:#fff;transform:rotate(180deg)}
-
+ 
 .okr-body{padding:0 12px;min-width:0}
 .okr-title{font-size:14px;font-weight:600;color:var(--gray-900);line-height:1.45;margin-bottom:6px}
 .okr-meta-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
@@ -376,7 +376,7 @@ a{color:inherit;text-decoration:none}
 .pill-pri-lo{background:var(--gray-100);color:var(--gray-500)}
 .pill-over{background:var(--red-500);color:#fff}
 .pill-period{background:var(--gray-100);color:var(--gray-500)}
-
+ 
 .okr-right{
   display:flex;flex-direction:column;align-items:flex-end;
   gap:6px;flex-shrink:0;padding-left:12px;
@@ -392,20 +392,20 @@ a{color:inherit;text-decoration:none}
 .ib{background:none;border:none;padding:5px 6px;border-radius:var(--r);color:var(--gray-300);transition:all var(--tr);cursor:pointer;font-size:13px}
 .ib:hover{background:var(--gray-100);color:var(--gray-600)}
 .ib.del:hover{background:var(--red-50);color:var(--red-500)}
-
+ 
 /* ── EXPANDED PANEL ───────────────────────────── */
 .okr-panel{display:none;border-top:1px solid var(--gray-100);background:var(--gray-50)}
 .okr-panel.open{display:block}
-
+ 
 /* Panel tabs */
 .panel-tabs{display:flex;border-bottom:1px solid var(--gray-200);background:#fff;padding:0 16px}
 .ptab{padding:10px 14px;font-size:13px;font-weight:600;color:var(--gray-400);border-bottom:2px solid transparent;cursor:pointer;transition:all var(--tr);margin-bottom:-1px}
 .ptab:hover{color:var(--gray-700)}
 .ptab.active{color:var(--indigo-600);border-bottom-color:var(--indigo-600)}
-
+ 
 .panel-body{padding:18px 20px}
 .panel-body.hidden{display:none}
-
+ 
 /* Tab: Progreso */
 .prog-block{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:16px 20px;margin-bottom:14px}
 .prog-num-big{font-size:44px;font-weight:900;color:var(--gray-900);letter-spacing:-2px;line-height:1;flex-shrink:0}
@@ -419,7 +419,7 @@ a{color:inherit;text-decoration:none}
 .prog-fill-fat.done{background:var(--green-500)}
 .prog-fill-fat.over{background:var(--red-500)}
 .prog-sublabel{font-size:12px;color:var(--gray-400);margin-top:6px}
-
+ 
 /* Counter widget */
 .counter-widget{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:12px 16px}
 .cw-lbl{font-size:13px;font-weight:500;color:var(--gray-600)}
@@ -427,12 +427,12 @@ a{color:inherit;text-decoration:none}
 .cw-btn{width:32px;height:32px;border-radius:var(--r);background:var(--gray-100);border:1px solid var(--gray-200);font-size:20px;color:var(--gray-700);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--tr)}
 .cw-btn:hover{background:var(--indigo-600);color:#fff;border-color:var(--indigo-600)}
 .cw-val{font-size:16px;font-weight:800;color:var(--gray-900);min-width:80px;text-align:center}
-
+ 
 /* Single check */
 .single-check{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:12px 16px;cursor:pointer}
 .single-check input{accent-color:var(--indigo-600);width:18px;height:18px;cursor:pointer}
 .single-check label{font-size:14px;font-weight:500;color:var(--gray-700);cursor:pointer}
-
+ 
 /* Checklist */
 .ck-list{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
 .ck-row{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:9px 13px;transition:border-color var(--tr)}
@@ -448,10 +448,10 @@ a{color:inherit;text-decoration:none}
 .ck-add-input:focus{border-color:var(--indigo-500);outline:none;box-shadow:0 0 0 3px var(--indigo-50)}
 .ck-add-btn{padding:9px 16px;background:var(--indigo-600);color:#fff;border:none;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;transition:background var(--tr)}
 .ck-add-btn:hover{background:var(--indigo-700)}
-
+ 
 /* Tab: Descripción */
 .desc-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:14px 16px;font-size:13px;color:var(--gray-600);line-height:1.7}
-
+ 
 /* Tab: Editar */
 .edit-form{display:flex;flex-direction:column;gap:10px}
 .edit-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -462,7 +462,7 @@ a{color:inherit;text-decoration:none}
 .edit-sel{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%236B7280' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:30px;appearance:none}
 .save-edits{width:100%;padding:11px;background:var(--green-600);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;transition:opacity var(--tr)}
 .save-edits:hover{opacity:.87}
-
+ 
 /* ── CAP CARD ─────────────────────────────────── */
 .cap-card{
   background:#fff;border:1px solid var(--gray-200);
@@ -489,12 +489,12 @@ a{color:inherit;text-decoration:none}
 .cap-panel.open{display:block}
 .cap-desc{font-size:13px;color:var(--gray-500);line-height:1.65;margin-bottom:14px}
 .cap-edit-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-
+ 
 /* ── EMPTY STATE ──────────────────────────────── */
 .empty{text-align:center;padding:52px 20px;color:var(--gray-400)}
 .empty-icon{font-size:42px;margin-bottom:14px}
 .empty-text{font-size:14px}
-
+ 
 /* ── PC: scale-up effect (zoom ~150%) ──────────── */
 @media(min-width:961px){
   html { font-size: 17px; }
@@ -534,7 +534,7 @@ a{color:inherit;text-decoration:none}
   .auth-brand-name { font-size: 32px; }
   .verify-icon-wrap { width: 68px; height: 68px; }
 }
-
+ 
 /* ── TABLET/MOBILE: sidebar becomes drawer ─────── */
 @media(max-width:960px){
   .sidebar { transform: translateX(-100%); width: 280px; }
@@ -553,11 +553,11 @@ a{color:inherit;text-decoration:none}
   .q-dash-head { flex-wrap: wrap; gap: 8px; }
   .q-dash-pct { margin-left: auto; }
 }
-
+ 
 /* ── MOBILE FULL: all single column ────────────── */
 @media(max-width:560px){
   html { font-size: 15px; }
-
+ 
   /* Auth */
   .auth-page { padding: 24px 16px; }
   .auth-page::before, .auth-page::after { display: none; }
@@ -566,14 +566,14 @@ a{color:inherit;text-decoration:none}
   .auth-brand-icon { width: 38px; height: 38px; font-size: 18px; }
   .auth-card { max-width: 100%; }
   .card-lg { padding: 22px 18px; }
-
+ 
   /* Stats */
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
   .stat-card { padding: 16px 14px; }
   .stat-value { font-size: 32px; letter-spacing: -1px; }
   .stat-label { font-size: 10px; margin-bottom: 5px; }
   .stat-note { font-size: 11px; }
-
+ 
   /* Q dash cards */
   .q-dash-card { padding: 16px 14px; margin-bottom: 10px; }
   .q-dash-name { font-size: 14px; }
@@ -583,7 +583,7 @@ a{color:inherit;text-decoration:none}
   .q-stat-mini { padding: 10px 6px; }
   .q-stat-mini-val { font-size: 20px; }
   .q-stat-mini-lbl { font-size: 9px; }
-
+ 
   /* OKR cards on mobile */
   .okr-row { grid-template-columns: 20px 1fr auto; padding: 13px 14px; }
   .okr-title { font-size: 13px; margin-bottom: 5px; }
@@ -591,7 +591,7 @@ a{color:inherit;text-decoration:none}
   .pill { font-size: 9px; padding: 2px 6px; }
   .okr-pct { font-size: 14px; }
   .okr-mini-bar { width: 50px; }
-
+ 
   /* Panel tabs */
   .ptab { padding: 9px 11px; font-size: 12px; }
   .panel-body { padding: 14px; }
@@ -606,51 +606,51 @@ a{color:inherit;text-decoration:none}
   .edit-row2 { grid-template-columns: 1fr; }
   .save-edits { padding: 12px; font-size: 15px; }
   .ck-add-input { font-size: 14px; padding: 10px; }
-
+ 
   /* Cap cards */
   .cap-row { grid-template-columns: 20px 1fr auto; padding: 13px 14px; }
   .cap-title { font-size: 13px; }
   .cap-panel { padding: 14px; }
   .cap-edit-row { grid-template-columns: 1fr; }
-
+ 
   /* Filters */
   .list-header { gap: 8px; margin-bottom: 14px; }
   .list-search { font-size: 15px; padding: 11px 13px 11px 38px; }
   .filter-toggle { padding: 10px 13px; font-size: 13px; }
   .filter-panel { right: 0; left: auto; min-width: 260px; }
   .fchip { padding: 6px 12px; font-size: 13px; }
-
+ 
   /* Q section header */
   .q-sec-head { flex-wrap: wrap; gap: 6px; padding-bottom: 10px; margin-bottom: 12px; }
   .q-sec-name { font-size: 14px; }
   .q-sec-range { display: none; }
   .q-sec-right { margin-left: 0; width: 100%; justify-content: space-between; }
   .q-sec-track { width: 100px; }
-
+ 
   /* Topbar */
   .topbar { height: 52px; padding: 0 14px; gap: 6px; }
   .topbar-title { font-size: 15px; }
   #add-btn { padding: 7px 12px; font-size: 13px; }
   .sync-wrap { display: none; }
-
+ 
   /* Modal */
   .modal { padding: 22px 18px; }
   .modal > form { gap: 12px; }
   .modal > form .field-label { font-size: 13px; }
   .modal div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr; }
-
+ 
   /* Add modal */
   #add-modal .modal div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr; }
-
+ 
   /* Sidebar */
   .sidebar { width: 100%; max-width: 300px; }
   .nav-item { padding: 12px 14px; font-size: 15px; }
   .sidebar-user-card { padding: 12px; }
   .sidebar-user-name { font-size: 14px; }
-
+ 
   /* Page */
   .page-content { padding: 16px 14px; }
-
+ 
   /* Notif */
   #notif-stack { top: 10px; right: 10px; left: 10px; }
   .notif { min-width: 0; max-width: 100%; }
@@ -658,7 +658,7 @@ a{color:inherit;text-decoration:none}
 </style>
 </head>
 <body>
-
+ 
 <!-- SVG ICONS -->
 <svg style="display:none">
   <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
@@ -682,19 +682,19 @@ a{color:inherit;text-decoration:none}
   <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
 </svg>
-
+ 
 <div id="notif-stack"></div>
 <div id="root"></div>
-
+ 
 <!-- FIREBASE COMPAT SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
+ 
 <script>
 // ── ICON HELPER ──────────────────────────────────
 function ico(name, size=18) { return `<svg width="${size}" height="${size}"><use href="#i-${name}"/></svg>`; }
-
+ 
 // ── FIREBASE INIT ────────────────────────────────
 firebase.initializeApp({
   apiKey:            "AIzaSyCIbZXnXHFo7CcjxSu99nGoj1K71ikORH8",
@@ -707,7 +707,7 @@ firebase.initializeApp({
 const auth = firebase.auth();
 const db   = firebase.firestore();
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
+ 
 // ── CONSTANTS ────────────────────────────────────
 const LUCAS_EMAIL = 'lucasyamilpereyram@gmail.com';
 const SITE_URL    = 'https://lucasyamil.github.io/OKRmanager';
@@ -718,21 +718,21 @@ const Q_INFO = {
   Q4:{ long:'Cuarto Trimestre',  range:'Octubre – Diciembre',  end:[2026,11,31] },
 };
 function qDL(q) { const e=Q_INFO[q]?.end; return e?new Date(e[0],e[1],e[2]):new Date(2026,11,31); }
-
+ 
 // ── STATE ────────────────────────────────────────
 let currentUser = null;
 let userData    = null; // {name,role,okrs:[],caps:[]}
 let authView    = 'login'; // login | register | verify | forgot | notverified
 let authState   = {};  // extra auth info (verifyEmail, etc)
 let pendingFbUser = null; // Firebase user object pending verification
-
+ 
 let currentPage  = 'dashboard';
 let sidebarOpen  = false;
 let searchStr    = '';
 let filterQ      = '';   // active Q filter chip
 let filterDiff   = '';
 let filterPri    = '';
-
+ 
 // ── RENDER ROOT ──────────────────────────────────
 function render() {
   const root = document.getElementById('root');
@@ -745,12 +745,12 @@ function render() {
     renderPage();
   }
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // AUTH PAGES
 // ═══════════════════════════════════════════════════
 function setAuthView(view, extra={}) { authView=view; authState={...authState,...extra}; render(); }
-
+ 
 function renderAuthPage() {
   switch(authView) {
     case 'register':    return renderRegister();
@@ -760,14 +760,14 @@ function renderAuthPage() {
     default:            return renderLogin();
   }
 }
-
+ 
 function authBrand() {
   return `<div class="auth-brand">
     <div class="auth-brand-icon">🎯</div>
     <div class="auth-brand-name">OKR<span>Hub</span></div>
   </div>`;
 }
-
+ 
 function renderLogin() {
   return `<div class="auth-page">
     ${authBrand()}
@@ -806,7 +806,7 @@ function renderLogin() {
     <p class="auth-footer">I+D+I 2026 · Soventix Caribbean</p>
   </div>`;
 }
-
+ 
 function renderRegister() {
   return `<div class="auth-page">
     ${authBrand()}
@@ -855,7 +855,7 @@ function renderRegister() {
     <p class="auth-footer">I+D+I 2026 · Soventix Caribbean</p>
   </div>`;
 }
-
+ 
 function renderVerifyEmail() {
   const email = authState.verifyEmail || '';
   return `<div class="auth-page">
@@ -893,7 +893,7 @@ function renderVerifyEmail() {
     </div>
   </div>`;
 }
-
+ 
 function renderNotVerified() {
   const email = authState.verifyEmail || '';
   return `<div class="auth-page">
@@ -931,7 +931,7 @@ function renderNotVerified() {
     </div>
   </div>`;
 }
-
+ 
 function renderForgotPassword() {
   return `<div class="auth-page">
     ${authBrand()}
@@ -961,7 +961,7 @@ function renderForgotPassword() {
     </div>
   </div>`;
 }
-
+ 
 // ── AUTH EVENT BINDING ───────────────────────────
 function bindAuthEvents() {
   const lf = document.getElementById('login-form');
@@ -971,26 +971,26 @@ function bindAuthEvents() {
   if (rf) rf.addEventListener('submit', handleRegister);
   if (ff) ff.addEventListener('submit', handleForgotPwd);
 }
-
+ 
 function showAuthAlert(msg, type='error') {
   const el = document.getElementById('auth-alert');
   if (!el) return;
   const icos = {error:'alert',success:'check',warning:'alert',info:'alert'};
   el.innerHTML = `<div class="alert alert-${type}" style="margin-bottom:14px">${ico(icos[type]||'alert',16)}<span>${msg}</span></div>`;
 }
-
+ 
 function clearAuthAlert() {
   const el = document.getElementById('auth-alert');
   if (el) el.innerHTML = '';
 }
-
+ 
 function setLoading(id, on) {
   const b = document.getElementById(id);
   if (!b) return;
   if (on) { b.disabled=true; b._orig=b.innerHTML; b.innerHTML=`<span class="spinner spinner-w"></span> Procesando…`; }
   else { b.disabled=false; if(b._orig) b.innerHTML=b._orig; }
 }
-
+ 
 function togglePwd(id, btn) {
   const inp = document.getElementById(id);
   if (!inp) return;
@@ -998,7 +998,7 @@ function togglePwd(id, btn) {
   inp.type = show ? 'text' : 'password';
   btn.innerHTML = ico(show?'eye-off':'eye', 17);
 }
-
+ 
 // ── AUTH HANDLERS ────────────────────────────────
 async function handleLogin(e) {
   e.preventDefault();
@@ -1029,7 +1029,7 @@ async function handleLogin(e) {
     showAuthAlert(MAP[err.code] || `Error (${err.code})`);
   }
 }
-
+ 
 async function handleRegister(e) {
   e.preventDefault();
   clearAuthAlert();
@@ -1045,10 +1045,10 @@ async function handleRegister(e) {
     // 1. Create Firebase Auth user
     const cred = await auth.createUserWithEmailAndPassword(email, pass);
     await cred.user.updateProfile({ displayName: name });
-
+ 
     // 2. Send verification email
     await cred.user.sendEmailVerification({ url: SITE_URL });
-
+ 
     // 3. Save to Firestore (non-blocking)
     try {
       const isLucas = email === LUCAS_EMAIL;
@@ -1063,12 +1063,12 @@ async function handleRegister(e) {
       sessionStorage.setItem('pending_'+cred.user.uid, JSON.stringify({name,role,email}));
       console.warn('Firestore save deferred:', fsErr.code);
     }
-
+ 
     // 4. Keep user reference, sign out, show verify screen
     pendingFbUser = cred.user;
     await auth.signOut();
     setAuthView('verify', { verifyEmail: email });
-
+ 
   } catch(err) {
     setLoading('r-btn', false);
     const MAP = {
@@ -1079,7 +1079,7 @@ async function handleRegister(e) {
     showAuthAlert(MAP[err.code] || `Error al crear cuenta (${err.code})`);
   }
 }
-
+ 
 async function doResend() {
   setLoading('resend-btn', true);
   clearAuthAlert();
@@ -1097,7 +1097,7 @@ async function doResend() {
   }
   setLoading('resend-btn', false);
 }
-
+ 
 async function checkVerification() {
   clearAuthAlert();
   try {
@@ -1116,7 +1116,7 @@ async function checkVerification() {
     showAuthAlert('Error verificando. Intenta iniciar sesión directamente.', 'warning');
   }
 }
-
+ 
 async function handleForgotPwd(e) {
   e.preventDefault();
   clearAuthAlert();
@@ -1131,22 +1131,22 @@ async function handleForgotPwd(e) {
   }
   setLoading('f-btn', false);
 }
-
+ 
 // ── REALTIME LISTENER HANDLE ─────────────────────
 let unsubscribeListener = null; // Firestore onSnapshot unsubscribe fn
-
+ 
 function startRealtimeListener(user) {
   // Cancel any existing listener first
   if (unsubscribeListener) { unsubscribeListener(); unsubscribeListener = null; }
-
+ 
   unsubscribeListener = db.collection('users').doc(user.uid)
     .onSnapshot((snap) => {
       if (!snap.exists) return;
       const incoming = snap.data();
-
+ 
       // Determine if this update came from another device (metadata.hasPendingWrites = false means it's from server)
       const fromServer = !snap.metadata.hasPendingWrites;
-
+ 
       if (fromServer && userData) {
         // Merge server data — update okrs and caps from server
         userData.okrs = incoming.okrs || [];
@@ -1164,12 +1164,12 @@ function startRealtimeListener(user) {
       setSyncing(false, 'err');
     });
 }
-
+ 
 // ── AUTH STATE LISTENER ──────────────────────────
 auth.onAuthStateChanged(async (user) => {
   if (user && user.emailVerified) {
     currentUser = user;
-
+ 
     // First: get data once
     let data = null;
     try {
@@ -1192,13 +1192,13 @@ auth.onAuthStateChanged(async (user) => {
     userData = data;
     if (!userData.okrs) userData.okrs = [];
     if (!userData.caps) userData.caps = [];
-
+ 
     // Render app first, then start realtime listener
     checkOverdue();
     render();
     scheduleAlerts();
     startRealtimeListener(user);
-
+ 
   } else if (user && !user.emailVerified) {
     pendingFbUser = user;
     await auth.signOut();
@@ -1212,14 +1212,14 @@ auth.onAuthStateChanged(async (user) => {
     render();
   }
 });
-
+ 
 // ── LOGOUT ───────────────────────────────────────
 async function doLogout() {
   await auth.signOut();
   currentUser = null; userData = null;
   authView = 'login'; render();
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // APP SHELL
 // ═══════════════════════════════════════════════════
@@ -1277,7 +1277,7 @@ function renderAppShell() {
       <main class="page-content" id="page-content"></main>
     </div>
   </div>
-
+ 
   <!-- ADD MODAL -->
   <div id="add-modal" style="display:none">
     <div class="modal-overlay" onclick="if(event.target===this)closeAddModal()">
@@ -1355,15 +1355,15 @@ function renderAppShell() {
     </div>
   </div>`;
 }
-
+ 
 function bindAppEvents() {
   const af = document.getElementById('add-form');
   if (af) af.addEventListener('submit', handleAddItem);
 }
-
+ 
 function openSidebar()  { sidebarOpen=true;  document.getElementById('sidebar')?.classList.add('open');    document.getElementById('sb-overlay')?.classList.add('open'); }
 function closeSidebar() { sidebarOpen=false; document.getElementById('sidebar')?.classList.remove('open'); document.getElementById('sb-overlay')?.classList.remove('open'); }
-
+ 
 function navigate(page) {
   currentPage = page;
   closeSidebar();
@@ -1374,7 +1374,7 @@ function navigate(page) {
   else { addBtn?.classList.remove('hidden'); addBtn.innerHTML=`${ico('plus',15)} ${page==='okrs'?'OKR':'Capacitación'}`; }
   renderPage();
 }
-
+ 
 function renderPage() {
   const el = document.getElementById('page-content');
   if (!el) return;
@@ -1382,7 +1382,7 @@ function renderPage() {
   else if (currentPage==='okrs') el.innerHTML = renderOKRs();
   else if (currentPage==='caps') el.innerHTML = renderCaps();
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // UTILS
 // ═══════════════════════════════════════════════════
@@ -1421,7 +1421,7 @@ function checkOverdue() {
   });
   if (ch) saveData();
 }
-
+ 
 // ── SAVE ─────────────────────────────────────────
 async function saveData() {
   if (!currentUser||!userData) return;
@@ -1445,7 +1445,7 @@ function setSyncing(on, state='') {
   dot.className='sync-dot'+(on?' syncing':state==='err'?' err':'');
   txt.textContent=on?'Guardando…':state==='err'?'Error al guardar':'Sincronizado';
 }
-
+ 
 // ── NOTIFICATIONS ────────────────────────────────
 function notif(type, title, msg, dur=4500) {
   const ICO={success:'check',error:'alert',warning:'alert',info:'bell'};
@@ -1478,13 +1478,13 @@ function scheduleAlerts() {
     else notif('success','¡Todo al día!','No tienes elementos vencidos.',4000);
   },1200);
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // FILTERS — CHIP SYSTEM (like v1.html)
 // ═══════════════════════════════════════════════════
 // ── FILTER STATE ────────────────────────────────
 let filterOpen = false;
-
+ 
 function applyFilters(items) {
   if (searchStr) { const s=searchStr.toLowerCase(); items=items.filter(i=>i.title.toLowerCase().includes(s)||(i.parent||'').toLowerCase().includes(s)||(i.desc||'').toLowerCase().includes(s)); }
   if (filterQ)    items=items.filter(i=>i.q===filterQ);
@@ -1497,7 +1497,7 @@ function toggleDiff(d) { filterDiff = filterDiff===d?'':d; renderPage(); }
 function togglePri(p)  { filterPri  = filterPri===p?'':p;  renderPage(); }
 function clearAllFilters() { searchStr=''; filterQ=''; filterDiff=''; filterPri=''; filterOpen=false; renderPage(); }
 function hasFilters() { return !!(searchStr||filterQ||filterDiff||filterPri); }
-
+ 
 function toggleFilterPanel(e) {
   e.stopPropagation();
   filterOpen = !filterOpen;
@@ -1509,7 +1509,7 @@ function toggleFilterPanel(e) {
 document.addEventListener('click', () => {
   if (filterOpen) { filterOpen=false; document.getElementById('filter-panel')?.classList.remove('open'); }
 });
-
+ 
 function listHeader() {
   const active = hasFilters();
   const qs = ['Q1','Q2','Q3','Q4','Anual'];
@@ -1550,7 +1550,7 @@ function listHeader() {
   </div>
   ${pills.length ? `<div class="active-filters">${pills.join('')}</div>` : ''}`;
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // DASHBOARD
 // ═══════════════════════════════════════════════════
@@ -1559,7 +1559,7 @@ function renderDashboard() {
   const tot=all.length, dn=all.filter(i=>calcProg(i)>=100).length;
   const ip=all.filter(i=>calcProg(i)>0&&calcProg(i)<100).length, ov=all.filter(i=>i.overdue).length;
   const pct=tot?Math.round(dn/tot*100):0;
-
+ 
   const qCards = ['Q1','Q2','Q3','Q4'].map(q => {
     const qi = all.filter(i=>i.q===q);
     const qdn=qi.filter(i=>calcProg(i)>=100).length, qpct=qi.length?Math.round(qdn/qi.length*100):0;
@@ -1592,7 +1592,7 @@ function renderDashboard() {
       </div>
     </div>`;
   }).join('');
-
+ 
   return `
   <div class="stats-grid">
     <div class="stat-card"><div class="stat-accent" style="background:var(--indigo-600)"></div><div class="stat-label">Total OKRs</div><div class="stat-value">${(userData.okrs||[]).length}</div><div class="stat-note">${(userData.okrs||[]).filter(o=>calcProg(o)>=100).length} completados</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${(userData.okrs||[]).length?Math.round((userData.okrs||[]).filter(o=>calcProg(o)>=100).length/(userData.okrs||[]).length*100):0}%"></div></div></div>
@@ -1602,7 +1602,7 @@ function renderDashboard() {
   </div>
   ${qCards}`;
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // OKR LIST — title-first, clean, filter dropdown
 // ═══════════════════════════════════════════════════
@@ -1631,10 +1631,10 @@ function renderOKRs() {
       ${qi.map(i=>okrCard(i)).join('')}
     </div>`;
   }).join('');
-
+ 
   return listHeader() + (sections || `<div class="empty"><div class="empty-icon">🎯</div><div class="empty-text">Sin resultados con los filtros actuales.</div></div>`);
 }
-
+ 
 function renderCaps() {
   let items = applyFilters(sortItems([...(userData.caps||[])]));
   const qs = ['Q1','Q2','Q3','Q4'];
@@ -1663,10 +1663,10 @@ function renderCaps() {
       ${qi.map(i=>capCard(i)).join('')}
     </div>`;
   }).join('');
-
+ 
   return listHeader() + (sections || `<div class="empty"><div class="empty-icon">📚</div><div class="empty-text">Sin capacitaciones.</div></div>`);
 }
-
+ 
 // ── OKR CARD (title first, compact) ─────────────
 function okrCard(item) {
   const prog = calcProg(item), pri = calcPri(item);
@@ -1700,15 +1700,15 @@ function okrCard(item) {
     <div class="okr-panel" id="panel-${item.id}">${okrPanelHTML(item)}</div>
   </div>`;
 }
-
+ 
 // Active tab per item
 const panelTabs = {};
-
+ 
 function okrPanelHTML(item) {
   const tab = panelTabs[item.id] || 'progress';
   const prog = calcProg(item);
   const pctCls = prog>=100?'done':item.overdue?'over':'';
-
+ 
   // Progress tab content
   let measWidget = '';
   if (item.measure==='counter') {
@@ -1726,14 +1726,14 @@ function okrPanelHTML(item) {
       <label for="sg-${item.id}">${item.current?'✓ Completado':'Marcar como completado'}</label>
     </div>`;
   }
-
+ 
   const cks = (item.checklist||[]).map((c,i) => `
     <div class="ck-row${c.done?' ck-done':''}" id="ci-${item.id}-${i}">
       <input type="checkbox" ${c.done?'checked':''} onchange="tgCk('${item.id}',${i},this.checked)">
       <label>${c.text}</label>
       <button class="ck-del" onclick="rmCk('${item.id}',${i})">✕</button>
     </div>`).join('');
-
+ 
   const progressBody = `<div class="panel-body${tab==='progress'?'':' hidden'}" id="pb-tab-${item.id}">
     <div class="prog-block">
       <div class="prog-num-big ${pctCls}" id="pbn-${item.id}">${prog}<span>%</span></div>
@@ -1756,11 +1756,11 @@ function okrPanelHTML(item) {
         </div>
       </div>` : ''}
   </div>`;
-
+ 
   const descBody = `<div class="panel-body${tab==='desc'?'':' hidden'}" id="desc-tab-${item.id}">
     <div class="desc-card">${item.desc||'Sin descripción. Edita este OKR para agregar pasos y notas.'}</div>
   </div>`;
-
+ 
   const editBody = `<div class="panel-body${tab==='edit'?'':' hidden'}" id="edit-tab-${item.id}">
     <div class="edit-form">
       <div class="edit-field">
@@ -1788,7 +1788,7 @@ function okrPanelHTML(item) {
       <button class="save-edits" onclick="svOKR('${item.id}')">Guardar cambios</button>
     </div>
   </div>`;
-
+ 
   return `
     <div class="panel-tabs">
       <div class="ptab${tab==='progress'?' active':''}" onclick="switchTab('${item.id}','progress')">Progreso</div>
@@ -1797,7 +1797,7 @@ function okrPanelHTML(item) {
     </div>
     ${progressBody}${descBody}${editBody}`;
 }
-
+ 
 function switchTab(id, tab) {
   panelTabs[id] = tab;
   ['progress','desc','edit'].forEach(t => {
@@ -1813,7 +1813,7 @@ function switchTab(id, tab) {
   // Restore open state
   panel.classList.add('open');
 }
-
+ 
 function toggleOKRPanel(id) {
   const p = document.getElementById('panel-'+id);
   const b = document.getElementById('xbtn-'+id);
@@ -1821,7 +1821,7 @@ function toggleOKRPanel(id) {
   const isOpen = p.classList.toggle('open');
   b.classList.toggle('open', isOpen);
 }
-
+ 
 // ── CAP CARD ─────────────────────────────────────
 function capCard(item) {
   const prog = calcProg(item), pri = calcPri(item);
@@ -1869,17 +1869,17 @@ function capCard(item) {
     </div>
   </div>`;
 }
-
+ 
 function toggleCapPanel(id) {
   document.getElementById('cpanel-'+id)?.classList.toggle('open');
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // INTERACTIONS
 // ═══════════════════════════════════════════════════
 // togglePanel — kept for compat
 function togglePanel(id) { toggleOKRPanel(id); }
-
+ 
 async function adjC(id, d) {
   const item=(userData.okrs||[]).find(i=>i.id===id); if(!item) return;
   item.current=Math.max(0,Math.min(item.target,(item.current||0)+d));
@@ -1972,7 +1972,7 @@ async function delItem(id) {
   userData.caps=(userData.caps||[]).filter(i=>i.id!==id);
   await saveData(); notif('info','Eliminado',''); renderPage();
 }
-
+ 
 // ── ADD MODAL ────────────────────────────────────
 function openAddModal()  { document.getElementById('add-modal').style.display='block'; onMType(); onMMeasure(); }
 function closeAddModal() { document.getElementById('add-modal').style.display='none'; }
@@ -1997,7 +1997,7 @@ async function handleAddItem(e) {
   document.getElementById('add-form')?.reset();
   renderPage();
 }
-
+ 
 // ═══════════════════════════════════════════════════
 // LUCAS DEFAULT DATA
 // ═══════════════════════════════════════════════════
