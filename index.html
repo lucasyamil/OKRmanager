@@ -1138,22 +1138,30 @@ let unsubscribeListener = null; // Firestore onSnapshot unsubscribe fn
 // Track open panels so we can restore them after re-render
 const openPanels = new Set();
 
+// Track whether WE are currently saving — suppress listener while saving
+let isSaving = false;
+
 function startRealtimeListener(user) {
   if (unsubscribeListener) { unsubscribeListener(); unsubscribeListener = null; }
 
   unsubscribeListener = db.collection('users').doc(user.uid)
-    .onSnapshot((snap) => {
+    .onSnapshot({ includeMetadataChanges: true }, (snap) => {
       if (!snap.exists) return;
-      const incoming = snap.data();
-      const fromServer = !snap.metadata.hasPendingWrites;
 
-      if (fromServer && userData) {
-        // Another device saved — merge and re-render, restoring open panels
-        userData.okrs = incoming.okrs || [];
-        userData.caps = incoming.caps || [];
-        renderPageRestoring();
-        setSyncing(false);
-      }
+      const hasPending = snap.metadata.hasPendingWrites;
+      const fromCache  = snap.metadata.fromCache;
+
+      // Skip: this is OUR write (pending or just committed from THIS device)
+      // Only act on confirmed server snapshots that WE did NOT trigger
+      if (hasPending || isSaving) return;
+      if (fromCache) return; // skip cache reads on startup
+
+      // This is a genuine update from ANOTHER device
+      const incoming = snap.data();
+      userData.okrs = incoming.okrs || [];
+      userData.caps = incoming.caps || [];
+      renderPageRestoring();
+      setSyncing(false);
     }, (err) => {
       console.warn('Realtime listener error:', err.code);
       setSyncing(false, 'err');
@@ -1443,6 +1451,7 @@ function checkOverdue() {
 async function saveData() {
   if (!currentUser||!userData) return;
   setSyncing(true);
+  isSaving = true;  // Tell listener: ignore next snapshot, it's ours
   try {
     await db.collection('users').doc(currentUser.uid).update({
       okrs: userData.okrs||[],
@@ -1454,7 +1463,7 @@ async function saveData() {
     try { await db.collection('users').doc(currentUser.uid).set({...userData, updatedAt: firebase.firestore.FieldValue.serverTimestamp()}); }
     catch(e2) { setSyncing(false,'err'); notif('error','Error al guardar','Revisa tu conexión.'); return; }
   }
-  setTimeout(()=>setSyncing(false), 400);
+  setTimeout(()=>{ setSyncing(false); isSaving = false; }, 1000);
 }
 function setSyncing(on, state='') {
   const dot=document.getElementById('sync-dot'), txt=document.getElementById('sync-txt');
