@@ -416,16 +416,19 @@ button{cursor:pointer}
 
   <!-- EMAIL NOT VERIFIED (logged in but not verified) -->
   <div class="auth-card hidden verify-card" id="v-notverified">
-    <div class="verify-icon">⚠️</div>
-    <div class="verify-title">Verifica tu correo</div>
+    <div class="verify-icon">📧</div>
+    <div class="verify-title">Correo sin verificar</div>
     <div class="verify-text">
-      Tu cuenta aún no está verificada.<br>
-      Revisa tu bandeja de entrada y haz clic en el enlace de verificación.
+      Todavía no has verificado tu cuenta.<br>
+      Revisa la bandeja de entrada de<br>
+      <span class="email-pill" id="nv-email-shown">tu correo</span><br>
+      y haz clic en el enlace de verificación.<br>
+      <span style="font-size:12px;color:var(--faint);display:block;margin-top:6px">¿No lo encuentras? Revisa la carpeta de <strong>spam</strong>.</span>
     </div>
     <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
       <button class="auth-submit" onclick="resendVerification2()">Reenviar correo de verificación</button>
       <div class="auth-ok" id="rv-ok"></div>
-      <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center" onclick="doLogout()">Cerrar sesión</button>
+      <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:4px" onclick="showV('v-login')">← Volver al login</button>
     </div>
   </div>
 
@@ -657,7 +660,12 @@ window.doLogin = async function() {
     const cred = await signInWithEmailAndPassword(auth, email, pass);
     if (!cred.user.emailVerified) {
       pendingRegUser = cred.user;
+      sessionStorage.setItem('pendingVerifyEmail', email);
       document.getElementById('v-email-shown').textContent = email;
+      document.getElementById('nv-email-shown').textContent = email;
+      // Sign out again — user must verify first
+      await signOut(auth);
+      // Show the not-verified warning with resend option
       showV('v-notverified');
       btn.disabled=false; btn.textContent='Iniciar sesión';
       return;
@@ -682,20 +690,31 @@ window.doRegister = async function() {
   if (pass.length<6){showErr('r-err','Contraseña mínimo 6 caracteres.');return;}
   btn.disabled=true; btn.textContent='Creando cuenta…';
   try {
+    // Step 1: Create auth user
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await updateProfile(cred.user, { displayName: name });
-    // Save profile to Firestore immediately
-    const isLucas = email===LUCAS_EMAIL;
-    const userData = { name, role, okrs: isLucas?lucasOKRs():[],caps: isLucas?lucasCaps():[], updatedAt: serverTimestamp() };
-    await setDoc(doc(db,'users',cred.user.uid), userData);
-    // Send verification email
+
+    // Step 2: Send verification email FIRST (most important step)
     await sendEmailVerification(cred.user, { url: SITE_URL });
+
+    // Step 3: Try to save to Firestore (non-blocking — if it fails we still show pending screen)
+    try {
+      const isLucas = email===LUCAS_EMAIL;
+      const userData = { name, role, okrs: isLucas?lucasOKRs():[],caps: isLucas?lucasCaps():[], updatedAt: serverTimestamp() };
+      await setDoc(doc(db,'users',cred.user.uid), userData);
+    } catch(fsErr) {
+      console.warn('Firestore save failed (will retry on first login):', fsErr.message);
+      // Store data locally so we can save it on first verified login
+      sessionStorage.setItem('pendingUserData_'+cred.user.uid, JSON.stringify({ name, role, email }));
+    }
+
+    // Step 4: Store reference and show pending screen
     pendingRegUser = cred.user;
     sessionStorage.setItem('pendingVerifyEmail', email);
-    sessionStorage.setItem('pendingVerifyUID', cred.user.uid);
     document.getElementById('v-email-shown').textContent = email;
     await signOut(auth); // sign out until verified
     showV('v-pending');
+
   } catch(e) {
     console.error('Register error:', e.code, e.message);
     showErr('r-err', firebaseErrMsg(e.code));
@@ -727,14 +746,24 @@ window.resendVerification = async function() {
   }
 };
 window.resendVerification2 = async function() {
-  if (!CU_USER&&!pendingRegUser) return;
-  const u = CU_USER||pendingRegUser;
+  const btn2 = document.querySelector('#v-notverified .auth-submit');
+  if (btn2) { btn2.disabled=true; btn2.textContent='Enviando…'; }
   try {
-    await sendEmailVerification(u, { url: SITE_URL });
-    const ok=document.getElementById('rv-ok');
-    ok.textContent='Correo reenviado ✓'; ok.classList.add('show');
-    setTimeout(()=>ok.classList.remove('show'),4000);
-  } catch(e) { notif('error','Error','No se pudo reenviar.'); }
+    if (pendingRegUser && !pendingRegUser.emailVerified) {
+      await sendEmailVerification(pendingRegUser, { url: SITE_URL });
+      const ok=document.getElementById('rv-ok');
+      ok.textContent='✓ Correo reenviado — revisa también la carpeta de spam'; ok.classList.add('show');
+      setTimeout(()=>ok.classList.remove('show'),7000);
+    } else {
+      notif('info','Sesión expirada','Por favor, vuelve al login e intenta de nuevo.');
+      showV('v-login');
+    }
+  } catch(e) {
+    console.error('Resend error:', e);
+    notif('error','Error al reenviar', e.message||'Intenta de nuevo.');
+  } finally {
+    if (btn2) { btn2.disabled=false; btn2.textContent='Reenviar correo de verificación'; }
+  }
 };
 window.doLogout = async function() {
   await signOut(auth);
@@ -769,10 +798,17 @@ onAuthStateChanged(auth, async user => {
     // Load Firestore data
     let data = await loadData(user.uid);
     if (!data) {
-      // First login after verify — create if missing (edge case)
+      // First login after verify — recover from sessionStorage if available
       const isLucas = user.email===LUCAS_EMAIL;
-      data = { name: user.displayName||user.email, role:'Usuario', okrs: isLucas?lucasOKRs():[],caps: isLucas?lucasCaps():[] };
-      await setDoc(doc(db,'users',user.uid), {...data, updatedAt:serverTimestamp()});
+      const cached = sessionStorage.getItem('pendingUserData_'+user.uid);
+      let name = user.displayName || user.email;
+      let role = 'Usuario';
+      if (cached) {
+        try { const c=JSON.parse(cached); name=c.name||name; role=c.role||role; } catch(e){}
+        sessionStorage.removeItem('pendingUserData_'+user.uid);
+      }
+      data = { name, role, okrs: isLucas?lucasOKRs():[],caps: isLucas?lucasCaps():[] };
+      try { await setDoc(doc(db,'users',user.uid), {...data, updatedAt:serverTimestamp()}); } catch(e){ console.warn('Firestore write failed:', e); }
     }
     CU_DOC = data;
     document.getElementById('auth-screen').classList.add('hidden');
