@@ -2,588 +2,1094 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OKR Hub — I+D+I 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#F8F9FA; --surface:#FFFFFF; --border:#E5E7EB; --border2:#D1D5DB;
-  --ink:#111827; --ink2:#374151; --muted:#6B7280; --faint:#9CA3AF; --ghost:#F3F4F6;
-  --accent:#4F46E5; --accent-lt:#EEF2FF; --accent-dk:#3730A3;
-  --red:#EF4444; --red-lt:#FEF2F2;
-  --green:#10B981; --green-lt:#ECFDF5;
-  --amber:#F59E0B; --amber-lt:#FFFBEB;
-  --blue:#3B82F6; --blue-lt:#EFF6FF;
-  --r:8px; --r2:12px; --r3:16px;
-  --f:'Plus Jakarta Sans',sans-serif;
-  --sh-xs:0 1px 2px rgba(0,0,0,.05);
-  --sh-sm:0 1px 6px rgba(0,0,0,.07);
-  --sh-md:0 4px 16px rgba(0,0,0,.08);
-  --sh-lg:0 8px 32px rgba(0,0,0,.12);
-}
+/* ── RESET ────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px}
-body{font-family:var(--f);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
-input,select,textarea,button{font-family:var(--f)}
-button{cursor:pointer}
+:root{
+  --white:#ffffff;
+  --gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-300:#D1D5DB;
+  --gray-400:#9CA3AF;--gray-500:#6B7280;--gray-600:#4B5563;--gray-700:#374151;
+  --gray-800:#1F2937;--gray-900:#111827;
+ 
+  /* Brand accent — indigo + electric blue */
+  --indigo-50:#EEF2FF;--indigo-100:#E0E7FF;--indigo-500:#6366F1;--indigo-600:#4F46E5;--indigo-700:#4338CA;
+  /* Status colors */
+  --red-50:#FEF2F2;--red-100:#FEE2E2;--red-500:#EF4444;--red-600:#DC2626;
+  --green-50:#F0FDF4;--green-100:#DCFCE7;--green-500:#22C55E;--green-600:#16A34A;--green-700:#15803D;
+  --amber-50:#FFFBEB;--amber-100:#FEF3C7;--amber-500:#F59E0B;--amber-600:#D97706;
+  --blue-50:#EFF6FF;--blue-100:#DBEAFE;--blue-500:#3B82F6;--blue-600:#2563EB;
+  --purple-50:#FAF5FF;--purple-500:#A855F7;--purple-600:#9333EA;
+  --teal-50:#F0FDFA;--teal-500:#14B8A6;--teal-600:#0D9488;
+ 
+  --r:8px;--r-lg:12px;--r-xl:16px;--r-full:9999px;
+  --f:'DM Sans',system-ui,sans-serif;
+  --f-display:'Instrument Serif',Georgia,serif;
+  --sh-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --sh:0 4px 6px -1px rgba(0,0,0,.06),0 2px 4px -2px rgba(0,0,0,.04);
+  --sh-lg:0 10px 30px rgba(0,0,0,.10);
+  --tr:180ms ease;
+}
+html{font-family:var(--f);color:var(--gray-900);background:var(--gray-50);-webkit-font-smoothing:antialiased}
+body{min-height:100vh}
+button{font:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font:inherit;border:none;outline:none}
+a{color:inherit;text-decoration:none}
 .hidden{display:none!important}
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px}
-
-/* ── LOADING OVERLAY ── */
-#loading{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px}
-.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+ 
+/* ── ANIMATIONS ───────────────────────────────── */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-size:14px;color:var(--muted);font-weight:500}
-
-/* ── AUTH ── */
-#auth-screen{min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}
-.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--sh-lg);width:100%;max-width:420px;padding:40px}
-.auth-logo{text-align:center;margin-bottom:28px}
-.logo-mark{font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.5px}
-.logo-mark span{color:var(--accent)}
-.logo-sub{font-size:11px;color:var(--muted);margin-top:3px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
-.auth-title{font-size:21px;font-weight:700;color:var(--ink);text-align:center;margin-bottom:5px;letter-spacing:-.4px}
-.auth-subtitle{font-size:13px;color:var(--muted);text-align:center;margin-bottom:26px}
-.form-group{margin-bottom:14px}
-.form-label{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:5px}
-.form-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-size:15px;color:var(--ink);background:var(--surface);outline:none;transition:border-color .15s,box-shadow .15s}
-.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
-.form-input::placeholder{color:var(--faint)}
-.auth-submit{width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:700;margin-top:6px;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px}
-.auth-submit:hover{background:var(--accent-dk)}
-.auth-submit:disabled{opacity:.65;cursor:not-allowed}
-.auth-err{font-size:13px;color:var(--red);text-align:center;min-height:20px;margin-top:10px;font-weight:500;background:var(--red-lt);border-radius:var(--r);padding:8px 12px;display:none}
-.auth-err.show{display:block}
-.auth-ok{font-size:13px;color:var(--green);text-align:center;min-height:20px;margin-top:10px;font-weight:500;background:var(--green-lt);border-radius:var(--r);padding:8px 12px;display:none}
-.auth-ok.show{display:block}
-.auth-switch-line{text-align:center;font-size:13px;color:var(--muted);margin-top:20px;padding-top:18px;border-top:1px solid var(--border)}
-.auth-switch-line a{color:var(--accent);font-weight:600;cursor:pointer}
-.auth-switch-line a:hover{color:var(--accent-dk)}
-.auth-divider{display:flex;align-items:center;gap:12px;margin:16px 0}
-.auth-divider hr{flex:1;border:none;border-top:1px solid var(--border)}
-.auth-divider span{font-size:12px;color:var(--faint)}
-
-/* Verify pending */
-.verify-card{text-align:center}
-.verify-icon{font-size:52px;margin-bottom:14px}
-.verify-title{font-size:20px;font-weight:700;margin-bottom:8px}
-.verify-text{font-size:14px;color:var(--muted);line-height:1.65}
-.email-pill{display:inline-block;background:var(--accent-lt);color:var(--accent);font-weight:600;padding:2px 12px;border-radius:20px;font-size:13px;margin:6px 0}
-
-/* ── APP SHELL ── */
-#app-shell{display:flex;min-height:100vh}
-
-.sidebar{width:256px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform .25s ease}
-.sidebar-logo{padding:26px 22px 22px;border-bottom:1px solid var(--border)}
-.sidebar-nav{flex:1;padding:14px 10px;overflow-y:auto}
-.nav-label{font-size:10px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:1.2px;padding:0 10px;margin-bottom:5px;margin-top:6px}
-.nav-item{display:flex;align-items:center;gap:11px;padding:10px 10px;border-radius:var(--r);font-size:14px;font-weight:500;color:var(--muted);transition:all .15s;margin-bottom:2px;cursor:pointer}
-.nav-item:hover{background:var(--ghost);color:var(--ink)}
-.nav-item.active{background:var(--accent-lt);color:var(--accent);font-weight:600}
-.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
-.sidebar-user{padding:14px 10px;border-top:1px solid var(--border)}
-.user-row{display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--r);background:var(--ghost)}
-.avatar{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.user-info{flex:1;min-width:0}
-.user-name{font-size:13px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.user-role{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.logout-btn{background:none;border:none;color:var(--faint);font-size:15px;padding:4px 6px;border-radius:6px;transition:all .15s}
-.logout-btn:hover{color:var(--red);background:var(--red-lt)}
-
-.main-area{flex:1;margin-left:256px;min-height:100vh;display:flex;flex-direction:column}
-.topbar{height:62px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:14px;position:sticky;top:0;z-index:50}
-.topbar-title{font-size:17px;font-weight:700;color:var(--ink);flex:1;letter-spacing:-.3px}
-.hamburger{display:none;background:none;border:none;font-size:22px;color:var(--ink);padding:4px}
-.page-content{flex:1;padding:28px 32px;max-width:1100px;width:100%;margin:0 auto}
-
-.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 17px;border-radius:var(--r);font-size:13px;font-weight:600;border:none;transition:all .15s;cursor:pointer}
-.btn-ghost{background:var(--ghost);color:var(--ink2);border:1px solid var(--border)}
-.btn-ghost:hover{background:var(--border)}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:var(--accent-dk)}
-.btn-sm{padding:7px 13px;font-size:12px}
-
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:99}
-
-/* ── NOTIFS ── */
-#notif-stack{position:fixed;top:18px;right:18px;z-index:9999;display:flex;flex-direction:column;gap:9px;pointer-events:none}
-.notif{pointer-events:all;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:13px 15px;min-width:290px;max-width:340px;display:flex;align-items:flex-start;gap:11px;box-shadow:var(--sh-lg);animation:nIn .22s ease}
-.notif.success{border-left:4px solid var(--green)}
-.notif.error{border-left:4px solid var(--red)}
-.notif.warning{border-left:4px solid var(--amber)}
-.notif.info{border-left:4px solid var(--accent)}
-.notif-ico{font-size:17px;flex-shrink:0}
-.notif-title{font-size:13px;font-weight:700;color:var(--ink)}
-.notif-msg{font-size:12px;color:var(--muted);margin-top:2px}
-.notif-x{background:none;border:none;color:var(--faint);font-size:14px;padding:2px 4px;border-radius:4px;margin-left:auto}
-.notif-x:hover{color:var(--ink);background:var(--ghost)}
-@keyframes nIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
-
-/* ── DASHBOARD ── */
-.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
-.metric-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:22px 20px;position:relative;overflow:hidden;transition:box-shadow .15s}
-.metric-card:hover{box-shadow:var(--sh-sm)}
-.mc-accent{position:absolute;top:0;left:0;right:0;height:3px}
-.mc-accent.bk{background:var(--ink)} .mc-accent.gn{background:var(--green)} .mc-accent.am{background:var(--amber)} .mc-accent.rd{background:var(--red)}
-.metric-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
-.metric-value{font-size:42px;font-weight:800;color:var(--ink);letter-spacing:-2px;line-height:1}
-.metric-note{font-size:12px;color:var(--faint);margin-top:5px}
-.metric-bar{height:3px;background:var(--ghost);border-radius:2px;margin-top:10px}
-.metric-bar-fill{height:3px;border-radius:2px;background:var(--accent);transition:width .5s}
-.metric-bar-fill.gn{background:var(--green)} .metric-bar-fill.am{background:var(--amber)} .metric-bar-fill.rd{background:var(--red)}
-
-.q-section-dash{margin-bottom:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:22px;transition:box-shadow .15s}
-.q-section-dash:hover{box-shadow:var(--sh-sm)}
-.qd-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.qd-badge{background:var(--accent);color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:.5px;flex-shrink:0}
-.qd-name{font-size:15px;font-weight:700;color:var(--ink)}
-.qd-range{font-size:12px;color:var(--muted)}
-.qd-pct{margin-left:auto;font-size:17px;font-weight:800;color:var(--accent)}
-.q-track{height:5px;background:var(--ghost);border-radius:3px;margin-bottom:14px}
-.q-fill{height:5px;border-radius:3px;background:var(--accent);transition:width .5s}
-.q-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.q-stat{text-align:center;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:12px}
-.q-stat-val{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-1px}
-.q-stat-lbl{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-
-/* ── TOOLBAR ── */
-.toolbar{display:flex;align-items:center;gap:9px;margin-bottom:22px;flex-wrap:wrap}
-.search-wrap{position:relative;flex:1;min-width:180px}
-.search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--faint);font-size:15px;pointer-events:none}
-.search-input{width:100%;padding:10px 13px 10px 36px;border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;background:var(--surface);color:var(--ink);outline:none;transition:border-color .15s}
-.search-input:focus{border-color:var(--accent)}
-
-.filter-wrap{position:relative}
-.filter-btn{display:flex;align-items:center;gap:7px;padding:10px 15px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);font-size:13px;font-weight:600;color:var(--ink2);transition:all .15s;cursor:pointer}
-.filter-btn:hover{border-color:var(--border2)}
-.filter-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-lt)}
-.filter-dd{position:absolute;top:calc(100% + 7px);left:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);box-shadow:var(--sh-lg);padding:8px;min-width:210px;z-index:200;display:none}
-.filter-dd.open{display:block}
-.fdd-label{font-size:10px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:1px;padding:6px 9px 3px}
-.fdd-opt{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:var(--r);font-size:13px;color:var(--ink2);cursor:pointer;transition:background .1s}
-.fdd-opt:hover{background:var(--ghost)}
-.fdd-opt input[type=checkbox]{accent-color:var(--accent);width:14px;height:14px}
-.fdd-sep{height:1px;background:var(--border);margin:4px 0}
-.fdd-date{padding:6px 9px}
-.fdd-date label{font-size:11px;color:var(--muted);font-weight:600;display:block;margin-bottom:4px}
-.fdd-date input{width:100%;padding:6px 9px;border:1px solid var(--border);border-radius:var(--r);font-size:12px;color:var(--ink);background:var(--ghost);outline:none;margin-bottom:6px}
-.fdd-clear{width:100%;padding:7px;background:none;border:none;color:var(--red);font-size:12px;font-weight:600;border-top:1px solid var(--border);margin-top:3px;transition:background .1s}
-.fdd-clear:hover{background:var(--red-lt);border-radius:0 0 var(--r) var(--r)}
-
-/* ── Q SECTIONS (OKR list) ── */
-.q-section{margin-bottom:32px}
-.q-sec-head{display:flex;align-items:center;gap:12px;padding-bottom:12px;margin-bottom:14px;border-bottom:2px solid var(--ghost)}
-.q-badge{background:var(--accent);color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.5px}
-.q-name{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.2px}
-.q-months{font-size:12px;color:var(--muted)}
-.q-count{margin-left:auto;font-size:12px;font-weight:600;color:var(--faint);background:var(--ghost);padding:3px 10px;border-radius:20px}
-
-/* ── ITEM CARDS ── */
-.item-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r2);margin-bottom:9px;overflow:hidden;transition:border-color .15s,box-shadow .15s}
-.item-card:hover{box-shadow:var(--sh-sm)}
-.item-card.overdue{border-left:4px solid var(--red)}
-.item-card.urgent{border-left:4px solid var(--amber)}
-
-.card-row{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer}
-.xarrow{width:24px;height:24px;border-radius:50%;background:var(--ghost);border:none;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted);flex-shrink:0;transition:all .15s}
-.xarrow:hover{background:var(--border);color:var(--ink)}
-.xarrow.open{background:var(--accent);color:#fff;transform:rotate(180deg)}
-
-.chips{display:flex;gap:5px;flex-shrink:0;align-items:center;flex-wrap:wrap}
-.chip{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:3px 8px;border-radius:20px}
-.chip-okr{background:var(--ink);color:#fff}
-.chip-cap{background:var(--blue-lt);color:var(--blue);border:1px solid #BFDBFE}
-.chip-task{background:var(--ghost);color:var(--muted);border:1px solid var(--border)}
-.chip-easy{background:var(--green-lt);color:var(--green)}
-.chip-med{background:var(--amber-lt);color:var(--amber)}
-.chip-hard{background:var(--red-lt);color:var(--red)}
-.chip-phi{background:var(--red-lt);color:var(--red)}
-.chip-pmd{background:var(--amber-lt);color:var(--amber)}
-.chip-plo{background:var(--ghost);color:var(--faint)}
-.chip-over{background:var(--red);color:#fff}
-
-.card-title{flex:1;min-width:0;font-size:14px;font-weight:500;color:var(--ink);line-height:1.4}
-.card-parent{font-size:10px;color:var(--muted);font-weight:600;margin-right:3px}
-.card-right{display:flex;align-items:center;gap:14px;flex-shrink:0}
-.card-period{font-size:11px;color:var(--faint);font-weight:500;white-space:nowrap}
-.prog-mini{display:flex;align-items:center;gap:7px}
-.prog-mini-track{width:68px;height:4px;background:var(--ghost);border-radius:2px}
-.prog-mini-fill{height:4px;border-radius:2px;background:var(--accent);transition:width .3s}
-.prog-mini-fill.dn{background:var(--green)} .prog-mini-fill.ov{background:var(--red)}
-.prog-mini-pct{font-size:12px;font-weight:700;color:var(--muted);min-width:32px;text-align:right}
-.card-btns{display:flex;gap:3px}
-.cib{background:none;border:none;padding:5px 7px;border-radius:6px;color:var(--faint);font-size:13px;transition:all .12s;cursor:pointer}
-.cib:hover{background:var(--ghost);color:var(--ink)}
-.cib.del:hover{background:var(--red-lt);color:var(--red)}
-
-/* ── EXPANDED PANEL ── */
-.card-panel{display:none;border-top:1px solid var(--border);background:var(--bg);padding:22px}
-.card-panel.open{display:block}
-.panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:18px}
-.pb-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:9px}
-.desc-box{font-size:14px;color:var(--ink2);line-height:1.65;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:13px}
-
-.prog-big{text-align:center;margin-bottom:14px}
-.prog-big-num{font-size:48px;font-weight:900;color:var(--ink);letter-spacing:-3px;line-height:1}
-.prog-big-num span{font-size:20px;color:var(--faint);font-weight:400}
-.prog-track-lg{height:7px;background:var(--ghost);border-radius:4px;margin-bottom:14px}
-.prog-fill-lg{height:7px;border-radius:4px;background:var(--accent);transition:width .5s}
-.prog-fill-lg.dn{background:var(--green)} .prog-fill-lg.ov{background:var(--red)}
-
-.counter-block{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;margin-bottom:13px}
-.counter-lbl{font-size:13px;color:var(--muted);font-weight:500}
-.counter-ctrl{display:flex;align-items:center;gap:10px}
-.cnt-btn{width:30px;height:30px;background:var(--ghost);border:1px solid var(--border);border-radius:7px;font-size:17px;color:var(--ink2);display:flex;align-items:center;justify-content:center;transition:all .12s;cursor:pointer}
-.cnt-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-.cnt-val{font-size:17px;font-weight:800;color:var(--ink);min-width:76px;text-align:center}
-
-.sgl-toggle{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;cursor:pointer;margin-bottom:13px}
-.sgl-toggle input{accent-color:var(--accent);width:17px;height:17px;cursor:pointer}
-.sgl-toggle label{font-size:14px;color:var(--ink2);cursor:pointer;font-weight:500}
-
-.checklist{display:flex;flex-direction:column;gap:6px;margin-bottom:9px}
-.ck-item{display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:9px 13px;transition:border-color .12s}
-.ck-item:hover{border-color:var(--border2)}
-.ck-item.ckd{opacity:.55}
-.ck-item input{accent-color:var(--accent);width:15px;height:15px;cursor:pointer;flex-shrink:0}
-.ck-item label{font-size:13px;color:var(--ink2);cursor:pointer;flex:1;line-height:1.4}
-.ck-item.ckd label{text-decoration:line-through;color:var(--faint)}
-.ck-rm{background:none;border:none;color:var(--faint);font-size:12px;padding:2px 5px;border-radius:4px;cursor:pointer}
-.ck-rm:hover{color:var(--red);background:var(--red-lt)}
-.add-ck-row{display:flex;gap:7px}
-.add-ck-input{flex:1;padding:8px 11px;border:1.5px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--ink);background:var(--surface);outline:none}
-.add-ck-input:focus{border-color:var(--accent)}
-.add-ck-btn{padding:8px 15px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-size:13px;font-weight:700;transition:background .15s;cursor:pointer}
-.add-ck-btn:hover{background:var(--accent-dk)}
-
-.cap-done-row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;margin-bottom:13px}
-.cap-done-row input{accent-color:var(--blue);width:17px;height:17px;cursor:pointer}
-.cap-done-row label{font-size:14px;color:var(--ink2);cursor:pointer;flex:1;font-weight:500}
-.cap-done-row label.dn{text-decoration:line-through;color:var(--faint)}
-.hrs-pill{font-size:12px;background:var(--blue-lt);color:var(--blue);padding:3px 10px;border-radius:20px;font-weight:600}
-
-.edit-area{margin-top:18px;padding-top:18px;border-top:1px solid var(--border)}
-.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}
-.ei{width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--ink);background:var(--surface);outline:none;transition:border-color .15s}
-.ei:focus{border-color:var(--accent)}
-.ei-ta{resize:vertical;min-height:75px;grid-column:1/-1}
-.ei-sel{cursor:pointer}
-.save-edits{grid-column:1/-1;padding:10px;background:var(--green);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s}
-.save-edits:hover{opacity:.87}
-
-/* ── MODAL ── */
-.modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
-.modal-bd.open{opacity:1;pointer-events:all}
-.modal-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--sh-lg);width:100%;max-width:520px;max-height:90vh;overflow-y:auto;transform:translateY(14px);transition:transform .2s}
-.modal-bd.open .modal-box{transform:translateY(0)}
-.modal-head{padding:26px 30px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start}
-.modal-title{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.4px}
-.modal-sub{font-size:13px;color:var(--muted);margin-top:3px}
-.modal-x{background:none;border:none;font-size:19px;color:var(--faint);padding:4px;border-radius:6px;cursor:pointer}
-.modal-x:hover{color:var(--ink);background:var(--ghost)}
-.modal-body{padding:22px 30px 30px}
-.mfr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.mfr.full{grid-template-columns:1fr}
-.mff{display:flex;flex-direction:column;gap:5px}
-.mfl{font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.8px}
-.mfi,.mfsel,.mfta{padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;color:var(--ink);background:var(--ghost);outline:none;transition:border-color .15s,background .15s;width:100%}
-.mfi:focus,.mfta:focus{border-color:var(--accent);background:var(--surface)}
-.mfsel{cursor:pointer}
-.mfta{resize:vertical;min-height:85px}
-.modal-footer{display:flex;justify-content:flex-end;gap:9px;padding-top:18px;border-top:1px solid var(--border);margin-top:6px}
-.m-cancel{padding:10px 20px;background:var(--ghost);border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
-.m-cancel:hover{color:var(--ink)}
-.m-create{padding:10px 22px;background:var(--accent);border:none;border-radius:var(--r);font-size:13px;font-weight:700;color:#fff;cursor:pointer;transition:background .15s}
-.m-create:hover{background:var(--accent-dk)}
-
-/* ── EMPTY ── */
-.empty-state{text-align:center;padding:56px 20px;color:var(--muted)}
-.empty-icon{font-size:44px;margin-bottom:14px}
-.empty-text{font-size:15px}
-
-/* ── SYNC STATUS ── */
-.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:4px}
-.sync-dot.syncing{background:var(--amber);animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-/* ── RESPONSIVE ── */
-@media(max-width:900px){
+.anim-in{animation:slideUp .35s ease}
+.anim-fade{animation:fadeIn .25s ease}
+.spinner{width:18px;height:18px;border:2px solid var(--gray-200);border-top-color:var(--indigo-600);border-radius:50%;animation:spin .65s linear infinite;flex-shrink:0}
+.spinner-w{border-color:rgba(255,255,255,.3);border-top-color:#fff}
+ 
+/* ── FORM COMPONENTS ──────────────────────────── */
+.field{display:flex;flex-direction:column;gap:5px}
+.field-label{font-size:13px;font-weight:600;color:var(--gray-600)}
+.input{
+  width:100%;padding:10px 14px;background:var(--gray-50);
+  border:1.5px solid var(--gray-200);border-radius:var(--r);
+  font-size:14px;color:var(--gray-900);transition:border var(--tr),box-shadow var(--tr);
+}
+.input:focus{border-color:var(--indigo-500);box-shadow:0 0 0 3px var(--indigo-50);background:#fff}
+.input::placeholder{color:var(--gray-400)}
+.input.error{border-color:var(--red-500)}
+.input-icon-wrap{position:relative}
+.input-icon-wrap .input{padding-right:42px}
+.input-toggle-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--gray-400);padding:4px;border-radius:6px;transition:color var(--tr)}
+.input-toggle-btn:hover{color:var(--gray-600)}
+.select{
+  width:100%;padding:10px 36px 10px 14px;background:var(--gray-50);
+  border:1.5px solid var(--gray-200);border-radius:var(--r);
+  font-size:14px;color:var(--gray-900);appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236B7280' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+  transition:border var(--tr);
+}
+.select:focus{border-color:var(--indigo-500);box-shadow:0 0 0 3px var(--indigo-50)}
+.textarea{
+  width:100%;padding:10px 14px;background:var(--gray-50);
+  border:1.5px solid var(--gray-200);border-radius:var(--r);
+  font-size:14px;color:var(--gray-900);resize:vertical;min-height:80px;
+  transition:border var(--tr);
+}
+.textarea:focus{border-color:var(--indigo-500);box-shadow:0 0 0 3px var(--indigo-50);background:#fff}
+ 
+/* ── BUTTONS ──────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:var(--r);font-size:14px;font-weight:600;transition:all var(--tr);white-space:nowrap}
+.btn-primary{background:var(--indigo-600);color:#fff}
+.btn-primary:hover{background:var(--indigo-700)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-secondary{background:#fff;color:var(--gray-700);border:1.5px solid var(--gray-200)}
+.btn-secondary:hover{background:var(--gray-50);border-color:var(--gray-300)}
+.btn-danger{background:var(--red-50);color:var(--red-600);border:1px solid var(--red-100)}
+.btn-danger:hover{background:var(--red-100)}
+.btn-ghost{color:var(--gray-500);padding:8px 12px;border-radius:var(--r)}
+.btn-ghost:hover{color:var(--gray-800);background:var(--gray-100)}
+.btn-sm{padding:7px 14px;font-size:13px}
+.btn-full{width:100%}
+.btn-icon{padding:7px;border-radius:var(--r);color:var(--gray-400);transition:all var(--tr)}
+.btn-icon:hover{background:var(--gray-100);color:var(--gray-700)}
+.btn-icon.danger:hover{background:var(--red-50);color:var(--red-500)}
+ 
+/* ── ALERT ────────────────────────────────────── */
+.alert{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-radius:var(--r);font-size:13px;animation:slideDown .25s ease}
+.alert-error{background:var(--red-50);border:1px solid var(--red-100);color:var(--red-600)}
+.alert-success{background:var(--green-50);border:1px solid var(--green-100);color:var(--green-700)}
+.alert-warning{background:var(--amber-50);border:1px solid var(--amber-100);color:var(--amber-600)}
+.alert-info{background:var(--indigo-50);border:1px solid var(--indigo-100);color:var(--indigo-700)}
+ 
+/* ── BADGES ───────────────────────────────────── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:var(--r-full);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.badge-indigo{background:var(--indigo-50);color:var(--indigo-600)}
+.badge-blue{background:var(--blue-50);color:var(--blue-600)}
+.badge-green{background:var(--green-50);color:var(--green-700)}
+.badge-amber{background:var(--amber-50);color:var(--amber-600)}
+.badge-red{background:var(--red-50);color:var(--red-600)}
+.badge-purple{background:var(--purple-50);color:var(--purple-600)}
+.badge-gray{background:var(--gray-100);color:var(--gray-500)}
+.badge-teal{background:var(--teal-50);color:var(--teal-600)}
+ 
+/* ── CHIPS (filter toggles) ───────────────────── */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;padding:5px 13px;
+  border-radius:var(--r-full);font-size:13px;font-weight:500;cursor:pointer;
+  border:1.5px solid var(--gray-200);color:var(--gray-600);background:#fff;
+  transition:all var(--tr);user-select:none;
+}
+.chip:hover{border-color:var(--gray-400);color:var(--gray-800)}
+.chip.active{background:var(--gray-900);color:#fff;border-color:var(--gray-900)}
+.chip.active-indigo{background:var(--indigo-600);color:#fff;border-color:var(--indigo-600)}
+.chip-sm{padding:3px 10px;font-size:12px}
+ 
+/* ── CARD ─────────────────────────────────────── */
+.card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:22px}
+.card-lg{padding:28px}
+ 
+/* ── MODAL ────────────────────────────────────── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(17,24,39,.45);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px;
+  animation:fadeIn .2s ease;
+}
+.modal{
+  background:#fff;border-radius:var(--r-xl);padding:28px 32px;
+  max-width:520px;width:100%;max-height:90vh;overflow-y:auto;
+  animation:slideUp .25s ease;box-shadow:var(--sh-lg);
+}
+.modal-sm{max-width:420px}
+ 
+/* ── PROGRESS BAR ─────────────────────────────── */
+.prog-track{background:var(--gray-100);border-radius:var(--r-full);overflow:hidden}
+.prog-fill{height:100%;border-radius:var(--r-full);transition:width .5s ease;background:var(--indigo-600)}
+.prog-fill.green{background:var(--green-500)}
+.prog-fill.amber{background:var(--amber-500)}
+.prog-fill.red{background:var(--red-500)}
+ 
+/* ── DIVIDER ──────────────────────────────────── */
+.divider{height:1px;background:var(--gray-100);margin:16px 0}
+.divider-text{position:relative;margin:20px 0}
+.divider-text::before{content:'';position:absolute;inset:0;display:flex;align-items:center}
+.divider-text::before{background:none;border-top:1px solid var(--gray-200);top:50%;height:0}
+.divider-text span{position:relative;padding:0 12px;background:#fff;color:var(--gray-400);font-size:13px;display:flex;justify-content:center}
+ 
+/* ── NOTIF STACK ──────────────────────────────── */
+#notif-stack{position:fixed;top:18px;right:18px;z-index:9999;display:flex;flex-direction:column;gap:9px;pointer-events:none}
+.notif{pointer-events:all;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:13px 16px;min-width:290px;max-width:360px;display:flex;align-items:flex-start;gap:11px;box-shadow:var(--sh-lg);animation:slideUp .22s ease}
+.notif.success{border-left:4px solid var(--green-500)}
+.notif.error{border-left:4px solid var(--red-500)}
+.notif.warning{border-left:4px solid var(--amber-500)}
+.notif.info{border-left:4px solid var(--indigo-600)}
+.notif-title{font-size:13px;font-weight:700;color:var(--gray-900)}
+.notif-msg{font-size:12px;color:var(--gray-500);margin-top:2px}
+ 
+/* ── AUTH PAGES ───────────────────────────────── */
+.auth-page{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:40px 16px;position:relative;overflow:hidden;
+}
+.auth-page::before{content:'';position:absolute;top:-120px;right:-120px;width:360px;height:360px;background:var(--indigo-100);opacity:.5;border-radius:50%;filter:blur(80px)}
+.auth-page::after{content:'';position:absolute;bottom:-120px;left:-120px;width:360px;height:360px;background:var(--blue-100);opacity:.4;border-radius:50%;filter:blur(80px)}
+.auth-brand{display:flex;align-items:center;gap:12px;margin-bottom:28px;position:relative;z-index:1}
+.auth-brand-icon{width:42px;height:42px;background:var(--indigo-600);border-radius:var(--r-lg);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px}
+.auth-brand-name{font-family:var(--f-display);font-size:28px;color:var(--gray-900)}
+.auth-brand-name span{color:var(--indigo-600);font-style:italic}
+.auth-card{position:relative;z-index:1;width:100%;max-width:420px}
+.auth-footer{position:relative;z-index:1;margin-top:24px;font-size:13px;color:var(--gray-400);text-align:center}
+ 
+/* verify screen special */
+.verify-icon-wrap{width:60px;height:60px;background:var(--indigo-50);border-radius:var(--r-xl);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:26px}
+ 
+/* ── STEP DOTS ────────────────────────────────── */
+.step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:6px}
+.step-dot{height:5px;border-radius:3px;background:var(--gray-200);transition:all .3s}
+.step-dot.active{width:32px;background:var(--indigo-600)}
+.step-dot:not(.active){width:18px}
+ 
+/* ── APP SHELL ────────────────────────────────── */
+.app-shell{display:flex;min-height:100vh}
+ 
+/* sidebar */
+.sidebar{
+  width:264px;background:#fff;border-right:1px solid var(--gray-200);
+  display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;
+  transition:transform .25s ease;
+}
+.sidebar.closed{transform:translateX(-100%)}
+.sidebar-brand{
+  height:60px;display:flex;align-items:center;gap:11px;padding:0 20px;
+  border-bottom:1px solid var(--gray-100);
+}
+.sidebar-brand-icon{width:30px;height:30px;background:var(--indigo-600);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
+.sidebar-brand-name{font-family:var(--f-display);font-size:19px;color:var(--gray-900)}
+.sidebar-brand-name span{color:var(--indigo-600);font-style:italic}
+.sidebar-brand-year{font-size:11px;font-weight:700;color:var(--gray-400);background:var(--gray-100);padding:2px 7px;border-radius:var(--r-full);margin-left:auto}
+ 
+.sidebar-nav{flex:1;padding:12px;overflow-y:auto}
+.nav-section-label{font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1.2px;padding:8px 12px 4px}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:9px 12px;
+  border-radius:var(--r);font-size:14px;font-weight:500;color:var(--gray-500);
+  transition:all var(--tr);cursor:pointer;margin-bottom:1px;
+}
+.nav-item:hover{background:var(--gray-100);color:var(--gray-800)}
+.nav-item.active{background:var(--indigo-50);color:var(--indigo-700);font-weight:600}
+.nav-item .nav-icon{font-size:17px;width:22px;text-align:center;flex-shrink:0}
+.nav-item .nav-label{flex:1}
+.nav-item .nav-badge{font-size:11px;font-weight:700;background:var(--indigo-100);color:var(--indigo-700);padding:1px 7px;border-radius:var(--r-full)}
+ 
+.sidebar-user{padding:12px;border-top:1px solid var(--gray-100)}
+.sidebar-user-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r);background:var(--gray-50);border:1px solid var(--gray-200)}
+.sidebar-avatar{width:34px;height:34px;border-radius:50%;background:var(--indigo-600);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sidebar-user-info{flex:1;min-width:0}
+.sidebar-user-name{font-size:13px;font-weight:600;color:var(--gray-800);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sidebar-user-role{font-size:11px;color:var(--gray-400);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ 
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(17,24,39,.2);backdrop-filter:blur(2px);z-index:90}
+ 
+/* main area */
+.main-area{flex:1;margin-left:264px;display:flex;flex-direction:column;min-height:100vh}
+.topbar{
+  height:60px;background:#fff;border-bottom:1px solid var(--gray-200);
+  display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:50;gap:12px;
+}
+.topbar-title{font-size:17px;font-weight:700;color:var(--gray-900);flex:1;letter-spacing:-.2px}
+.topbar-menu-btn{display:none;padding:8px;color:var(--gray-500)}
+.page-content{flex:1;padding:24px 28px;max-width:1100px;width:100%;margin:0 auto}
+ 
+/* sync dot */
+.sync-wrap{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-400)}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green-500)}
+.sync-dot.syncing{background:var(--amber-500);animation:pulse 1s infinite}
+.sync-dot.err{background:var(--red-500)}
+ 
+/* ── SEARCH + FILTER TOOLBAR ──────────────────── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;min-width:180px}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--gray-400);pointer-events:none}
+.search-input{
+  width:100%;padding:9px 13px 9px 34px;
+  border:1.5px solid var(--gray-200);border-radius:var(--r);
+  font-size:14px;background:#fff;color:var(--gray-900);transition:border var(--tr);
+}
+.search-input:focus{border-color:var(--indigo-500);box-shadow:0 0 0 3px var(--indigo-50)}
+.chips-row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.filter-section{margin-bottom:18px}
+.filter-section-title{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+ 
+/* ── DASHBOARD ────────────────────────────────── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.stat-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:20px 18px;position:relative;overflow:hidden;transition:box-shadow var(--tr)}
+.stat-card:hover{box-shadow:var(--sh-sm)}
+.stat-accent{position:absolute;top:0;left:0;right:0;height:3px}
+.stat-label{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.stat-value{font-size:40px;font-weight:800;color:var(--gray-900);letter-spacing:-2px;line-height:1}
+.stat-note{font-size:12px;color:var(--gray-400);margin-top:5px}
+.stat-bar{height:3px;background:var(--gray-100);border-radius:2px;margin-top:10px}
+.stat-bar-fill{height:3px;border-radius:2px;background:var(--indigo-600);transition:width .5s}
+ 
+.q-dash-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:20px;margin-bottom:14px}
+.q-dash-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.q-dash-badge{background:var(--indigo-600);color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:var(--r-full);letter-spacing:.5px}
+.q-dash-name{font-size:15px;font-weight:700;color:var(--gray-900)}
+.q-dash-range{font-size:12px;color:var(--gray-400)}
+.q-dash-pct{margin-left:auto;font-size:17px;font-weight:800;color:var(--indigo-600)}
+.q-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.q-stat-mini{text-align:center;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--r);padding:12px}
+.q-stat-mini-val{font-size:24px;font-weight:800;color:var(--gray-900);letter-spacing:-1px}
+.q-stat-mini-lbl{font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+ 
+/* ── Q SECTION HEADER ─────────────────────────── */
+.q-section{margin-bottom:32px}
+.q-section-head{display:flex;align-items:center;gap:12px;padding-bottom:13px;margin-bottom:14px;border-bottom:2px solid var(--gray-100)}
+.q-section-badge{background:var(--indigo-600);color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:var(--r-full);letter-spacing:.5px;flex-shrink:0}
+.q-section-name{font-size:15px;font-weight:700;color:var(--gray-900)}
+.q-section-months{font-size:12px;color:var(--gray-400)}
+.q-section-count{margin-left:auto;font-size:12px;font-weight:600;color:var(--gray-400);background:var(--gray-100);padding:3px 10px;border-radius:var(--r-full)}
+ 
+/* ── ITEM CARD ────────────────────────────────── */
+.item-card{background:#fff;border:1.5px solid var(--gray-200);border-radius:var(--r-lg);margin-bottom:9px;overflow:hidden;transition:border-color var(--tr),box-shadow var(--tr)}
+.item-card:hover{box-shadow:var(--sh-sm);border-color:var(--gray-300)}
+.item-card.overdue{border-left:4px solid var(--red-500)}
+.item-card.urgent{border-left:4px solid var(--amber-500)}
+ 
+.item-row{display:flex;align-items:center;gap:11px;padding:15px 17px;cursor:pointer;user-select:none}
+.expand-btn{width:24px;height:24px;border-radius:50%;background:var(--gray-100);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all var(--tr);color:var(--gray-400);font-size:10px}
+.expand-btn:hover{background:var(--gray-200);color:var(--gray-700)}
+.expand-btn.open{background:var(--indigo-600);color:#fff;transform:rotate(180deg)}
+ 
+.item-title{flex:1;min-width:0;font-size:14px;font-weight:500;color:var(--gray-800);line-height:1.4}
+.item-parent-tag{font-size:10px;color:var(--gray-400);font-weight:700;margin-right:4px}
+.item-meta{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.item-period{font-size:11px;color:var(--gray-400);font-weight:500;white-space:nowrap}
+.item-prog-wrap{display:flex;align-items:center;gap:7px}
+.item-prog-track{width:64px;height:4px;background:var(--gray-100);border-radius:var(--r-full)}
+.item-prog-fill{height:4px;border-radius:var(--r-full);background:var(--indigo-600);transition:width .3s}
+.item-prog-fill.done{background:var(--green-500)}
+.item-prog-fill.over{background:var(--red-500)}
+.item-prog-pct{font-size:12px;font-weight:700;color:var(--gray-500);min-width:34px;text-align:right}
+.item-actions{display:flex;gap:3px;flex-shrink:0}
+ 
+/* ── EXPANDED PANEL ───────────────────────────── */
+.item-panel{display:none;border-top:1px solid var(--gray-100);background:var(--gray-50);padding:20px 20px 22px}
+.item-panel.open{display:block}
+.panel-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:18px}
+.panel-block-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--gray-400);margin-bottom:9px}
+.desc-box{font-size:13px;color:var(--gray-600);line-height:1.65;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:13px}
+ 
+.prog-big{text-align:center;margin-bottom:14px}
+.prog-big-num{font-size:48px;font-weight:800;color:var(--gray-900);letter-spacing:-3px;line-height:1}
+.prog-big-pct{font-size:18px;color:var(--gray-400);font-weight:400}
+.prog-track-lg{height:7px;background:var(--gray-100);border-radius:var(--r-full);margin-bottom:14px}
+ 
+/* counter */
+.counter-row{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:12px 14px;margin-bottom:12px}
+.counter-lbl{font-size:13px;color:var(--gray-500);font-weight:500}
+.counter-ctrl{display:flex;align-items:center;gap:10px}
+.counter-step-btn{width:30px;height:30px;border-radius:var(--r);background:var(--gray-100);border:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gray-700);transition:all var(--tr);cursor:pointer}
+.counter-step-btn:hover{background:var(--indigo-600);color:#fff;border-color:var(--indigo-600)}
+.counter-val{font-size:16px;font-weight:800;color:var(--gray-900);min-width:72px;text-align:center}
+ 
+/* checklist */
+.checklist{display:flex;flex-direction:column;gap:6px;margin-bottom:9px}
+.ck-item{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:9px 12px;transition:border-color var(--tr)}
+.ck-item:hover{border-color:var(--gray-300)}
+.ck-item.checked{opacity:.6}
+.ck-item input[type=checkbox]{accent-color:var(--indigo-600);width:15px;height:15px;cursor:pointer;flex-shrink:0}
+.ck-item label{font-size:13px;color:var(--gray-700);cursor:pointer;flex:1;line-height:1.4}
+.ck-item.checked label{text-decoration:line-through;color:var(--gray-400)}
+.ck-rm{color:var(--gray-300);padding:3px 5px;border-radius:5px;font-size:12px;cursor:pointer}
+.ck-rm:hover{color:var(--red-500);background:var(--red-50)}
+.add-ck{display:flex;gap:7px}
+.add-ck-input{flex:1;padding:8px 11px;border:1.5px solid var(--gray-200);border-radius:var(--r);font-size:13px;color:var(--gray-900);transition:border var(--tr)}
+.add-ck-input:focus{border-color:var(--indigo-500);outline:none}
+.add-ck-btn{padding:8px 15px;background:var(--indigo-600);color:#fff;border:none;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;transition:background var(--tr)}
+.add-ck-btn:hover{background:var(--indigo-700)}
+ 
+/* cap toggle */
+.cap-toggle{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:12px 14px;margin-bottom:12px}
+.cap-toggle input[type=checkbox]{accent-color:var(--blue-600);width:17px;height:17px;cursor:pointer}
+.cap-toggle label{font-size:14px;color:var(--gray-700);cursor:pointer;flex:1;font-weight:500}
+.cap-toggle label.done{text-decoration:line-through;color:var(--gray-400)}
+.cap-hrs{font-size:12px;background:var(--blue-50);color:var(--blue-600);padding:3px 9px;border-radius:var(--r-full);font-weight:700;flex-shrink:0}
+ 
+/* single toggle */
+.sgl-toggle{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:12px 14px;cursor:pointer;margin-bottom:12px}
+.sgl-toggle input{accent-color:var(--indigo-600);width:17px;height:17px;cursor:pointer}
+.sgl-toggle label{font-size:14px;color:var(--gray-700);cursor:pointer;font-weight:500}
+ 
+/* edit inline */
+.edit-section{margin-top:18px;padding-top:18px;border-top:1px solid var(--gray-200)}
+.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}
+.edit-input{width:100%;padding:9px 11px;border:1.5px solid var(--gray-200);border-radius:var(--r);font-size:13px;color:var(--gray-900);transition:border var(--tr)}
+.edit-input:focus{border-color:var(--indigo-500);outline:none;box-shadow:0 0 0 3px var(--indigo-50)}
+.edit-textarea{resize:vertical;min-height:72px;grid-column:1/-1}
+.edit-select{cursor:pointer}
+.save-btn{grid-column:1/-1;padding:10px;background:var(--green-600);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;transition:opacity var(--tr)}
+.save-btn:hover{opacity:.87}
+ 
+/* ── EMPTY STATE ──────────────────────────────── */
+.empty{text-align:center;padding:52px 20px;color:var(--gray-400)}
+.empty-icon{font-size:42px;margin-bottom:14px}
+.empty-text{font-size:14px}
+ 
+/* ── RESPONSIVE ───────────────────────────────── */
+@media(max-width:960px){
   .sidebar{transform:translateX(-100%)}
   .sidebar.open{transform:translateX(0);box-shadow:var(--sh-lg)}
-  .sidebar-overlay{display:block}
+  .sidebar-overlay.open{display:block}
   .main-area{margin-left:0}
-  .hamburger{display:block}
-  .topbar{padding:0 18px}
+  .topbar-menu-btn{display:flex}
   .page-content{padding:20px 16px}
-  .dash-grid{grid-template-columns:repeat(2,1fr)}
-  .panel-grid{grid-template-columns:1fr}
-  .card-row{flex-wrap:wrap;padding:13px 15px;gap:9px}
-  .card-right{flex-wrap:wrap}
-  .q-stats-row{grid-template-columns:repeat(3,1fr)}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .panel-cols{grid-template-columns:1fr}
 }
 @media(max-width:560px){
-  .auth-card{padding:26px 18px}
-  .dash-grid{grid-template-columns:1fr 1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
   .q-stats-row{grid-template-columns:1fr 1fr}
-  .mfr{grid-template-columns:1fr}
   .edit-grid{grid-template-columns:1fr}
-  .chips{gap:3px}
-  .chip{font-size:9px;padding:2px 6px}
+  .item-row{flex-wrap:wrap;gap:8px;padding:13px 14px}
+  .item-meta{flex-wrap:wrap}
 }
 </style>
 </head>
 <body>
-
-<!-- LOADING -->
-<div id="loading">
-  <div class="spinner"></div>
-  <div class="loading-text">Conectando con Firebase…</div>
-</div>
-
-<!-- NOTIFS -->
+ 
+<!-- SVG ICONS -->
+<svg style="display:none">
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+</svg>
+ 
 <div id="notif-stack"></div>
-
-<!-- AUTH -->
-<div id="auth-screen" class="hidden">
-
-  <!-- ① LOGIN -->
-  <div class="auth-card" id="v-login">
-    <div class="auth-logo">
-      <div class="logo-mark">OKR<span>Hub</span></div>
-      <div class="logo-sub">I+D+I 2026 · Soventix Caribbean</div>
-    </div>
-    <div class="auth-title">Bienvenido de vuelta</div>
-    <div class="auth-subtitle">Ingresa para ver tus objetivos</div>
-    <div class="form-group">
-      <label class="form-label">Correo electrónico</label>
-      <input class="form-input" id="l-email" type="email" placeholder="tu@correo.com" autocomplete="email">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Contraseña</label>
-      <input class="form-input" id="l-pass" type="password" placeholder="••••••••">
-    </div>
-    <button class="auth-submit" id="l-btn" onclick="doLogin()">Iniciar sesión</button>
-    <div class="auth-err" id="l-err"></div>
-    <div class="auth-switch-line" style="margin-top:12px">
-      <a onclick="showV('v-forgot')" style="color:var(--muted);font-weight:500">¿Olvidaste tu contraseña?</a>
-    </div>
-    <div class="auth-switch-line">¿No tienes cuenta? <a onclick="showV('v-register')">Crear cuenta</a></div>
-  </div>
-
-  <!-- ② REGISTER -->
-  <div class="auth-card hidden" id="v-register">
-    <div class="auth-logo">
-      <div class="logo-mark">OKR<span>Hub</span></div>
-    </div>
-    <div class="auth-title">Crear cuenta</div>
-    <div class="auth-subtitle">Te enviaremos un correo para verificar tu identidad</div>
-    <div class="form-group">
-      <label class="form-label">Nombre completo</label>
-      <input class="form-input" id="r-name" type="text" placeholder="Tu nombre">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Correo electrónico</label>
-      <input class="form-input" id="r-email" type="email" placeholder="tu@correo.com">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Contraseña</label>
-      <input class="form-input" id="r-pass" type="password" placeholder="Mínimo 6 caracteres">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Cargo / Rol</label>
-      <input class="form-input" id="r-role" type="text" placeholder="ej: Analista de Innovación">
-    </div>
-    <button class="auth-submit" id="r-btn" onclick="doRegister()">Crear cuenta</button>
-    <div class="auth-err" id="r-err"></div>
-    <div class="auth-switch-line">¿Ya tienes cuenta? <a onclick="showV('v-login')">Iniciar sesión</a></div>
-  </div>
-
-  <!-- ③ REGISTRO EXITOSO — REVISA TU CORREO -->
-  <div class="auth-card hidden verify-card" id="v-pending">
-    <div class="verify-icon">📬</div>
-    <div class="verify-title">¡Revisa tu correo!</div>
-    <div class="verify-text">
-      Te enviamos un enlace de verificación a<br>
-      <span class="email-pill" id="v-email-shown">—</span><br><br>
-      Abre ese correo y haz clic en el botón de verificación.<br>
-      Luego vuelve aquí e inicia sesión.
-      <span style="font-size:12px;color:var(--faint);display:block;margin-top:8px">
-        ¿No lo encuentras? Revisa tu carpeta de <strong>spam</strong> o correo no deseado.
-      </span>
-    </div>
-    <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
-      <button class="auth-submit" id="resend-btn" onclick="doResend('resend-btn','resend-ok')">
-        Reenviar correo de verificación
-      </button>
-      <div class="auth-ok" id="resend-ok"></div>
-      <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:2px" onclick="showV('v-login')">
-        ← Ya verifiqué, ir al login
-      </button>
-    </div>
-  </div>
-
-  <!-- ④ INTENTO DE LOGIN SIN VERIFICAR CORREO -->
-  <div class="auth-card hidden verify-card" id="v-notverified">
-    <div class="verify-icon">⚠️</div>
-    <div class="verify-title">Correo no verificado</div>
-    <div class="verify-text">
-      Tienes una cuenta registrada con<br>
-      <span class="email-pill" id="nv-email-shown">—</span><br><br>
-      pero aún no has verificado tu correo.<br>
-      Revisa tu bandeja de entrada y haz clic en el enlace que te enviamos.
-      <span style="font-size:12px;color:var(--faint);display:block;margin-top:8px">
-        ¿No lo encuentras? Revisa <strong>spam</strong> o solicita un nuevo correo.
-      </span>
-    </div>
-    <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
-      <button class="auth-submit" id="resend2-btn" onclick="doResend('resend2-btn','resend2-ok')">
-        Reenviar correo de verificación
-      </button>
-      <div class="auth-ok" id="resend2-ok"></div>
-      <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:2px" onclick="showV('v-login')">
-        ← Volver al login
-      </button>
-    </div>
-  </div>
-
-  <!-- ⑤ OLVIDÉ MI CONTRASEÑA -->
-  <div class="auth-card hidden" id="v-forgot">
-    <div class="auth-logo">
-      <div class="logo-mark">OKR<span>Hub</span></div>
-    </div>
-    <div class="auth-title">Recuperar contraseña</div>
-    <div class="auth-subtitle">Te enviaremos un enlace para restablecer tu contraseña</div>
-    <div class="form-group">
-      <label class="form-label">Correo electrónico</label>
-      <input class="form-input" id="f-email" type="email" placeholder="tu@correo.com">
-    </div>
-    <button class="auth-submit" id="f-btn" onclick="doForgot()">Enviar enlace</button>
-    <div class="auth-err" id="f-err"></div>
-    <div class="auth-ok" id="f-ok"></div>
-    <div class="auth-switch-line"><a onclick="showV('v-login')">← Volver al login</a></div>
-  </div>
-
-</div>
-
-<!-- APP -->
-<div id="app-shell" class="hidden">
-  <div class="sidebar-overlay hidden" id="sb-overlay" onclick="closeSidebar()"></div>
-  <nav class="sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-mark">OKR<span>Hub</span></div>
-      <div class="logo-sub">I+D+I 2026</div>
-    </div>
-    <div class="sidebar-nav">
-      <div class="nav-label">Navegación</div>
-      <div class="nav-item active" onclick="goPage('dashboard')"><span class="nav-icon">📊</span> Dashboard</div>
-      <div class="nav-item" onclick="goPage('okrs')"><span class="nav-icon">🎯</span> Mis OKRs</div>
-      <div class="nav-item" onclick="goPage('caps')"><span class="nav-icon">📚</span> Capacitaciones</div>
-    </div>
-    <div class="sidebar-user">
-      <div class="user-row">
-        <div class="avatar" id="sb-av">?</div>
-        <div class="user-info">
-          <div class="user-name" id="sb-name">—</div>
-          <div class="user-role" id="sb-role">—</div>
-        </div>
-        <button class="logout-btn" onclick="doLogout()" title="Cerrar sesión">⏻</button>
-      </div>
-    </div>
-  </nav>
-  <div class="main-area">
-    <header class="topbar">
-      <button class="hamburger" onclick="openSidebar()">☰</button>
-      <div class="topbar-title" id="page-title">Dashboard</div>
-      <span id="sync-status" style="font-size:12px;color:var(--muted);display:flex;align-items:center"><span class="sync-dot" id="sync-dot"></span><span id="sync-txt">Sincronizado</span></span>
-      <button class="btn btn-ghost btn-sm" onclick="reqNotif()">🔔</button>
-      <button class="btn btn-primary btn-sm hidden" id="add-btn" onclick="openModal()">+ Agregar</button>
-    </header>
-    <main class="page-content" id="page-content"></main>
-  </div>
-</div>
-
-<!-- MODAL -->
-<div class="modal-bd" id="modal">
-  <div class="modal-box">
-    <div class="modal-head">
-      <div><div class="modal-title">Nuevo elemento</div><div class="modal-sub">OKR, Capacitación o Tarea</div></div>
-      <button class="modal-x" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="mfr">
-        <div class="mff"><label class="mfl">Tipo</label><select class="mfsel" id="m-type" onchange="onMType()"><option value="okr">OKR</option><option value="cap">Capacitación</option><option value="task">Tarea</option></select></div>
-        <div class="mff"><label class="mfl">Trimestre</label><select class="mfsel" id="m-q"><option value="Q1">Primer trimestre (Ene – Mar)</option><option value="Q2">Segundo trimestre (Abr – Jun)</option><option value="Q3">Tercer trimestre (Jul – Sep)</option><option value="Q4">Cuarto trimestre (Oct – Dic)</option><option value="Anual">Anual</option></select></div>
-      </div>
-      <div class="mfr full"><div class="mff"><label class="mfl">Título</label><input class="mfi" id="m-title" type="text" placeholder="Describe el objetivo"></div></div>
-      <div class="mfr">
-        <div class="mff"><label class="mfl">Objetivo padre (O#)</label><input class="mfi" id="m-parent" type="text" placeholder="ej: O1 (opcional)"></div>
-        <div class="mff"><label class="mfl">Dificultad</label><select class="mfsel" id="m-diff"><option>FÁCIL</option><option selected>MEDIO</option><option>DIFÍCIL</option></select></div>
-      </div>
-      <div class="mfr full"><div class="mff"><label class="mfl">Descripción / Pasos necesarios</label><textarea class="mfta" id="m-desc" placeholder="¿Qué necesitas hacer para lograrlo?"></textarea></div></div>
-      <div id="m-okr-fields">
-        <div class="mfr">
-          <div class="mff"><label class="mfl">Tipo de medición</label><select class="mfsel" id="m-measure" onchange="onMMeasure()"><option value="checklist">Checklist de pasos</option><option value="counter">Contador numérico</option><option value="single">Objetivo único (Sí / No)</option></select></div>
-          <div class="mff" id="m-target-wrap"><label class="mfl">Meta numérica</label><input class="mfi" id="m-target" type="number" value="1" min="1"></div>
-        </div>
-      </div>
-      <div class="mfr">
-        <div class="mff"><label class="mfl">Fecha límite</label><input class="mfi" id="m-deadline" type="date"></div>
-        <div class="mff hidden" id="m-hrs-wrap"><label class="mfl">Horas del curso</label><input class="mfi" id="m-hrs" type="number" value="2" min="1"></div>
-      </div>
-      <div class="modal-footer">
-        <button class="m-cancel" onclick="closeModal()">Cancelar</button>
-        <button class="m-create" onclick="confirmAdd()">Crear elemento</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- FIREBASE + APP SCRIPT -->
-<script type="module">
-import { initializeApp }                                from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-         sendEmailVerification, onAuthStateChanged, signOut, updateProfile }
-  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp }
-  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-
-// ── FIREBASE CONFIG ──────────────────────────────
-const firebaseConfig = {
+<div id="root"></div>
+ 
+<!-- FIREBASE COMPAT SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+ 
+<script>
+// ── ICON HELPER ──────────────────────────────────
+function ico(name, size=18) { return `<svg width="${size}" height="${size}"><use href="#i-${name}"/></svg>`; }
+ 
+// ── FIREBASE INIT ────────────────────────────────
+firebase.initializeApp({
   apiKey:            "AIzaSyCIbZXnXHFo7CcjxSu99nGoj1K71ikORH8",
   authDomain:        "okrmanager-e7ba8.firebaseapp.com",
   projectId:         "okrmanager-e7ba8",
   storageBucket:     "okrmanager-e7ba8.firebasestorage.app",
   messagingSenderId: "403662537222",
-  appId:             "1:403662537222:web:4a942c298a62b5e2fdf987",
-  measurementId:     "G-XJRVWTRB7D"
-};
-
-const fbApp  = initializeApp(firebaseConfig);
-const auth   = getAuth(fbApp);
-const db     = getFirestore(fbApp);
-
+  appId:             "1:403662537222:web:4a942c298a62b5e2fdf987"
+});
+const auth = firebase.auth();
+const db   = firebase.firestore();
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+ 
 // ── CONSTANTS ────────────────────────────────────
 const LUCAS_EMAIL = 'lucasyamilpereyram@gmail.com';
 const SITE_URL    = 'https://lucasyamil.github.io/OKRmanager';
-
-const Q_NAMES = {
-  Q1: { long:'Primer Trimestre',  range:'Enero – Marzo',       end:[3,31]  },
-  Q2: { long:'Segundo Trimestre', range:'Abril – Junio',        end:[6,30]  },
-  Q3: { long:'Tercer Trimestre',  range:'Julio – Septiembre',   end:[9,30]  },
-  Q4: { long:'Cuarto Trimestre',  range:'Octubre – Diciembre',  end:[12,31] },
+const Q_INFO = {
+  Q1:{ long:'Primer Trimestre',  range:'Enero – Marzo',       end:[2026,2,31]  },
+  Q2:{ long:'Segundo Trimestre', range:'Abril – Junio',        end:[2026,5,30]  },
+  Q3:{ long:'Tercer Trimestre',  range:'Julio – Septiembre',   end:[2026,8,30]  },
+  Q4:{ long:'Cuarto Trimestre',  range:'Octubre – Diciembre',  end:[2026,11,31] },
 };
-
-let CU_DOC  = null; // current user Firestore data {okrs,caps,name,role}
-let CU_USER = null; // Firebase user object
-let PAGE='dashboard', SEARCH='', FILTERS={q:[],diff:[],priority:[],from:'',to:''};
-let pendingRegUser = null; // holds user object after register before verification
-
-// ── HELPERS ──────────────────────────────────────
-function qDL(q) { const e=Q_NAMES[q]?.end; return e?new Date(2026,e[0]-1,e[1]):new Date(2026,11,31); }
-
+function qDL(q) { const e=Q_INFO[q]?.end; return e?new Date(e[0],e[1],e[2]):new Date(2026,11,31); }
+ 
+// ── STATE ────────────────────────────────────────
+let currentUser = null;
+let userData    = null; // {name,role,okrs:[],caps:[]}
+let authView    = 'login'; // login | register | verify | forgot | notverified
+let authState   = {};  // extra auth info (verifyEmail, etc)
+let pendingFbUser = null; // Firebase user object pending verification
+ 
+let currentPage  = 'dashboard';
+let sidebarOpen  = false;
+let searchStr    = '';
+let filterQ      = '';   // active Q filter chip
+let filterDiff   = '';
+let filterPri    = '';
+ 
+// ── RENDER ROOT ──────────────────────────────────
+function render() {
+  const root = document.getElementById('root');
+  if (!currentUser) {
+    root.innerHTML = renderAuthPage();
+    bindAuthEvents();
+  } else {
+    root.innerHTML = renderAppShell();
+    bindAppEvents();
+    renderPage();
+  }
+}
+ 
+// ═══════════════════════════════════════════════════
+// AUTH PAGES
+// ═══════════════════════════════════════════════════
+function setAuthView(view, extra={}) { authView=view; authState={...authState,...extra}; render(); }
+ 
+function renderAuthPage() {
+  switch(authView) {
+    case 'register':    return renderRegister();
+    case 'verify':      return renderVerifyEmail();
+    case 'forgot':      return renderForgotPassword();
+    case 'notverified': return renderNotVerified();
+    default:            return renderLogin();
+  }
+}
+ 
+function authBrand() {
+  return `<div class="auth-brand">
+    <div class="auth-brand-icon">🎯</div>
+    <div class="auth-brand-name">OKR<span>Hub</span></div>
+  </div>`;
+}
+ 
+function renderLogin() {
+  return `<div class="auth-page">
+    ${authBrand()}
+    <div class="auth-card">
+      <div class="card card-lg anim-in">
+        <div style="text-align:center;margin-bottom:22px">
+          <h2 style="font-size:22px;font-weight:700;letter-spacing:-.4px">Bienvenido de vuelta</h2>
+          <p style="font-size:14px;color:var(--gray-400);margin-top:4px">Inicia sesión para ver tus objetivos</p>
+        </div>
+        <div id="auth-alert" style="margin-bottom:0"></div>
+        <form id="login-form" style="display:flex;flex-direction:column;gap:14px;margin-top:14px">
+          <div class="field">
+            <label class="field-label">Correo electrónico</label>
+            <input class="input" type="email" id="l-email" placeholder="tu@correo.com" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label class="field-label">Contraseña</label>
+            <div class="input-icon-wrap">
+              <input class="input" type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password" required>
+              <button type="button" class="input-toggle-btn" onclick="togglePwd('l-pass',this)">${ico('eye',17)}</button>
+            </div>
+          </div>
+          <div style="text-align:right;margin-top:-4px">
+            <button type="button" class="btn-ghost btn-sm" onclick="setAuthView('forgot')" style="color:var(--gray-400);font-size:13px">
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="l-btn">
+            Iniciar sesión ${ico('arrow-right',16)}
+          </button>
+        </form>
+        <div class="divider-text" style="margin:20px 0"><span>o</span></div>
+        <button class="btn btn-secondary btn-full" onclick="setAuthView('register')">Crear una cuenta nueva</button>
+      </div>
+    </div>
+    <p class="auth-footer">I+D+I 2026 · Soventix Caribbean</p>
+  </div>`;
+}
+ 
+function renderRegister() {
+  return `<div class="auth-page">
+    ${authBrand()}
+    <div class="auth-card">
+      <div class="card card-lg anim-in">
+        <div style="text-align:center;margin-bottom:22px">
+          <h2 style="font-size:22px;font-weight:700;letter-spacing:-.4px">Crear cuenta</h2>
+          <p style="font-size:14px;color:var(--gray-400);margin-top:4px">Te enviaremos un correo de verificación</p>
+        </div>
+        <div id="auth-alert"></div>
+        <form id="register-form" style="display:flex;flex-direction:column;gap:13px;margin-top:12px">
+          <div class="field">
+            <label class="field-label">Nombre completo</label>
+            <input class="input" type="text" id="r-name" placeholder="Tu nombre" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label class="field-label">Correo electrónico</label>
+            <input class="input" type="email" id="r-email" placeholder="tu@correo.com" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label class="field-label">Contraseña</label>
+            <div class="input-icon-wrap">
+              <input class="input" type="password" id="r-pass" placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
+              <button type="button" class="input-toggle-btn" onclick="togglePwd('r-pass',this)">${ico('eye',17)}</button>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field-label">Confirmar contraseña</label>
+            <input class="input" type="password" id="r-confirm" placeholder="Repite tu contraseña" required autocomplete="new-password">
+          </div>
+          <div class="field">
+            <label class="field-label">Cargo / Rol</label>
+            <input class="input" type="text" id="r-role" placeholder="ej: Analista de Innovación" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="r-btn" style="margin-top:4px">
+            Crear cuenta ${ico('arrow-right',16)}
+          </button>
+        </form>
+        <div style="text-align:center;margin-top:16px">
+          <button class="btn-ghost btn-sm" onclick="setAuthView('login')" style="display:inline-flex;align-items:center;gap:6px;color:var(--gray-500)">
+            ${ico('arrow-left',14)} Ya tengo cuenta
+          </button>
+        </div>
+      </div>
+    </div>
+    <p class="auth-footer">I+D+I 2026 · Soventix Caribbean</p>
+  </div>`;
+}
+ 
+function renderVerifyEmail() {
+  const email = authState.verifyEmail || '';
+  return `<div class="auth-page">
+    ${authBrand()}
+    <div class="auth-card">
+      <div class="card card-lg anim-in">
+        <div style="text-align:center;margin-bottom:22px">
+          <div class="verify-icon-wrap">${ico('mail',26)}</div>
+          <h2 style="font-size:22px;font-weight:700;letter-spacing:-.4px">Revisa tu correo</h2>
+          <p style="font-size:14px;color:var(--gray-500);margin-top:8px;line-height:1.6">
+            Enviamos un enlace de verificación a<br>
+            <strong style="color:var(--gray-800)">${email}</strong>
+          </p>
+          <p style="font-size:13px;color:var(--gray-400);margin-top:10px">
+            Abre ese correo y haz clic en el botón de verificación.<br>
+            Luego vuelve aquí e inicia sesión.
+          </p>
+          <p style="font-size:12px;color:var(--gray-400);margin-top:6px">¿No lo encuentras? Revisa tu carpeta de <strong>spam</strong>.</p>
+        </div>
+        <div id="auth-alert"></div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:18px">
+          <button class="btn btn-primary btn-full" onclick="checkVerification()">
+            ${ico('check',16)} Ya verifiqué — Iniciar sesión
+          </button>
+          <button class="btn btn-secondary btn-full" id="resend-btn" onclick="doResend()">
+            ${ico('refresh',16)} Reenviar correo de verificación
+          </button>
+        </div>
+        <div style="text-align:center;margin-top:14px">
+          <button class="btn-ghost btn-sm" onclick="setAuthView('login')" style="display:inline-flex;align-items:center;gap:6px;color:var(--gray-500)">
+            ${ico('arrow-left',14)} Volver al login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+ 
+function renderNotVerified() {
+  const email = authState.verifyEmail || '';
+  return `<div class="auth-page">
+    ${authBrand()}
+    <div class="auth-card">
+      <div class="card card-lg anim-in">
+        <div style="text-align:center;margin-bottom:22px">
+          <div class="verify-icon-wrap" style="background:var(--amber-50)">${ico('alert',26)}</div>
+          <h2 style="font-size:22px;font-weight:700;letter-spacing:-.4px">Correo sin verificar</h2>
+          <p style="font-size:14px;color:var(--gray-500);margin-top:8px;line-height:1.6">
+            Tu cuenta con<br>
+            <strong style="color:var(--gray-800)">${email}</strong><br>
+            todavía no ha sido verificada.
+          </p>
+          <p style="font-size:13px;color:var(--gray-400);margin-top:10px">
+            Revisa tu bandeja de entrada y haz clic<br>en el enlace de verificación.
+          </p>
+          <p style="font-size:12px;color:var(--gray-400);margin-top:6px">¿No lo encuentras? Revisa <strong>spam</strong>.</p>
+        </div>
+        <div id="auth-alert"></div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:18px">
+          <button class="btn btn-primary btn-full" onclick="checkVerification()">
+            ${ico('check',16)} Ya verifiqué — Iniciar sesión
+          </button>
+          <button class="btn btn-secondary btn-full" id="resend-btn" onclick="doResend()">
+            ${ico('refresh',16)} Reenviar correo de verificación
+          </button>
+        </div>
+        <div style="text-align:center;margin-top:14px">
+          <button class="btn-ghost btn-sm" onclick="setAuthView('login')" style="display:inline-flex;align-items:center;gap:6px;color:var(--gray-500)">
+            ${ico('arrow-left',14)} Volver al login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+ 
+function renderForgotPassword() {
+  return `<div class="auth-page">
+    ${authBrand()}
+    <div class="auth-card">
+      <div class="card card-lg anim-in">
+        <div style="text-align:center;margin-bottom:22px">
+          <div class="verify-icon-wrap" style="background:var(--indigo-50)">${ico('key',26)}</div>
+          <h2 style="font-size:22px;font-weight:700;letter-spacing:-.4px">Recuperar contraseña</h2>
+          <p style="font-size:14px;color:var(--gray-400);margin-top:4px">Te enviaremos un enlace para restablecerla</p>
+        </div>
+        <div id="auth-alert"></div>
+        <form id="forgot-form" style="display:flex;flex-direction:column;gap:14px;margin-top:12px">
+          <div class="field">
+            <label class="field-label">Correo electrónico</label>
+            <input class="input" type="email" id="f-email" placeholder="tu@correo.com" required autocomplete="email">
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="f-btn">
+            Enviar enlace ${ico('arrow-right',16)}
+          </button>
+        </form>
+        <div style="text-align:center;margin-top:16px">
+          <button class="btn-ghost btn-sm" onclick="setAuthView('login')" style="display:inline-flex;align-items:center;gap:6px;color:var(--gray-500)">
+            ${ico('arrow-left',14)} Volver al login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+ 
+// ── AUTH EVENT BINDING ───────────────────────────
+function bindAuthEvents() {
+  const lf = document.getElementById('login-form');
+  const rf = document.getElementById('register-form');
+  const ff = document.getElementById('forgot-form');
+  if (lf) lf.addEventListener('submit', handleLogin);
+  if (rf) rf.addEventListener('submit', handleRegister);
+  if (ff) ff.addEventListener('submit', handleForgotPwd);
+}
+ 
+function showAuthAlert(msg, type='error') {
+  const el = document.getElementById('auth-alert');
+  if (!el) return;
+  const icos = {error:'alert',success:'check',warning:'alert',info:'alert'};
+  el.innerHTML = `<div class="alert alert-${type}" style="margin-bottom:14px">${ico(icos[type]||'alert',16)}<span>${msg}</span></div>`;
+}
+ 
+function clearAuthAlert() {
+  const el = document.getElementById('auth-alert');
+  if (el) el.innerHTML = '';
+}
+ 
+function setLoading(id, on) {
+  const b = document.getElementById(id);
+  if (!b) return;
+  if (on) { b.disabled=true; b._orig=b.innerHTML; b.innerHTML=`<span class="spinner spinner-w"></span> Procesando…`; }
+  else { b.disabled=false; if(b._orig) b.innerHTML=b._orig; }
+}
+ 
+function togglePwd(id, btn) {
+  const inp = document.getElementById(id);
+  if (!inp) return;
+  const show = inp.type==='password';
+  inp.type = show ? 'text' : 'password';
+  btn.innerHTML = ico(show?'eye-off':'eye', 17);
+}
+ 
+// ── AUTH HANDLERS ────────────────────────────────
+async function handleLogin(e) {
+  e.preventDefault();
+  clearAuthAlert();
+  const email = document.getElementById('l-email').value.trim().toLowerCase();
+  const pass  = document.getElementById('l-pass').value;
+  setLoading('l-btn', true);
+  try {
+    const cred = await auth.signInWithEmailAndPassword(email, pass);
+    if (!cred.user.emailVerified) {
+      // Sign out and show not-verified screen
+      pendingFbUser = cred.user;
+      await auth.signOut();
+      setAuthView('notverified', { verifyEmail: email });
+      return;
+    }
+    // ✅ onAuthStateChanged handles entry to app
+  } catch(err) {
+    setLoading('l-btn', false);
+    const MAP = {
+      'auth/invalid-credential':     'Correo o contraseña incorrectos.',
+      'auth/user-not-found':         'No existe una cuenta con ese correo.',
+      'auth/wrong-password':         'Contraseña incorrecta.',
+      'auth/too-many-requests':      'Demasiados intentos. Espera unos minutos.',
+      'auth/invalid-email':          'El formato del correo no es válido.',
+      'auth/network-request-failed': 'Error de conexión. Verifica tu internet.',
+    };
+    showAuthAlert(MAP[err.code] || `Error (${err.code})`);
+  }
+}
+ 
+async function handleRegister(e) {
+  e.preventDefault();
+  clearAuthAlert();
+  const name    = document.getElementById('r-name').value.trim();
+  const email   = document.getElementById('r-email').value.trim().toLowerCase();
+  const pass    = document.getElementById('r-pass').value;
+  const confirm = document.getElementById('r-confirm').value;
+  const role    = document.getElementById('r-role').value.trim();
+  if (pass !== confirm) { showAuthAlert('Las contraseñas no coinciden.'); return; }
+  if (pass.length < 6)  { showAuthAlert('La contraseña debe tener al menos 6 caracteres.'); return; }
+  setLoading('r-btn', true);
+  try {
+    // 1. Create Firebase Auth user
+    const cred = await auth.createUserWithEmailAndPassword(email, pass);
+    await cred.user.updateProfile({ displayName: name });
+ 
+    // 2. Send verification email
+    await cred.user.sendEmailVerification({ url: SITE_URL });
+ 
+    // 3. Save to Firestore (non-blocking)
+    try {
+      const isLucas = email === LUCAS_EMAIL;
+      await db.collection('users').doc(cred.user.uid).set({
+        name, role, email,
+        okrs: isLucas ? lucasOKRs() : [],
+        caps: isLucas ? lucasCaps() : [],
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    } catch(fsErr) {
+      // Store locally for recovery on first verified login
+      sessionStorage.setItem('pending_'+cred.user.uid, JSON.stringify({name,role,email}));
+      console.warn('Firestore save deferred:', fsErr.code);
+    }
+ 
+    // 4. Keep user reference, sign out, show verify screen
+    pendingFbUser = cred.user;
+    await auth.signOut();
+    setAuthView('verify', { verifyEmail: email });
+ 
+  } catch(err) {
+    setLoading('r-btn', false);
+    const MAP = {
+      'auth/email-already-in-use': 'Este correo ya está registrado.',
+      'auth/weak-password':        'La contraseña es muy débil.',
+      'auth/invalid-email':        'Correo electrónico inválido.',
+    };
+    showAuthAlert(MAP[err.code] || `Error al crear cuenta (${err.code})`);
+  }
+}
+ 
+async function doResend() {
+  setLoading('resend-btn', true);
+  clearAuthAlert();
+  try {
+    const user = pendingFbUser || auth.currentUser;
+    if (user) {
+      await user.sendEmailVerification({ url: SITE_URL });
+      showAuthAlert('✓ Correo reenviado. Revisa también spam.', 'success');
+    } else {
+      showAuthAlert('Por favor vuelve al login e intenta iniciar sesión.', 'warning');
+    }
+  } catch(err) {
+    if (err.code === 'auth/too-many-requests') showAuthAlert('Espera unos minutos antes de reenviar.', 'warning');
+    else showAuthAlert('Error al reenviar. Intenta de nuevo.', 'error');
+  }
+  setLoading('resend-btn', false);
+}
+ 
+async function checkVerification() {
+  clearAuthAlert();
+  try {
+    // Try to reload the pending user
+    if (pendingFbUser) {
+      await pendingFbUser.reload();
+      if (pendingFbUser.emailVerified) {
+        // Re-sign in to trigger onAuthStateChanged
+        showAuthAlert('¡Verificado! Inicia sesión con tu correo y contraseña.', 'success');
+        setTimeout(() => setAuthView('login', { verifyEmail: authState.verifyEmail }), 1500);
+        return;
+      }
+    }
+    showAuthAlert('Tu correo aún no está verificado. Revisa tu bandeja.', 'warning');
+  } catch(err) {
+    showAuthAlert('Error verificando. Intenta iniciar sesión directamente.', 'warning');
+  }
+}
+ 
+async function handleForgotPwd(e) {
+  e.preventDefault();
+  clearAuthAlert();
+  const email = document.getElementById('f-email').value.trim().toLowerCase();
+  setLoading('f-btn', true);
+  try {
+    await auth.sendPasswordResetEmail(email, { url: SITE_URL });
+    showAuthAlert('Si el correo existe, recibirás un enlace para restablecer tu contraseña.', 'success');
+  } catch(err) {
+    // Always show success for security (avoid email enumeration)
+    showAuthAlert('Si el correo existe, recibirás un enlace para restablecer tu contraseña.', 'success');
+  }
+  setLoading('f-btn', false);
+}
+ 
+// ── AUTH STATE LISTENER ──────────────────────────
+auth.onAuthStateChanged(async (user) => {
+  if (user && user.emailVerified) {
+    // Load Firestore data
+    let data = null;
+    try {
+      const snap = await db.collection('users').doc(user.uid).get();
+      if (snap.exists) {
+        data = snap.data();
+      } else {
+        // Recover from sessionStorage or create fresh
+        const cached = sessionStorage.getItem('pending_'+user.uid);
+        let name = user.displayName || user.email;
+        let role = 'Usuario';
+        if (cached) { try { const c=JSON.parse(cached); name=c.name||name; role=c.role||role; } catch(e){} sessionStorage.removeItem('pending_'+user.uid); }
+        const isLucas = user.email===LUCAS_EMAIL;
+        data = { name, role, okrs: isLucas?lucasOKRs():[], caps: isLucas?lucasCaps():[] };
+        await db.collection('users').doc(user.uid).set({ ...data, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      }
+    } catch(e) {
+      data = { name: user.displayName||user.email, role:'Usuario', okrs:[], caps:[] };
+    }
+    currentUser = user;
+    userData = data;
+    if (!userData.okrs) userData.okrs = [];
+    if (!userData.caps) userData.caps = [];
+    checkOverdue();
+    render();
+    scheduleAlerts();
+  } else if (user && !user.emailVerified) {
+    pendingFbUser = user;
+    await auth.signOut();
+    setAuthView('notverified', { verifyEmail: user.email });
+  } else {
+    currentUser = null;
+    userData = null;
+    authView = 'login';
+    render();
+  }
+});
+ 
+// ── LOGOUT ───────────────────────────────────────
+async function doLogout() {
+  await auth.signOut();
+  currentUser = null; userData = null;
+  authView = 'login'; render();
+}
+ 
+// ═══════════════════════════════════════════════════
+// APP SHELL
+// ═══════════════════════════════════════════════════
+function renderAppShell() {
+  const u = userData || {};
+  const name = u.name || currentUser?.displayName || currentUser?.email || '?';
+  const role = u.role || '—';
+  const av = name.charAt(0).toUpperCase();
+  const navItems = [
+    { id:'dashboard', icon:'chart',  label:'Dashboard' },
+    { id:'okrs',      icon:'target', label:'Mis OKRs' },
+    { id:'caps',      icon:'book',   label:'Capacitaciones' },
+  ];
+  return `
+  <div class="app-shell">
+    <div class="sidebar-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-icon">🎯</div>
+        <div class="sidebar-brand-name">OKR<span>Hub</span></div>
+        <span class="sidebar-brand-year">2026</span>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-label">Navegación</div>
+        ${navItems.map(n => `
+          <div class="nav-item${currentPage===n.id?' active':''}" onclick="navigate('${n.id}')">
+            <span class="nav-icon">${ico(n.icon,18)}</span>
+            <span class="nav-label">${n.label}</span>
+          </div>`).join('')}
+      </div>
+      <div class="sidebar-user">
+        <div class="sidebar-user-card">
+          <div class="sidebar-avatar">${av}</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">${name}</div>
+            <div class="sidebar-user-role">${role}</div>
+          </div>
+          <button class="btn-icon" onclick="doLogout()" title="Cerrar sesión" style="margin-left:auto">${ico('logout',16)}</button>
+        </div>
+      </div>
+    </nav>
+    <div class="main-area">
+      <header class="topbar">
+        <button class="topbar-menu-btn btn-icon" onclick="openSidebar()">${ico('menu',22)}</button>
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div class="sync-wrap" id="sync-wrap">
+          <div class="sync-dot" id="sync-dot"></div>
+          <span id="sync-txt" style="font-size:11px">Sincronizado</span>
+        </div>
+        <button class="btn-icon" onclick="reqNotif()" title="Activar notificaciones">${ico('bell',18)}</button>
+        <button class="btn btn-primary btn-sm hidden" id="add-btn" onclick="openAddModal()">
+          ${ico('plus',15)} Agregar
+        </button>
+      </header>
+      <main class="page-content" id="page-content"></main>
+    </div>
+  </div>
+ 
+  <!-- ADD MODAL -->
+  <div id="add-modal" style="display:none">
+    <div class="modal-overlay" onclick="if(event.target===this)closeAddModal()">
+      <div class="modal">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+          <div>
+            <h2 style="font-size:19px;font-weight:700;letter-spacing:-.3px">Nuevo elemento</h2>
+            <p style="font-size:13px;color:var(--gray-400);margin-top:3px">OKR, Capacitación o Tarea</p>
+          </div>
+          <button class="btn-icon" onclick="closeAddModal()">${ico('x',18)}</button>
+        </div>
+        <form id="add-form" style="display:flex;flex-direction:column;gap:13px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="field"><label class="field-label">Tipo</label>
+              <select class="select" id="m-type" onchange="onMType()">
+                <option value="okr">OKR</option>
+                <option value="cap">Capacitación</option>
+                <option value="task">Tarea</option>
+              </select>
+            </div>
+            <div class="field"><label class="field-label">Trimestre</label>
+              <select class="select" id="m-q">
+                <option value="Q1">Primer trimestre (Ene – Mar)</option>
+                <option value="Q2">Segundo trimestre (Abr – Jun)</option>
+                <option value="Q3">Tercer trimestre (Jul – Sep)</option>
+                <option value="Q4">Cuarto trimestre (Oct – Dic)</option>
+                <option value="Anual">Anual</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label class="field-label">Título</label>
+            <input class="input" id="m-title" type="text" placeholder="Describe el objetivo" required>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="field"><label class="field-label">Objetivo padre (O#)</label>
+              <input class="input" id="m-parent" type="text" placeholder="ej: O1 (opcional)">
+            </div>
+            <div class="field"><label class="field-label">Dificultad</label>
+              <select class="select" id="m-diff">
+                <option>FÁCIL</option><option selected>MEDIO</option><option>DIFÍCIL</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label class="field-label">Descripción / ¿Qué necesitas hacer?</label>
+            <textarea class="textarea" id="m-desc" placeholder="Pasos concretos para lograrlo…"></textarea>
+          </div>
+          <div id="m-okr-extra">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="field"><label class="field-label">Tipo de medición</label>
+                <select class="select" id="m-measure" onchange="onMMeasure()">
+                  <option value="checklist">Checklist de pasos</option>
+                  <option value="counter">Contador numérico</option>
+                  <option value="single">Objetivo único (Sí/No)</option>
+                </select>
+              </div>
+              <div class="field" id="m-target-wrap"><label class="field-label">Meta numérica</label>
+                <input class="input" id="m-target" type="number" value="1" min="1">
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="field"><label class="field-label">Fecha límite</label>
+              <input class="input" id="m-deadline" type="date">
+            </div>
+            <div class="field hidden" id="m-hrs-wrap"><label class="field-label">Horas del curso</label>
+              <input class="input" id="m-hrs" type="number" value="2" min="1">
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:8px;border-top:1px solid var(--gray-100);margin-top:4px">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="closeAddModal()">Cancelar</button>
+            <button type="submit" class="btn btn-primary btn-sm">Crear elemento</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>`;
+}
+ 
+function bindAppEvents() {
+  const af = document.getElementById('add-form');
+  if (af) af.addEventListener('submit', handleAddItem);
+}
+ 
+function openSidebar()  { sidebarOpen=true;  document.getElementById('sidebar')?.classList.add('open');    document.getElementById('sb-overlay')?.classList.add('open'); }
+function closeSidebar() { sidebarOpen=false; document.getElementById('sidebar')?.classList.remove('open'); document.getElementById('sb-overlay')?.classList.remove('open'); }
+ 
+function navigate(page) {
+  currentPage = page;
+  closeSidebar();
+  document.getElementById('topbar-title').textContent = {dashboard:'Dashboard',okrs:'Mis OKRs',caps:'Capacitaciones'}[page] || page;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page===page || n.getAttribute('onclick')?.includes(`'${page}'`)));
+  const addBtn = document.getElementById('add-btn');
+  if (page==='dashboard') { addBtn?.classList.add('hidden'); }
+  else { addBtn?.classList.remove('hidden'); addBtn.innerHTML=`${ico('plus',15)} ${page==='okrs'?'OKR':'Capacitación'}`; }
+  renderPage();
+}
+ 
+function renderPage() {
+  const el = document.getElementById('page-content');
+  if (!el) return;
+  if (currentPage==='dashboard') el.innerHTML = renderDashboard();
+  else if (currentPage==='okrs') el.innerHTML = renderOKRs();
+  else if (currentPage==='caps') el.innerHTML = renderCaps();
+}
+ 
+// ═══════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════
 function calcProg(item) {
   if (item.type==='cap') return item.done?100:0;
   if (item.measure==='counter') return item.target>0?Math.min(100,Math.round((item.current||0)/item.target*100)):0;
@@ -594,7 +1100,8 @@ function calcProg(item) {
 function calcPri(item) {
   if (item.overdue) return 'alta';
   const now=new Date(), dl=item.deadline?new Date(item.deadline):qDL(item.q);
-  const days=Math.ceil((dl-now)/86400000), ds=item.diff==='DIFÍCIL'?3:item.diff==='MEDIO'?2:1;
+  const days=Math.ceil((dl-now)/86400000);
+  const ds=item.diff==='DIFÍCIL'?3:item.diff==='MEDIO'?2:1;
   if (days<0||(days<30&&ds>=2)||days<14) return 'alta';
   if (days<90||ds===3) return 'media';
   return 'baja';
@@ -604,557 +1111,501 @@ function sortItems(arr) {
   return [...arr].sort((a,b)=>{
     const pa=po[calcPri(a)],pb=po[calcPri(b)];
     if (pa!==pb) return pa-pb;
-    return (a.deadline?new Date(a.deadline):qDL(a.q))-(b.deadline?new Date(b.deadline):qDL(b.q));
+    const da=a.deadline?new Date(a.deadline):qDL(a.q), db=b.deadline?new Date(b.deadline):qDL(b.q);
+    return da-db;
   });
 }
 function checkOverdue() {
-  if (!CU_DOC) return;
+  if (!userData) return;
   const now=new Date(); let ch=false;
-  [...(CU_DOC.okrs||[]),...(CU_DOC.caps||[])].forEach(i=>{
+  [...(userData.okrs||[]),...(userData.caps||[])].forEach(i=>{
     if (!i.deadline) return;
     const was=i.overdue; i.overdue=new Date(i.deadline)<now&&calcProg(i)<100;
-    if (i.overdue!==was) ch=true;
+    if(i.overdue!==was) ch=true;
   });
   if (ch) saveData();
 }
-
-// ── SYNC / SAVE ───────────────────────────────────
-function setSyncing(b) {
-  const dot=document.getElementById('sync-dot'), txt=document.getElementById('sync-txt');
-  if (!dot||!txt) return;
-  dot.className='sync-dot'+(b?' syncing':'');
-  txt.textContent=b?'Guardando…':'Sincronizado';
-}
+ 
+// ── SAVE ─────────────────────────────────────────
 async function saveData() {
-  if (!CU_USER||!CU_DOC) return;
+  if (!currentUser||!userData) return;
   setSyncing(true);
   try {
-    await setDoc(doc(db,'users',CU_USER.uid), {
-      name: CU_DOC.name, role: CU_DOC.role,
-      okrs: CU_DOC.okrs||[], caps: CU_DOC.caps||[],
-      updatedAt: serverTimestamp()
+    await db.collection('users').doc(currentUser.uid).update({
+      okrs: userData.okrs||[],
+      caps: userData.caps||[],
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
-  } catch(e) { notif('error','Error al guardar','Revisa tu conexión.'); }
-  finally { setTimeout(()=>setSyncing(false), 400); }
+  } catch(e) {
+    // If update fails (doc may not exist), try set
+    try { await db.collection('users').doc(currentUser.uid).set({...userData, updatedAt: firebase.firestore.FieldValue.serverTimestamp()}); }
+    catch(e2) { setSyncing(false,'err'); notif('error','Error al guardar','Revisa tu conexión.'); return; }
+  }
+  setTimeout(()=>setSyncing(false), 400);
 }
-async function loadData(uid) {
-  const snap = await getDoc(doc(db,'users',uid));
-  return snap.exists() ? snap.data() : null;
+function setSyncing(on, state='') {
+  const dot=document.getElementById('sync-dot'), txt=document.getElementById('sync-txt');
+  if (!dot||!txt) return;
+  dot.className='sync-dot'+(on?' syncing':state==='err'?' err':'');
+  txt.textContent=on?'Guardando…':state==='err'?'Error al guardar':'Sincronizado';
 }
-
-// ── NOTIFICATIONS ─────────────────────────────────
-window.notif = function(type, title, msg, dur=4500) {
-  const ICO={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
+ 
+// ── NOTIFICATIONS ────────────────────────────────
+function notif(type, title, msg, dur=4500) {
+  const ICO={success:'check',error:'alert',warning:'alert',info:'bell'};
+  const COL={success:'var(--green-500)',error:'var(--red-500)',warning:'var(--amber-500)',info:'var(--indigo-600)'};
   const el=document.createElement('div');
   el.className=`notif ${type}`;
-  el.innerHTML=`<span class="notif-ico">${ICO[type]||'ℹ️'}</span>
-    <div class="notif-body"><div class="notif-title">${title}</div>${msg?`<div class="notif-msg">${msg}</div>`:''}</div>
-    <button class="notif-x" onclick="this.parentElement.remove()">✕</button>`;
+  el.innerHTML=`<span style="color:${COL[type]};flex-shrink:0">${ico(ICO[type],17)}</span>
+    <div style="flex:1"><div class="notif-title">${title}</div>${msg?`<div class="notif-msg">${msg}</div>`:''}</div>
+    <button class="btn-icon" onclick="this.parentElement.remove()" style="align-self:flex-start;padding:2px 5px">${ico('x',13)}</button>`;
   document.getElementById('notif-stack').appendChild(el);
   setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300);},dur);
-};
-window.reqNotif = function() {
-  if (!('Notification'in window)){notif('info','No soportado','Tu navegador no soporta notificaciones.');return;}
+}
+function reqNotif() {
+  if(!('Notification'in window)){notif('info','No soportado','Tu navegador no soporta notificaciones.');return;}
   Notification.requestPermission().then(p=>{
-    if(p==='granted')notif('success','Notificaciones activadas','');
-    else notif('warning','Sin permiso','Actívalas en la configuración del navegador.');
+    if(p==='granted')notif('success','Notificaciones activadas','Recibirás alertas de OKRs próximos.');
+    else notif('warning','Sin permiso','Actívalas en configuración del navegador.');
   });
-};
+}
 function scheduleAlerts() {
-  if (!CU_DOC) return;
+  if (!userData) return;
   const now=new Date(); let ov=0,urg=0;
-  [...(CU_DOC.okrs||[]),...(CU_DOC.caps||[])].forEach(i=>{
+  [...(userData.okrs||[]),...(userData.caps||[])].forEach(i=>{
     if(i.overdue)ov++;
     else{const dl=i.deadline?new Date(i.deadline):qDL(i.q);if((dl-now)/86400000<14)urg++;}
   });
   setTimeout(()=>{
-    if(ov>0) notif('error',`${ov} elemento${ov>1?'s':''} vencido${ov>1?'s':''}`, 'Requieren tu atención.',7000);
-    else if(urg>0) notif('warning',`${urg} elemento${urg>1?'s':''} urgente${urg>1?'s':''}`, 'Menos de 14 días.',6000);
-    else notif('success','Todo al día','No tienes elementos vencidos.',4000);
+    if(ov>0)notif('error',`${ov} elemento${ov>1?'s':''} vencido${ov>1?'s':''}`, 'Requieren tu atención.',7000);
+    else if(urg>0)notif('warning',`${urg} urgente${urg>1?'s':''}`, 'Menos de 14 días para su fecha límite.',5500);
+    else notif('success','¡Todo al día!','No tienes elementos vencidos.',4000);
   },1200);
 }
-
-// ── AUTH VIEWS ────────────────────────────────────
-window.showV = function(id) {
-  ['v-login','v-register','v-pending','v-notverified'].forEach(v=>{
-    document.getElementById(v).classList.toggle('hidden', v!==id);
-  });
-};
-
-// ── AUTH ACTIONS ──────────────────────────────────
-window.doLogin = async function() {
-  const email=document.getElementById('l-email').value.trim().toLowerCase();
-  const pass=document.getElementById('l-pass').value;
-  const err=document.getElementById('l-err');
-  const btn=document.getElementById('l-btn');
-  err.classList.remove('show'); err.textContent='';
-  if (!email||!pass){showErr('l-err','Completa todos los campos.');return;}
-  btn.disabled=true; btn.textContent='Iniciando…';
-  try {
-    const cred = await signInWithEmailAndPassword(auth, email, pass);
-    if (!cred.user.emailVerified) {
-      pendingRegUser = cred.user;
-      sessionStorage.setItem('pendingVerifyEmail', email);
-      document.getElementById('v-email-shown').textContent = email;
-      document.getElementById('nv-email-shown').textContent = email;
-      // Sign out again — user must verify first
-      await signOut(auth);
-      // Show the not-verified warning with resend option
-      showV('v-notverified');
-      btn.disabled=false; btn.textContent='Iniciar sesión';
-      return;
-    }
-    // onAuthStateChanged will handle the rest
-  } catch(e) {
-    console.error('Login error:', e.code, e.message);
-    btn.disabled=false; btn.textContent='Iniciar sesión';
-    showErr('l-err', firebaseErrMsg(e.code));
-  }
-};
-
-window.doRegister = async function() {
-  const name=document.getElementById('r-name').value.trim();
-  const email=document.getElementById('r-email').value.trim().toLowerCase();
-  const pass=document.getElementById('r-pass').value;
-  const role=document.getElementById('r-role').value.trim();
-  const err=document.getElementById('r-err');
-  const btn=document.getElementById('r-btn');
-  err.classList.remove('show'); err.textContent='';
-  if (!name||!email||!pass||!role){showErr('r-err','Completa todos los campos.');return;}
-  if (pass.length<6){showErr('r-err','Contraseña mínimo 6 caracteres.');return;}
-  btn.disabled=true; btn.textContent='Creando cuenta…';
-  try {
-    // Step 1: Create auth user
-    const cred = await createUserWithEmailAndPassword(auth, email, pass);
-    await updateProfile(cred.user, { displayName: name });
-
-    // Step 2: Send verification email FIRST (most important step)
-    await sendEmailVerification(cred.user, { url: SITE_URL });
-
-    // Step 3: Try to save to Firestore (non-blocking — if it fails we still show pending screen)
-    try {
-      const isLucas = email===LUCAS_EMAIL;
-      const userData = { name, role, okrs: isLucas?lucasOKRs():[],caps: isLucas?lucasCaps():[], updatedAt: serverTimestamp() };
-      await setDoc(doc(db,'users',cred.user.uid), userData);
-    } catch(fsErr) {
-      console.warn('Firestore save failed (will retry on first login):', fsErr.message);
-      // Store data locally so we can save it on first verified login
-      sessionStorage.setItem('pendingUserData_'+cred.user.uid, JSON.stringify({ name, role, email }));
-    }
-
-    // Step 4: Store reference and show pending screen
-    pendingRegUser = cred.user;
-    sessionStorage.setItem('pendingVerifyEmail', email);
-    document.getElementById('v-email-shown').textContent = email;
-    await signOut(auth); // sign out until verified
-    showV('v-pending');
-
-  } catch(e) {
-    console.error('Register error:', e.code, e.message);
-    showErr('r-err', firebaseErrMsg(e.code));
-  } finally {
-    btn.disabled = false; btn.textContent = 'Crear cuenta';
-  }
-};
-
-// ── RESEND (unified) ─────────────────────────────
-window.doResend = async function(btnId, okId) {
-  const btn = document.getElementById(btnId);
-  const ok  = document.getElementById(okId);
-  if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
-  try {
-    if (pendingRegUser) {
-      await sendEmailVerification(pendingRegUser, { url: SITE_URL });
-      if (ok) { ok.textContent = '✓ Correo reenviado. Revisa también spam.'; ok.classList.add('show'); }
-      setTimeout(() => ok && ok.classList.remove('show'), 7000);
-    } else {
-      notif('info', 'Vuelve al login', 'La sesión expiró. Intenta iniciar sesión de nuevo.');
-      showV('v-login');
-    }
-  } catch(e) {
-    console.error('Resend error:', e.code);
-    if (e.code === 'auth/too-many-requests') {
-      notif('warning', 'Espera un momento', 'Firebase limita el reenvío. Intenta en unos minutos.');
-    } else {
-      notif('error', 'Error al reenviar', e.message || 'Intenta de nuevo.');
-    }
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Reenviar correo de verificación'; }
-  }
-};
-
-// ── FORGOT PASSWORD ───────────────────────────────
-window.doForgot = async function() {
-  const email = document.getElementById('f-email').value.trim().toLowerCase();
-  const btn   = document.getElementById('f-btn');
-  const errEl = document.getElementById('f-err');
-  const ok    = document.getElementById('f-ok');
-  errEl.textContent = ''; errEl.classList.remove('show');
-  ok.classList.remove('show');
-  if (!email) { errEl.textContent = 'Ingresa tu correo electrónico.'; errEl.classList.add('show'); return; }
-  btn.disabled = true; btn.textContent = 'Enviando…';
-  try {
-    const { sendPasswordResetEmail } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
-    await sendPasswordResetEmail(auth, email, { url: SITE_URL });
-    ok.textContent = '✓ Correo enviado. Revisa tu bandeja (y spam).';
-    ok.classList.add('show');
-    btn.textContent = '✓ Enviado';
-  } catch(e) {
-    console.error('Forgot error:', e.code);
-    btn.disabled = false; btn.textContent = 'Enviar enlace';
-    const FM = {
-      'auth/user-not-found': 'No existe una cuenta con ese correo.',
-      'auth/invalid-email':  'El formato del correo no es válido.',
-    };
-    errEl.textContent = FM[e.code] || firebaseErrMsg(e.code);
-    errEl.classList.add('show');
-  }
-};
-
-// ── AUTH STATE LISTENER ───────────────────────────
-onAuthStateChanged(auth, async user => {
-  document.getElementById('loading').classList.add('hidden');
-
-  if (user && user.emailVerified) {
-    // ✅ Logged in AND verified → load data and open app
-    CU_USER = user;
-    let data = await loadData(user.uid);
-    if (!data) {
-      // Firestore data missing — recover from sessionStorage if we saved it during register
-      const isLucas = user.email === LUCAS_EMAIL;
-      const cached  = sessionStorage.getItem('pending_' + user.uid);
-      let name = user.displayName || user.email;
-      let role = 'Usuario';
-      if (cached) {
-        try { const c = JSON.parse(cached); name = c.name || name; role = c.role || role; } catch(e) {}
-        sessionStorage.removeItem('pending_' + user.uid);
-      }
-      data = { name, role, okrs: isLucas ? lucasOKRs() : [], caps: isLucas ? lucasCaps() : [] };
-      try {
-        await setDoc(doc(db, 'users', user.uid), { ...data, updatedAt: serverTimestamp() });
-      } catch(e) { console.warn('Firestore write on first login failed:', e.code); }
-    }
-    CU_DOC = data;
-    document.getElementById('auth-screen').classList.add('hidden');
-    document.getElementById('app-shell').classList.remove('hidden');
-    document.getElementById('sb-name').textContent = CU_DOC.name || user.displayName || user.email;
-    document.getElementById('sb-role').textContent = CU_DOC.role || '—';
-    document.getElementById('sb-av').textContent   = (CU_DOC.name || user.displayName || '?').charAt(0).toUpperCase();
-    checkOverdue();
-    goPage('dashboard');
-    scheduleAlerts();
-
-  } else if (user && !user.emailVerified) {
-    // ⚠️  Logged in but NOT verified — sign them out and show warning
-    pendingRegUser = user;
-    document.getElementById('nv-email-shown').textContent = user.email;
-    await signOut(auth);
-    document.getElementById('auth-screen').classList.remove('hidden');
-    showV('v-notverified');
-
-  } else {
-    // Not logged in → show login
-    document.getElementById('auth-screen').classList.remove('hidden');
-    showV('v-login');
-  }
-});
-
-// ── SIDEBAR / PAGE ────────────────────────────────
-window.openSidebar  = ()=>{ document.getElementById('sidebar').classList.add('open'); document.getElementById('sb-overlay').classList.remove('hidden'); };
-window.closeSidebar = ()=>{ document.getElementById('sidebar').classList.remove('open'); document.getElementById('sb-overlay').classList.add('hidden'); };
-
-window.goPage = function(p) {
-  PAGE=p; closeSidebar();
-  document.getElementById('page-title').textContent={dashboard:'Dashboard',okrs:'Mis OKRs',caps:'Capacitaciones'}[p];
-  document.querySelectorAll('.nav-item').forEach((n,i)=>n.classList.toggle('active',['dashboard','okrs','caps'][i]===p));
-  const ab=document.getElementById('add-btn');
-  if(p==='dashboard'){ab.classList.add('hidden');}else{ab.classList.remove('hidden');ab.textContent=p==='okrs'?'+ OKR':'+ Capacitación';}
-  if(p==='dashboard')renderDashboard();
-  else if(p==='okrs')renderOKRs();
-  else renderCaps();
-};
-
-// ── FILTERS ───────────────────────────────────────
-function applyF(items) {
-  if(SEARCH){const s=SEARCH.toLowerCase();items=items.filter(i=>i.title.toLowerCase().includes(s)||(i.parent||'').toLowerCase().includes(s)||(i.desc||'').toLowerCase().includes(s));}
-  if(FILTERS.q.length)items=items.filter(i=>FILTERS.q.includes(i.q));
-  if(FILTERS.diff.length)items=items.filter(i=>FILTERS.diff.includes(i.diff));
-  if(FILTERS.priority.length)items=items.filter(i=>FILTERS.priority.includes(calcPri(i)));
-  if(FILTERS.from)items=items.filter(i=>(i.deadline||qDL(i.q).toISOString().split('T')[0])>=FILTERS.from);
-  if(FILTERS.to)items=items.filter(i=>(i.deadline||qDL(i.q).toISOString().split('T')[0])<=FILTERS.to);
+ 
+// ═══════════════════════════════════════════════════
+// FILTERS — CHIP SYSTEM (like v1.html)
+// ═══════════════════════════════════════════════════
+function applyFilters(items) {
+  if (searchStr) { const s=searchStr.toLowerCase(); items=items.filter(i=>i.title.toLowerCase().includes(s)||(i.parent||'').toLowerCase().includes(s)||(i.desc||'').toLowerCase().includes(s)); }
+  if (filterQ)    items=items.filter(i=>i.q===filterQ);
+  if (filterDiff) items=items.filter(i=>i.diff===filterDiff);
+  if (filterPri)  items=items.filter(i=>calcPri(i)===filterPri);
   return items;
 }
-window.clearFilters=()=>{FILTERS={q:[],diff:[],priority:[],from:'',to:''};rf();};
-window.tgF=(k,v,c)=>{if(c&&!FILTERS[k].includes(v))FILTERS[k].push(v);else FILTERS[k]=FILTERS[k].filter(x=>x!==v);rf();};
-function rf(){if(PAGE==='okrs')renderOKRs();else if(PAGE==='caps')renderCaps();}
-function hasF(){return FILTERS.q.length||FILTERS.diff.length||FILTERS.priority.length||FILTERS.from||FILTERS.to;}
-window.toggleFDD=(e)=>{e.stopPropagation();document.getElementById('fdd')?.classList.toggle('open');};
-document.addEventListener('click',()=>document.getElementById('fdd')?.classList.remove('open'));
-
-function filterHTML() {
-  const act=hasF();
-  const mk=(k,v,l)=>`<label class="fdd-opt"><input type="checkbox" ${FILTERS[k].includes(v)?'checked':''} onchange="tgF('${k}','${v}',this.checked)"> ${l}</label>`;
-  return `<div class="filter-wrap">
-    <button class="filter-btn ${act?'active':''}" onclick="toggleFDD(event)">⊟ Filtrar${act?' ●':''}</button>
-    <div class="filter-dd" id="fdd">
-      <div class="fdd-label">Trimestre</div>
-      ${['Q1','Q2','Q3','Q4','Anual'].map(q=>mk('q',q,q)).join('')}
-      <div class="fdd-sep"></div>
-      <div class="fdd-label">Dificultad</div>
-      ${['FÁCIL','MEDIO','DIFÍCIL'].map(d=>mk('diff',d,d)).join('')}
-      <div class="fdd-sep"></div>
-      <div class="fdd-label">Prioridad</div>
-      ${[['alta','Alta'],['media','Media'],['baja','Baja']].map(([v,l])=>mk('priority',v,l)).join('')}
-      <div class="fdd-sep"></div>
-      <div class="fdd-label">Fecha límite</div>
-      <div class="fdd-date">
-        <label>Desde</label><input type="date" value="${FILTERS.from}" onchange="FILTERS.from=this.value;rf()">
-        <label>Hasta</label><input type="date" value="${FILTERS.to}" onchange="FILTERS.to=this.value;rf()">
+function toggleQ(q)    { filterQ    = filterQ===q?'':q;    renderPage(); }
+function toggleDiff(d) { filterDiff = filterDiff===d?'':d; renderPage(); }
+function togglePri(p)  { filterPri  = filterPri===p?'':p;  renderPage(); }
+function clearAllFilters() { searchStr=''; filterQ=''; filterDiff=''; filterPri=''; renderPage(); }
+ 
+function filterBar(type='okr') {
+  const hasActive = filterQ||filterDiff||filterPri||searchStr;
+  const qs = ['Q1','Q2','Q3','Q4','Anual'];
+  const diffs = ['FÁCIL','MEDIO','DIFÍCIL'];
+  const pris = [{id:'alta',label:'Alta prioridad'},{id:'media',label:'Media'},{id:'baja',label:'Baja'}];
+  return `
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="15" height="15"><use href="#i-search"/></svg>
+      <input class="search-input" placeholder="Buscar..." value="${searchStr}" oninput="searchStr=this.value;renderPage()">
+    </div>
+    ${hasActive ? `<button class="btn btn-secondary btn-sm" onclick="clearAllFilters()" style="white-space:nowrap">${ico('x',13)} Limpiar</button>` : ''}
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="filter-section-title">Trimestre</div>
+    <div class="chips-row">
+      ${qs.map(q=>`<button class="chip chip-sm${filterQ===q?' active-indigo':''}" onclick="toggleQ('${q}')">${q}</button>`).join('')}
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">
+    <div>
+      <div class="filter-section-title">Dificultad</div>
+      <div class="chips-row">
+        ${diffs.map(d=>{
+          const cls=d==='FÁCIL'?'active-indigo':d==='MEDIO'?'active-indigo':'active-indigo';
+          return `<button class="chip chip-sm${filterDiff===d?' '+cls:''}" onclick="toggleDiff('${d}')">${d}</button>`;
+        }).join('')}
       </div>
-      <button class="fdd-clear" onclick="clearFilters()">Limpiar todos los filtros</button>
+    </div>
+    <div>
+      <div class="filter-section-title">Prioridad</div>
+      <div class="chips-row">
+        ${pris.map(p=>`<button class="chip chip-sm${filterPri===p.id?' active-indigo':''}" onclick="togglePri('${p.id}')">${p.label}</button>`).join('')}
+      </div>
     </div>
   </div>`;
 }
-
-// ── DASHBOARD ─────────────────────────────────────
+ 
+// ═══════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════
 function renderDashboard() {
-  if (!CU_DOC) return;
-  const all=[...(CU_DOC.okrs||[]),...(CU_DOC.caps||[])];
+  const all=[...(userData.okrs||[]),...(userData.caps||[])];
   const tot=all.length, dn=all.filter(i=>calcProg(i)>=100).length;
   const ip=all.filter(i=>calcProg(i)>0&&calcProg(i)<100).length, ov=all.filter(i=>i.overdue).length;
   const pct=tot?Math.round(dn/tot*100):0;
-
-  const qSec = ['Q1','Q2','Q3','Q4'].map(q=>{
-    const qi=[...(CU_DOC.okrs||[]),...(CU_DOC.caps||[])].filter(i=>i.q===q);
+ 
+  const qCards = ['Q1','Q2','Q3','Q4'].map(q => {
+    const qi = all.filter(i=>i.q===q);
     const qdn=qi.filter(i=>calcProg(i)>=100).length, qpct=qi.length?Math.round(qdn/qi.length*100):0;
     const qov=qi.filter(i=>i.overdue).length, qip=qi.filter(i=>calcProg(i)>0&&calcProg(i)<100).length;
-    const qn=Q_NAMES[q];
-    return `<div class="q-section-dash">
-      <div class="qd-head">
-        <span class="qd-badge">${q}</span>
-        <span class="qd-name">${qn.long}</span>
-        <span class="qd-range">· ${qn.range}</span>
-        <span class="qd-pct">${qpct}%</span>
+    const qn=Q_INFO[q];
+    const fillCls=qpct>=100?'green':qov>0?'red':'';
+    return `<div class="q-dash-card">
+      <div class="q-dash-head">
+        <span class="q-dash-badge">${q}</span>
+        <span class="q-dash-name">${qn.long}</span>
+        <span class="q-dash-range">· ${qn.range}</span>
+        <span class="q-dash-pct">${qpct}%</span>
       </div>
-      <div class="q-track"><div class="q-fill" style="width:${qpct}%"></div></div>
+      <div class="prog-track" style="height:5px;margin-bottom:14px">
+        <div class="prog-fill ${fillCls}" style="width:${qpct}%"></div>
+      </div>
       <div class="q-stats-row">
-        <div class="q-stat"><div class="q-stat-val">${qi.length}</div><div class="q-stat-lbl">Total</div></div>
-        <div class="q-stat"><div class="q-stat-val" style="${qdn?'color:var(--green)':''}">${qdn}</div><div class="q-stat-lbl">Listos</div></div>
-        <div class="q-stat"><div class="q-stat-val" style="${qov?'color:var(--red)':''}">${qov}</div><div class="q-stat-lbl">${qov?'Vencidos':'Al día'}</div></div>
+        <div class="q-stat-mini">
+          <div class="q-stat-mini-val">${qi.length}</div>
+          <div class="q-stat-mini-lbl">Total</div>
+        </div>
+        <div class="q-stat-mini">
+          <div class="q-stat-mini-val" style="${qdn?'color:var(--green-600)':''}">${qdn}</div>
+          <div class="q-stat-mini-lbl">Listos</div>
+        </div>
+        <div class="q-stat-mini">
+          <div class="q-stat-mini-val" style="${qov?'color:var(--red-500)':''}">${qov}</div>
+          <div class="q-stat-mini-lbl">${qov?'Vencidos':'Al día'}</div>
+        </div>
       </div>
     </div>`;
   }).join('');
-
-  document.getElementById('page-content').innerHTML=`
-    <div class="dash-grid">
-      <div class="metric-card"><div class="mc-accent bk"></div><div class="metric-label">Total OKRs</div><div class="metric-value">${(CU_DOC.okrs||[]).length}</div><div class="metric-note">${(CU_DOC.okrs||[]).filter(o=>calcProg(o)>=100).length} completados</div><div class="metric-bar"><div class="metric-bar-fill" style="width:${(CU_DOC.okrs||[]).length?Math.round((CU_DOC.okrs||[]).filter(o=>calcProg(o)>=100).length/(CU_DOC.okrs||[]).length*100):0}%"></div></div></div>
-      <div class="metric-card"><div class="mc-accent gn"></div><div class="metric-label">Completados</div><div class="metric-value">${dn}</div><div class="metric-note">de ${tot} · ${pct}%</div><div class="metric-bar"><div class="metric-bar-fill gn" style="width:${pct}%"></div></div></div>
-      <div class="metric-card"><div class="mc-accent am"></div><div class="metric-label">En progreso</div><div class="metric-value">${ip}</div><div class="metric-note">elementos activos</div><div class="metric-bar"><div class="metric-bar-fill am" style="width:${tot?Math.round(ip/tot*100):0}%"></div></div></div>
-      <div class="metric-card"><div class="mc-accent rd"></div><div class="metric-label">Vencidos</div><div class="metric-value" style="${ov?'color:var(--red)':''}">${ov}</div><div class="metric-note">${ov?'⚠️ Atención requerida':'✅ Todo al día'}</div><div class="metric-bar"><div class="metric-bar-fill rd" style="width:${tot?Math.round(ov/tot*100):0}%"></div></div></div>
-    </div>
-    ${qSec}`;
+ 
+  return `
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-accent" style="background:var(--indigo-600)"></div><div class="stat-label">Total OKRs</div><div class="stat-value">${(userData.okrs||[]).length}</div><div class="stat-note">${(userData.okrs||[]).filter(o=>calcProg(o)>=100).length} completados</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${(userData.okrs||[]).length?Math.round((userData.okrs||[]).filter(o=>calcProg(o)>=100).length/(userData.okrs||[]).length*100):0}%"></div></div></div>
+    <div class="stat-card"><div class="stat-accent" style="background:var(--green-500)"></div><div class="stat-label">Completados</div><div class="stat-value" style="${dn?'color:var(--green-600)':''}">${dn}</div><div class="stat-note">de ${tot} · ${pct}%</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${pct}%;background:var(--green-500)"></div></div></div>
+    <div class="stat-card"><div class="stat-accent" style="background:var(--amber-500)"></div><div class="stat-label">En progreso</div><div class="stat-value">${ip}</div><div class="stat-note">elementos activos</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${tot?Math.round(ip/tot*100):0}%;background:var(--amber-500)"></div></div></div>
+    <div class="stat-card"><div class="stat-accent" style="background:var(--red-500)"></div><div class="stat-label">Vencidos</div><div class="stat-value" style="${ov?'color:var(--red-500)':''}">${ov}</div><div class="stat-note">${ov?'⚠️ Requieren atención':'✅ Todo al día'}</div><div class="stat-bar"><div class="stat-bar-fill" style="width:${tot?Math.round(ov/tot*100):0}%;background:var(--red-500)"></div></div></div>
+  </div>
+  ${qCards}`;
 }
-
-// ── OKR LIST ──────────────────────────────────────
+ 
+// ═══════════════════════════════════════════════════
+// OKR LIST
+// ═══════════════════════════════════════════════════
 function renderOKRs() {
-  let items=applyF(sortItems([...(CU_DOC.okrs||[])]));
-  const secs=['Q1','Q2','Q3','Q4','Anual'].map(q=>{
-    const qi=items.filter(i=>i.q===q); if(!qi.length)return'';
-    const qn=Q_NAMES[q], qpct=Math.round(qi.reduce((s,i)=>s+calcProg(i),0)/qi.length);
-    return`<div class="q-section">
-      <div class="q-sec-head">
-        <span class="q-badge">${q}</span>
-        <span class="q-name">${qn?qn.long:'Anual'}</span>
-        <span class="q-months">${qn?` · ${qn.range}`:''}</span>
-        <span class="q-count">${qi.length} OKRs · ${qpct}%</span>
+  let items = applyFilters(sortItems([...(userData.okrs||[])]));
+  const secs = ['Q1','Q2','Q3','Q4','Anual'].map(q => {
+    const qi = items.filter(i=>i.q===q); if(!qi.length) return '';
+    const qn = Q_INFO[q], qpct = Math.round(qi.reduce((s,i)=>s+calcProg(i),0)/qi.length);
+    return `<div class="q-section">
+      <div class="q-section-head">
+        <span class="q-section-badge">${q}</span>
+        <span class="q-section-name">${qn?qn.long:'Anual'}</span>
+        <span class="q-section-months">${qn?` · ${qn.range}`:''}</span>
+        <span class="q-section-count">${qi.length} OKRs · ${qpct}%</span>
       </div>
       ${qi.map(i=>itemCard(i,'okr')).join('')}
     </div>`;
   }).join('');
-  document.getElementById('page-content').innerHTML=`
-    <div class="toolbar">
-      <div class="search-wrap"><span class="search-ico">🔍</span><input class="search-input" placeholder="Buscar OKR..." value="${SEARCH}" oninput="SEARCH=this.value;renderOKRs()"></div>
-      ${filterHTML()}
-    </div>
-    ${secs||'<div class="empty-state"><div class="empty-icon">🎯</div><div class="empty-text">Sin resultados.</div></div>'}`;
+ 
+  return filterBar('okr') + (secs || `<div class="empty"><div class="empty-icon">🎯</div><div class="empty-text">Sin resultados con los filtros actuales.</div></div>`);
 }
-window.renderOKRs=renderOKRs;
-
+ 
 function renderCaps() {
-  let items=applyF(sortItems([...(CU_DOC.caps||[])]));
-  const secs=['Q1','Q2','Q3','Q4'].map(q=>{
-    const qi=items.filter(i=>i.q===q); if(!qi.length)return'';
-    const qn=Q_NAMES[q], dn=qi.filter(i=>i.done).length;
+  let items = applyFilters(sortItems([...(userData.caps||[])]));
+  const secs = ['Q1','Q2','Q3','Q4'].map(q => {
+    const qi = items.filter(i=>i.q===q); if(!qi.length) return '';
+    const qn=Q_INFO[q], dn=qi.filter(i=>i.done).length;
     const hrs=qi.reduce((s,i)=>s+(i.hrs||0),0), dh=qi.filter(i=>i.done).reduce((s,i)=>s+(i.hrs||0),0);
-    return`<div class="q-section">
-      <div class="q-sec-head">
-        <span class="q-badge">${q}</span>
-        <span class="q-name">${qn.long}</span>
-        <span class="q-months"> · ${qn.range}</span>
-        <span class="q-count">${dn}/${qi.length} cursos · ${dh}/${hrs}h</span>
+    return `<div class="q-section">
+      <div class="q-section-head">
+        <span class="q-section-badge">${q}</span>
+        <span class="q-section-name">${qn.long}</span>
+        <span class="q-section-months"> · ${qn.range}</span>
+        <span class="q-section-count">${dn}/${qi.length} cursos · ${dh}/${hrs}h</span>
       </div>
       ${qi.map(i=>itemCard(i,'cap')).join('')}
     </div>`;
   }).join('');
-  document.getElementById('page-content').innerHTML=`
-    <div class="toolbar">
-      <div class="search-wrap"><span class="search-ico">🔍</span><input class="search-input" placeholder="Buscar capacitación..." value="${SEARCH}" oninput="SEARCH=this.value;renderCaps()"></div>
-      ${filterHTML()}
-    </div>
-    ${secs||'<div class="empty-state"><div class="empty-icon">📚</div><div class="empty-text">Sin capacitaciones.</div></div>'}`;
+ 
+  return filterBar('cap') + (secs || `<div class="empty"><div class="empty-icon">📚</div><div class="empty-text">Sin capacitaciones.</div></div>`);
 }
-window.renderCaps=renderCaps;
-
-// ── ITEM CARD ─────────────────────────────────────
+ 
+// ═══════════════════════════════════════════════════
+// ITEM CARD
+// ═══════════════════════════════════════════════════
 function itemCard(item, kind) {
   const prog=calcProg(item), pri=calcPri(item);
-  const fc=prog>=100?'dn':item.overdue?'ov':'';
+  const fc=prog>=100?'done':item.overdue?'over':'';
   const cc=item.overdue?'overdue':pri==='alta'?'urgent':'';
-  const DM={FÁCIL:'easy',MEDIO:'med',DIFÍCIL:'hard'}, PM={alta:'phi',media:'pmd',baja:'plo'}, PL={alta:'Alta',media:'Media',baja:'Baja'};
-  const tc=kind==='okr'?'<span class="chip chip-okr">OKR</span>':'<span class="chip chip-cap">Capacitación</span>';
-  const par=item.parent?`<span class="card-parent">${item.parent} ·</span>`:'';
-  return`<div class="item-card ${cc}" id="card-${item.id}">
-    <div class="card-row" onclick="tPanel('${item.id}')">
-      <button class="xarrow" id="xa-${item.id}">▼</button>
-      <div class="chips">${tc}<span class="chip chip-${DM[item.diff]||'med'}">${item.diff||'MEDIO'}</span><span class="chip chip-${PM[pri]}">${PL[pri]}</span>${item.overdue?'<span class="chip chip-over">VENCIDO</span>':''}</div>
-      <span class="card-title">${par}${item.title}</span>
-      <div class="card-right">
-        <span class="card-period">${item.period||item.q}</span>
-        <div class="prog-mini"><div class="prog-mini-track"><div class="prog-mini-fill ${fc}" style="width:${prog}%"></div></div><span class="prog-mini-pct">${prog}%</span></div>
+  const DM={FÁCIL:'green',MEDIO:'amber',DIFÍCIL:'red'};
+  const PM={alta:'red',media:'amber',baja:'gray'};
+  const PL={alta:'Alta',media:'Media',baja:'Baja'};
+  const tc=kind==='okr'?`<span class="badge badge-indigo">OKR</span>`:`<span class="badge badge-blue">Capacitación</span>`;
+  const par=item.parent?`<span class="item-parent-tag">${item.parent} ·</span>`:'';
+  const diffBadge=`<span class="badge badge-${DM[item.diff]||'amber'}">${item.diff||'MEDIO'}</span>`;
+  const priBadge=`<span class="badge badge-${PM[pri]}">${PL[pri]}</span>`;
+  const overBadge=item.overdue?`<span class="badge badge-red">VENCIDO</span>`:'';
+  return `<div class="item-card ${cc}" id="card-${item.id}">
+    <div class="item-row" onclick="togglePanel('${item.id}')">
+      <button class="expand-btn" id="xbtn-${item.id}">▼</button>
+      <div style="display:flex;gap:5px;flex-shrink:0;align-items:center;flex-wrap:wrap">${tc}${diffBadge}${priBadge}${overBadge}</div>
+      <span class="item-title">${par}${item.title}</span>
+      <div class="item-meta">
+        <span class="item-period">${item.period||item.q}</span>
+        <div class="item-prog-wrap">
+          <div class="item-prog-track"><div class="item-prog-fill ${fc}" style="width:${prog}%"></div></div>
+          <span class="item-prog-pct">${prog}%</span>
+        </div>
       </div>
-      <div class="card-btns" onclick="event.stopPropagation()">
-        <button class="cib" onclick="tPanel('${item.id}')">✎</button>
-        <button class="cib del" onclick="delItem('${item.id}')">✕</button>
+      <div class="item-actions" onclick="event.stopPropagation()">
+        <button class="btn-icon" onclick="togglePanel('${item.id}')" title="Editar">${ico('edit',14)}</button>
+        <button class="btn-icon danger" onclick="delItem('${item.id}')" title="Eliminar">${ico('trash',14)}</button>
       </div>
     </div>
-    <div class="card-panel" id="panel-${item.id}">${kind==='okr'?okrPanel(item):capPanel(item)}</div>
+    <div class="item-panel" id="panel-${item.id}">
+      ${kind==='okr'?okrPanel(item):capPanel(item)}
+    </div>
   </div>`;
 }
-
+ 
 function okrPanel(item) {
-  const prog=calcProg(item), fc=prog>=100?'dn':item.overdue?'ov':'';
+  const prog=calcProg(item), fc=prog>=100?'green':item.overdue?'red':'';
   let mw='';
-  if(item.measure==='counter')mw=`<div class="counter-block"><span class="counter-lbl">${item.current||0} de ${item.target}</span><div class="counter-ctrl"><button class="cnt-btn" onclick="adjC('${item.id}',-1)">−</button><span class="cnt-val">${item.current||0} / ${item.target}</span><button class="cnt-btn" onclick="adjC('${item.id}',1)">+</button></div></div>`;
-  else if(item.measure==='single'&&!item.checklist?.length)mw=`<div class="sgl-toggle"><input type="checkbox" id="sg-${item.id}" ${item.current?'checked':''} onchange="tgSgl('${item.id}',this.checked)"><label for="sg-${item.id}">${item.current?'Completado ✓':'Marcar como completado'}</label></div>`;
-  const cks=(item.checklist||[]).map((c,i)=>`<div class="ck-item ${c.done?'ckd':''}" id="ci-${item.id}-${i}"><input type="checkbox" ${c.done?'checked':''} onchange="tgCk('${item.id}',${i},this.checked)"><label>${c.text}</label><button class="ck-rm" onclick="rmCk('${item.id}',${i})">✕</button></div>`).join('');
-  return`<div class="panel-grid">
-    <div><div class="pb-title">¿Qué necesitas hacer?</div><div class="desc-box">${item.desc||'Sin descripción. Edita para agregar pasos.'}</div></div>
+  if (item.measure==='counter') mw=`<div class="counter-row">
+    <span class="counter-lbl">${item.current||0} de ${item.target}</span>
+    <div class="counter-ctrl">
+      <button class="counter-step-btn" onclick="adjC('${item.id}',-1)">−</button>
+      <span class="counter-val">${item.current||0} / ${item.target}</span>
+      <button class="counter-step-btn" onclick="adjC('${item.id}',1)">+</button>
+    </div>
+  </div>`;
+  else if (item.measure==='single'&&!item.checklist?.length) mw=`<div class="sgl-toggle">
+    <input type="checkbox" id="sg-${item.id}" ${item.current?'checked':''} onchange="tgSgl('${item.id}',this.checked)">
+    <label for="sg-${item.id}">${item.current?'Completado ✓':'Marcar como completado'}</label>
+  </div>`;
+  const cks=(item.checklist||[]).map((c,i)=>`<div class="ck-item${c.done?' checked':''}" id="ci-${item.id}-${i}">
+    <input type="checkbox" ${c.done?'checked':''} onchange="tgCk('${item.id}',${i},this.checked)">
+    <label>${c.text}</label>
+    <button class="ck-rm" onclick="rmCk('${item.id}',${i})">✕</button>
+  </div>`).join('');
+  return `<div class="panel-cols">
     <div>
-      <div class="pb-title">Progreso</div>
-      <div class="prog-big"><span class="prog-big-num">${prog}<span>%</span></span></div>
-      <div class="prog-track-lg"><div class="prog-fill-lg ${fc}" id="pb-${item.id}" style="width:${prog}%"></div></div>
+      <div class="panel-block-title">¿Qué necesitas hacer?</div>
+      <div class="desc-box">${item.desc||'Sin descripción. Edita para agregar pasos.'}</div>
+    </div>
+    <div>
+      <div class="panel-block-title">Progreso</div>
+      <div class="prog-big"><span class="prog-big-num">${prog}<span class="prog-big-pct">%</span></span></div>
+      <div class="prog-track-lg">
+        <div class="prog-fill ${fc}" id="pb-${item.id}" style="width:${prog}%;height:7px;border-radius:9999px;transition:width .5s"></div>
+      </div>
       ${mw}
-      <div class="pb-title" style="margin-top:12px">Checklist</div>
+      <div class="panel-block-title" style="margin-top:12px">Checklist</div>
       <div class="checklist" id="cl-${item.id}">${cks}</div>
-      <div class="add-ck-row"><input class="add-ck-input" id="aci-${item.id}" placeholder="Agregar paso…" onkeydown="if(event.key==='Enter')addCk('${item.id}')"><button class="add-ck-btn" onclick="addCk('${item.id}')">+</button></div>
+      <div class="add-ck">
+        <input class="add-ck-input" id="aci-${item.id}" placeholder="Agregar paso…" onkeydown="if(event.key==='Enter'){event.preventDefault();addCk('${item.id}')}">
+        <button class="add-ck-btn" onclick="addCk('${item.id}')">${ico('plus',14)}</button>
+      </div>
     </div>
   </div>
-  <div class="edit-area">
-    <div class="pb-title">Editar OKR</div>
+  <div class="edit-section">
+    <div class="panel-block-title">Editar OKR</div>
     <div class="edit-grid">
-      <input class="ei" id="et-${item.id}" value="${item.title.replace(/"/g,'&quot;')}" placeholder="Título" style="grid-column:1/-1">
-      <textarea class="ei ei-ta" id="ed-${item.id}" placeholder="Descripción / acciones">${item.desc||''}</textarea>
-      <select class="ei ei-sel" id="edf-${item.id}"><option ${item.diff==='FÁCIL'?'selected':''}>FÁCIL</option><option ${item.diff==='MEDIO'?'selected':''}>MEDIO</option><option ${item.diff==='DIFÍCIL'?'selected':''}>DIFÍCIL</option></select>
-      <input class="ei" id="edl-${item.id}" type="date" value="${item.deadline||''}">
-      <button class="save-edits" onclick="svOKR('${item.id}')">Guardar cambios</button>
+      <input class="edit-input" id="et-${item.id}" value="${item.title.replace(/"/g,'&quot;')}" placeholder="Título" style="grid-column:1/-1">
+      <textarea class="edit-input edit-textarea" id="ed-${item.id}" placeholder="Descripción">${item.desc||''}</textarea>
+      <select class="edit-input edit-select" id="edf-${item.id}">
+        <option ${item.diff==='FÁCIL'?'selected':''}>FÁCIL</option>
+        <option ${item.diff==='MEDIO'?'selected':''}>MEDIO</option>
+        <option ${item.diff==='DIFÍCIL'?'selected':''}>DIFÍCIL</option>
+      </select>
+      <input class="edit-input" id="edl-${item.id}" type="date" value="${item.deadline||''}">
+      <button class="save-btn" onclick="svOKR('${item.id}')">Guardar cambios</button>
     </div>
   </div>`;
 }
+ 
 function capPanel(item) {
-  return`<div class="panel-grid">
-    <div><div class="pb-title">Descripción</div><div class="desc-box">${item.desc||'—'}</div></div>
+  return `<div class="panel-cols">
     <div>
-      <div class="pb-title">Estado del curso</div>
-      <div class="cap-done-row"><input type="checkbox" id="cap-${item.id}" ${item.done?'checked':''} onchange="tgCap('${item.id}',this.checked)"><label for="cap-${item.id}" class="${item.done?'dn':''}">${item.title}</label><span class="hrs-pill">${item.hrs||0}h</span></div>
+      <div class="panel-block-title">Descripción</div>
+      <div class="desc-box">${item.desc||'—'}</div>
+    </div>
+    <div>
+      <div class="panel-block-title">Estado del curso</div>
+      <div class="cap-toggle">
+        <input type="checkbox" id="cap-${item.id}" ${item.done?'checked':''} onchange="tgCap('${item.id}',this.checked)">
+        <label for="cap-${item.id}" class="${item.done?'done':''}">${item.title}</label>
+        <span class="cap-hrs">${item.hrs||0}h</span>
+      </div>
     </div>
   </div>
-  <div class="edit-area">
-    <div class="pb-title">Editar capacitación</div>
+  <div class="edit-section">
+    <div class="panel-block-title">Editar capacitación</div>
     <div class="edit-grid">
-      <input class="ei" id="cet-${item.id}" value="${item.title.replace(/"/g,'&quot;')}" placeholder="Título">
-      <input class="ei" id="ceh-${item.id}" type="number" value="${item.hrs||0}" placeholder="Horas">
-      <textarea class="ei ei-ta" id="ced-${item.id}" placeholder="Descripción">${item.desc||''}</textarea>
-      <select class="ei ei-sel" id="cedf-${item.id}"><option ${item.diff==='FÁCIL'?'selected':''}>FÁCIL</option><option ${item.diff==='MEDIO'?'selected':''}>MEDIO</option><option ${item.diff==='DIFÍCIL'?'selected':''}>DIFÍCIL</option></select>
-      <button class="save-edits" onclick="svCap('${item.id}')">Guardar cambios</button>
+      <input class="edit-input" id="cet-${item.id}" value="${item.title.replace(/"/g,'&quot;')}" placeholder="Título">
+      <input class="edit-input" id="ceh-${item.id}" type="number" value="${item.hrs||0}" placeholder="Horas">
+      <textarea class="edit-input edit-textarea" id="ced-${item.id}" placeholder="Descripción">${item.desc||''}</textarea>
+      <select class="edit-input edit-select" id="cedf-${item.id}">
+        <option ${item.diff==='FÁCIL'?'selected':''}>FÁCIL</option>
+        <option ${item.diff==='MEDIO'?'selected':''}>MEDIO</option>
+        <option ${item.diff==='DIFÍCIL'?'selected':''}>DIFÍCIL</option>
+      </select>
+      <button class="save-btn" onclick="svCap('${item.id}')">Guardar cambios</button>
     </div>
   </div>`;
 }
-
-// ── INTERACTIONS ──────────────────────────────────
-window.tPanel=id=>{const p=document.getElementById('panel-'+id),a=document.getElementById('xa-'+id);p.classList.toggle('open');a.classList.toggle('open');};
-window.adjC=async(id,d)=>{const item=(CU_DOC.okrs||[]).find(i=>i.id===id);if(!item)return;item.current=Math.max(0,Math.min(item.target,(item.current||0)+d));const p=calcProg(item);if(p>=100){item.overdue=false;notif('success','¡OKR completado!',`"${item.title.substring(0,45)}…"`);}await saveData();const cv=document.querySelector(`#card-${id} .cnt-val`);if(cv)cv.textContent=`${item.current} / ${item.target}`;const cl=document.querySelector(`#card-${id} .counter-lbl`);if(cl)cl.textContent=`${item.current} de ${item.target}`;uPB(id,p,item.overdue);};
-window.tgSgl=async(id,c)=>{const item=(CU_DOC.okrs||[]).find(i=>i.id===id);if(!item)return;item.current=c?1:0;if(c){item.overdue=false;notif('success','¡OKR completado!',`"${item.title.substring(0,45)}…"`);}await saveData();uPB(id,calcProg(item),item.overdue);};
-window.tgCk=async(id,idx,c)=>{const item=(CU_DOC.okrs||[]).find(i=>i.id===id);if(!item||!item.checklist)return;item.checklist[idx].done=c;const p=calcProg(item);if(p>=100){item.overdue=false;notif('success','¡OKR completado!',`"${item.title.substring(0,45)}…"`);}await saveData();const ci=document.getElementById(`ci-${id}-${idx}`);if(ci){ci.classList.toggle('ckd',c);const cb=ci.querySelector('input');if(cb)cb.checked=c;}uPB(id,p,item.overdue);};
-window.addCk=async(id)=>{const inp=document.getElementById('aci-'+id);if(!inp||!inp.value.trim())return;const item=(CU_DOC.okrs||[]).find(i=>i.id===id);if(!item)return;if(!item.checklist)item.checklist=[];item.checklist.push({id:'c'+Date.now(),text:inp.value.trim(),done:false});if(item.measure==='checklist')item.target=item.checklist.length;await saveData();inp.value='';const panel=document.getElementById('panel-'+id);if(panel)panel.innerHTML=okrPanel(item);notif('info','Paso agregado','');};
-window.rmCk=async(id,idx)=>{const item=(CU_DOC.okrs||[]).find(i=>i.id===id);if(!item||!item.checklist)return;item.checklist.splice(idx,1);if(item.measure==='checklist')item.target=Math.max(1,item.checklist.length);await saveData();const panel=document.getElementById('panel-'+id);if(panel)panel.innerHTML=okrPanel(item);};
-window.tgCap=async(id,c)=>{const item=(CU_DOC.caps||[]).find(i=>i.id===id);if(!item)return;item.done=c;if(c)notif('success','¡Capacitación completada!',`${item.title} · ${item.hrs}h`);await saveData();const lb=document.querySelector(`#cap-${id}+label`);if(lb)lb.classList.toggle('dn',c);uPB(id,c?100:0,false);};
-function uPB(id,prog,ov){const pb=document.getElementById('pb-'+id);if(pb){pb.style.width=prog+'%';pb.className='prog-fill-lg'+(prog>=100?' dn':ov?' ov':'');}const mn=document.querySelector(`#card-${id} .prog-mini-fill`);if(mn){mn.style.width=prog+'%';mn.className='prog-mini-fill'+(prog>=100?' dn':ov?' ov':'');}const pp=document.querySelector(`#card-${id} .prog-mini-pct`);if(pp)pp.textContent=prog+'%';const bn=document.querySelector(`#card-${id} .prog-big-num`);if(bn)bn.innerHTML=`${prog}<span>%</span>`;}
-window.svOKR=async(id)=>{const item=(CU_DOC.okrs||[]).find(i=>i.id===id);if(!item)return;const t=document.getElementById('et-'+id),d=document.getElementById('ed-'+id),df=document.getElementById('edf-'+id),dl=document.getElementById('edl-'+id);if(t)item.title=t.value;if(d)item.desc=d.value;if(df)item.diff=df.value;if(dl)item.deadline=dl.value;await saveData();notif('success','OKR actualizado','');renderOKRs();};
-window.svCap=async(id)=>{const item=(CU_DOC.caps||[]).find(i=>i.id===id);if(!item)return;const t=document.getElementById('cet-'+id),h=document.getElementById('ceh-'+id),d=document.getElementById('ced-'+id),df=document.getElementById('cedf-'+id);if(t)item.title=t.value;if(h)item.hrs=parseInt(h.value)||0;if(d)item.desc=d.value;if(df)item.diff=df.value;await saveData();notif('success','Capacitación actualizada','');renderCaps();};
-window.delItem=async(id)=>{if(!confirm('¿Eliminar este elemento? No se puede deshacer.'))return;CU_DOC.okrs=(CU_DOC.okrs||[]).filter(i=>i.id!==id);CU_DOC.caps=(CU_DOC.caps||[]).filter(i=>i.id!==id);await saveData();notif('info','Eliminado','');if(PAGE==='okrs')renderOKRs();else renderCaps();};
-
-// ── MODAL ─────────────────────────────────────────
-window.openModal=()=>{document.getElementById('modal').classList.add('open');onMType();onMMeasure();};
-window.closeModal=()=>document.getElementById('modal').classList.remove('open');
-window.onMType=()=>{const t=document.getElementById('m-type').value;document.getElementById('m-okr-fields').style.display=t==='cap'?'none':'';document.getElementById('m-hrs-wrap').classList.toggle('hidden',t!=='cap');};
-window.onMMeasure=()=>document.getElementById('m-target-wrap').style.display=document.getElementById('m-measure').value==='counter'?'':'none';
-window.confirmAdd=async()=>{
+ 
+// ═══════════════════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════════════════
+function togglePanel(id) {
+  const p=document.getElementById('panel-'+id), b=document.getElementById('xbtn-'+id);
+  if (!p||!b) return;
+  p.classList.toggle('open'); b.classList.toggle('open');
+}
+ 
+async function adjC(id, d) {
+  const item=(userData.okrs||[]).find(i=>i.id===id); if(!item) return;
+  item.current=Math.max(0,Math.min(item.target,(item.current||0)+d));
+  const prog=calcProg(item);
+  if(prog>=100){item.overdue=false;notif('success','¡OKR completado!',`"${item.title.substring(0,45)}…"`);}
+  await saveData();
+  const cv=document.querySelector(`#card-${id} .counter-val`); if(cv)cv.textContent=`${item.current} / ${item.target}`;
+  const cl=document.querySelector(`#card-${id} .counter-lbl`); if(cl)cl.textContent=`${item.current} de ${item.target}`;
+  uPB(id,prog,item.overdue);
+}
+async function tgSgl(id,c) {
+  const item=(userData.okrs||[]).find(i=>i.id===id); if(!item) return;
+  item.current=c?1:0;
+  if(c){item.overdue=false;notif('success','¡OKR completado!',`"${item.title.substring(0,45)}…"`);}
+  await saveData(); uPB(id,calcProg(item),item.overdue);
+}
+async function tgCk(id,idx,c) {
+  const item=(userData.okrs||[]).find(i=>i.id===id); if(!item||!item.checklist) return;
+  item.checklist[idx].done=c;
+  const prog=calcProg(item);
+  if(prog>=100){item.overdue=false;notif('success','¡OKR completado!',`"${item.title.substring(0,45)}…"`);}
+  await saveData();
+  const ci=document.getElementById(`ci-${id}-${idx}`);
+  if(ci){ci.classList.toggle('checked',c);const cb=ci.querySelector('input');if(cb)cb.checked=c;}
+  uPB(id,prog,item.overdue);
+}
+async function addCk(id) {
+  const inp=document.getElementById('aci-'+id); if(!inp||!inp.value.trim()) return;
+  const item=(userData.okrs||[]).find(i=>i.id===id); if(!item) return;
+  if(!item.checklist)item.checklist=[];
+  item.checklist.push({id:'c'+Date.now(),text:inp.value.trim(),done:false});
+  if(item.measure==='checklist')item.target=item.checklist.length;
+  await saveData(); inp.value='';
+  const panel=document.getElementById('panel-'+id); if(panel)panel.innerHTML=okrPanel(item);
+}
+async function rmCk(id,idx) {
+  const item=(userData.okrs||[]).find(i=>i.id===id); if(!item||!item.checklist) return;
+  item.checklist.splice(idx,1);
+  if(item.measure==='checklist')item.target=Math.max(1,item.checklist.length);
+  await saveData();
+  const panel=document.getElementById('panel-'+id); if(panel)panel.innerHTML=okrPanel(item);
+}
+async function tgCap(id,c) {
+  const item=(userData.caps||[]).find(i=>i.id===id); if(!item) return;
+  item.done=c;
+  if(c)notif('success','¡Capacitación completada!',`${item.title} · ${item.hrs}h`);
+  await saveData();
+  const lb=document.querySelector(`#cap-${id}+label`); if(lb)lb.classList.toggle('done',c);
+  uPB(id,c?100:0,false);
+}
+function uPB(id,prog,ov) {
+  const pb=document.getElementById('pb-'+id);
+  if(pb){pb.style.width=prog+'%';pb.className='prog-fill'+(prog>=100?' green':ov?' red':'');}
+  const mn=document.querySelector(`#card-${id} .item-prog-fill`);
+  if(mn){mn.style.width=prog+'%';mn.className='item-prog-fill'+(prog>=100?' dn':ov?' ov':'');}
+  const pp=document.querySelector(`#card-${id} .item-prog-pct`); if(pp)pp.textContent=prog+'%';
+  const bn=document.querySelector(`#card-${id} .prog-big-num`); if(bn)bn.innerHTML=`${prog}<span class="prog-big-pct">%</span>`;
+}
+async function svOKR(id) {
+  const item=(userData.okrs||[]).find(i=>i.id===id); if(!item) return;
+  const t=document.getElementById('et-'+id), d=document.getElementById('ed-'+id);
+  const df=document.getElementById('edf-'+id), dl=document.getElementById('edl-'+id);
+  if(t)item.title=t.value; if(d)item.desc=d.value; if(df)item.diff=df.value; if(dl)item.deadline=dl.value;
+  await saveData(); notif('success','OKR actualizado',''); renderPage();
+}
+async function svCap(id) {
+  const item=(userData.caps||[]).find(i=>i.id===id); if(!item) return;
+  const t=document.getElementById('cet-'+id), h=document.getElementById('ceh-'+id);
+  const d=document.getElementById('ced-'+id), df=document.getElementById('cedf-'+id);
+  if(t)item.title=t.value; if(h)item.hrs=parseInt(h.value)||0; if(d)item.desc=d.value; if(df)item.diff=df.value;
+  await saveData(); notif('success','Capacitación actualizada',''); renderPage();
+}
+async function delItem(id) {
+  if(!confirm('¿Eliminar este elemento? Esta acción no se puede deshacer.')) return;
+  userData.okrs=(userData.okrs||[]).filter(i=>i.id!==id);
+  userData.caps=(userData.caps||[]).filter(i=>i.id!==id);
+  await saveData(); notif('info','Eliminado',''); renderPage();
+}
+ 
+// ── ADD MODAL ────────────────────────────────────
+function openAddModal()  { document.getElementById('add-modal').style.display='block'; onMType(); onMMeasure(); }
+function closeAddModal() { document.getElementById('add-modal').style.display='none'; }
+function onMType()    { const t=document.getElementById('m-type').value; document.getElementById('m-okr-extra').style.display=t==='cap'?'none':''; document.getElementById('m-hrs-wrap').classList.toggle('hidden',t!=='cap'); }
+function onMMeasure() { const m=document.getElementById('m-measure')?.value; if(document.getElementById('m-target-wrap'))document.getElementById('m-target-wrap').style.display=m==='counter'?'':'none'; }
+async function handleAddItem(e) {
+  e.preventDefault();
   const type=document.getElementById('m-type').value, q=document.getElementById('m-q').value;
   const title=document.getElementById('m-title').value.trim();
   const parent=document.getElementById('m-parent').value.trim(), diff=document.getElementById('m-diff').value;
   const desc=document.getElementById('m-desc').value.trim(), dl=document.getElementById('m-deadline').value;
-  if(!title){notif('error','Campo requerido','El título es obligatorio.');return;}
+  if(!title){notif('error','Título requerido',''); return;}
   const id=type+'-'+Date.now();
   if(type==='cap'){
     const hrs=parseInt(document.getElementById('m-hrs').value)||2;
-    CU_DOC.caps=CU_DOC.caps||[];
-    CU_DOC.caps.push({id,type:'cap',q,title,hrs,done:false,diff,deadline:dl,desc,overdue:false});
+    (userData.caps=userData.caps||[]).push({id,type:'cap',q,title,hrs,done:false,diff,deadline:dl,desc,overdue:false});
   } else {
     const measure=document.getElementById('m-measure').value, target=parseInt(document.getElementById('m-target').value)||1;
-    CU_DOC.okrs=CU_DOC.okrs||[];
-    CU_DOC.okrs.push({id,type:'okr',parent,q,title,period:q,diff,deadline:dl,measure,target,current:0,desc,checklist:[],overdue:false});
+    (userData.okrs=userData.okrs||[]).push({id,type:'okr',parent,q,title,period:q,diff,deadline:dl,measure,target,current:0,desc,checklist:[],overdue:false});
   }
-  await saveData(); closeModal(); notif('success','Creado',`"${title}" agregado.`);
-  ['m-title','m-parent','m-desc','m-deadline'].forEach(x=>{const el=document.getElementById(x);if(el)el.value='';});
-  if(PAGE==='okrs'||type!=='cap')renderOKRs();else renderCaps();
-};
-
-// ── LUCAS DEFAULT DATA ────────────────────────────
-function lucasOKRs(){
+  await saveData(); closeAddModal(); notif('success','Creado',`"${title}" agregado.`);
+  document.getElementById('add-form')?.reset();
+  renderPage();
+}
+ 
+// ═══════════════════════════════════════════════════
+// LUCAS DEFAULT DATA
+// ═══════════════════════════════════════════════════
+function lucasOKRs() {
   const D=(m,d)=>new Date(2026,m-1,d).toISOString().split('T')[0];
   return[
-    {id:'o1k1',type:'okr',parent:'O1',q:'Q1',period:'Mar 2026',diff:'DIFÍCIL',deadline:D(3,31),measure:'checklist',target:3,current:0,desc:'Implementar sistema de seguimiento por idea (entrada → decisión). Definir SLA de 28 días. Revisar pipeline cada lunes. No dejar ninguna idea sin respuesta más de 4 semanas.',checklist:[{id:'a',text:'Crear tracker de ideas (Notion/Excel)',done:false},{id:'b',text:'Definir criterios de evaluación documentados',done:false},{id:'c',text:'Revisión semanal de pipeline cada lunes',done:false}],overdue:false,title:'Mantener 100% de ideas evaluadas en ≤4 semanas desde recepción'},
-    {id:'o1k2',type:'okr',parent:'O1',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:50,current:0,desc:'Promover la plataforma de innovación activamente. Facilitar sesiones de ideación. Reducir fricción para proponer ideas.',checklist:[],overdue:false,title:'Recibir 50+ ideas/experimentos propuestos en el año'},
-    {id:'o1k3',type:'okr',parent:'O1',q:'Q4',period:'Anual',diff:'DIFÍCIL',deadline:D(12,31),measure:'counter',target:30,current:0,desc:'Por cada idea: entrevista con el proponente + análisis de impacto (valor, costo, esfuerzo, riesgo). Usar plantilla estándar.',checklist:[],overdue:false,title:'Completar 30+ análisis de impacto documentados'},
-    {id:'o1k4',type:'okr',parent:'O1',q:'Q4',period:'Anual',diff:'FÁCIL',deadline:D(12,31),measure:'counter',target:12,current:0,desc:'Actualizar dashboard la primera semana de cada mes. Ideas recibidas, en evaluación, aprobadas, rechazadas, implementadas.',checklist:[],overdue:false,title:'Mantener portafolio de innovación y dashboard de KPIs actualizado'},
-    {id:'o1k5',type:'okr',parent:'O1',q:'Q2',period:'Abr 2026',diff:'DIFÍCIL',deadline:D(6,30),measure:'checklist',target:3,current:0,desc:'Auditar cola actual. Priorizar ideas más antiguas. Proceso de evaluación exprés para ideas simples.',checklist:[{id:'a',text:'Auditar ideas actuales en cola',done:false},{id:'b',text:'Implementar evaluación exprés',done:false},{id:'c',text:'Establecer SLA documentado',done:false}],overdue:false,title:'Reducir ideas en cola sin evaluar de 50% a <20%'},
-    {id:'o1k6',type:'okr',parent:'O1',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:2,current:0,desc:'Documentar fricciones. Proponer mejoras de formato, criterios, herramientas y tiempos.',checklist:[],overdue:false,title:'Proponer 2+ mejoras al proceso de evaluación de ideas'},
-    {id:'o2k1',type:'okr',parent:'O2',q:'Q4',period:'Anual',diff:'DIFÍCIL',deadline:D(12,31),measure:'counter',target:3,current:0,desc:'Identificar departamentos sin participación. Hacer visitas proactivas y facilitar sesiones de ideación.',checklist:[],overdue:false,title:'Lograr participación de 3+ departamentos nuevos'},
-    {id:'o2k2',type:'okr',parent:'O2',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:15,current:0,desc:'Usar boletines, presentaciones y comunicación directa. Hacer el proceso lo más sencillo posible.',checklist:[],overdue:false,title:'Motivar 15+ personas nuevas a proponer ideas'},
-    {id:'o2k3',type:'okr',parent:'O2',q:'Q2',period:'Q2',diff:'DIFÍCIL',deadline:D(6,30),measure:'checklist',target:5,current:0,desc:'Coordinar logística del Innovation Day. Definir agenda, ponentes, networking y exposición de proyectos.',checklist:[{id:'a',text:'Definir fecha y lugar',done:false},{id:'b',text:'Crear agenda del día',done:false},{id:'c',text:'Gestionar invitaciones (50+)',done:false},{id:'d',text:'Preparar materiales',done:false},{id:'e',text:'Aplicar encuesta post-evento',done:false}],overdue:false,title:'Co-organizar Innovation Day 2026 con 50+ asistentes y 90%+ satisfacción'},
+    {id:'o1k1',type:'okr',parent:'O1',q:'Q1',period:'Mar 2026',diff:'DIFÍCIL',deadline:D(3,31),measure:'checklist',target:3,current:0,desc:'Implementar sistema de seguimiento por idea (entrada → decisión). Definir SLA de 28 días. Revisar pipeline cada lunes.',checklist:[{id:'a',text:'Crear tracker de ideas (Notion/Excel)',done:false},{id:'b',text:'Definir criterios de evaluación documentados',done:false},{id:'c',text:'Revisión semanal de pipeline cada lunes',done:false}],overdue:false,title:'Mantener 100% de ideas evaluadas en ≤4 semanas desde recepción'},
+    {id:'o1k2',type:'okr',parent:'O1',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:50,current:0,desc:'Promover la plataforma activamente. Facilitar sesiones de ideación. Reducir fricción.',checklist:[],overdue:false,title:'Recibir 50+ ideas/experimentos propuestos en el año'},
+    {id:'o1k3',type:'okr',parent:'O1',q:'Q4',period:'Anual',diff:'DIFÍCIL',deadline:D(12,31),measure:'counter',target:30,current:0,desc:'Por cada idea: entrevista con el proponente + análisis de impacto (valor, costo, esfuerzo, riesgo).',checklist:[],overdue:false,title:'Completar 30+ análisis de impacto documentados'},
+    {id:'o1k4',type:'okr',parent:'O1',q:'Q4',period:'Anual',diff:'FÁCIL',deadline:D(12,31),measure:'counter',target:12,current:0,desc:'Actualizar dashboard la primera semana de cada mes.',checklist:[],overdue:false,title:'Mantener portafolio de innovación y dashboard de KPIs actualizado'},
+    {id:'o1k5',type:'okr',parent:'O1',q:'Q2',period:'Abr 2026',diff:'DIFÍCIL',deadline:D(6,30),measure:'checklist',target:3,current:0,desc:'Auditar cola actual. Priorizar ideas más antiguas. Proceso de evaluación exprés.',checklist:[{id:'a',text:'Auditar ideas actuales en cola',done:false},{id:'b',text:'Implementar evaluación exprés',done:false},{id:'c',text:'Establecer SLA documentado',done:false}],overdue:false,title:'Reducir ideas en cola sin evaluar de 50% a <20%'},
+    {id:'o1k6',type:'okr',parent:'O1',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:2,current:0,desc:'Documentar fricciones y proponer mejoras concretas.',checklist:[],overdue:false,title:'Proponer 2+ mejoras al proceso de evaluación de ideas'},
+    {id:'o2k1',type:'okr',parent:'O2',q:'Q4',period:'Anual',diff:'DIFÍCIL',deadline:D(12,31),measure:'counter',target:3,current:0,desc:'Identificar departamentos sin participación y hacer visitas proactivas.',checklist:[],overdue:false,title:'Lograr participación de 3+ departamentos nuevos'},
+    {id:'o2k2',type:'okr',parent:'O2',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:15,current:0,desc:'Usar boletines, presentaciones y comunicación directa.',checklist:[],overdue:false,title:'Motivar 15+ personas nuevas a proponer ideas'},
+    {id:'o2k3',type:'okr',parent:'O2',q:'Q2',period:'Q2',diff:'DIFÍCIL',deadline:D(6,30),measure:'checklist',target:5,current:0,desc:'Coordinar logística del Innovation Day. Definir agenda, ponentes y networking.',checklist:[{id:'a',text:'Definir fecha y lugar',done:false},{id:'b',text:'Crear agenda del día',done:false},{id:'c',text:'Gestionar invitaciones (50+)',done:false},{id:'d',text:'Preparar materiales',done:false},{id:'e',text:'Aplicar encuesta post-evento',done:false}],overdue:false,title:'Co-organizar Innovation Day 2026 con 50+ asistentes y 90%+ satisfacción'},
     {id:'o2k4',type:'okr',parent:'O2',q:'Q4',period:'Anual',diff:'FÁCIL',deadline:D(12,31),measure:'counter',target:4,current:0,desc:'Programar reuniones del Comité. Preparar agenda, tomar actas y darles seguimiento.',checklist:[],overdue:false,title:'Realizar 4+ reuniones de Comité de I+D+I con actas'},
-    {id:'o3k1',type:'okr',parent:'O3',q:'Q1',period:'Q1',diff:'DIFÍCIL',deadline:D(3,31),measure:'checklist',target:4,current:0,desc:'Coordinar con Ingeniería. Documentar estándares NEC actuales y flujo de trabajo. Identificar brechas.',checklist:[{id:'a',text:'Agendar reuniones con Ingeniería',done:false},{id:'b',text:'Conducir entrevistas de levantamiento',done:false},{id:'c',text:'Documentar estándares NEC',done:false},{id:'d',text:'Validar documento con stakeholders',done:false}],overdue:false,title:'Completar levantamiento de estándares NEC y flujo de Ingeniería'},
+    {id:'o3k1',type:'okr',parent:'O3',q:'Q1',period:'Q1',diff:'DIFÍCIL',deadline:D(3,31),measure:'checklist',target:4,current:0,desc:'Coordinar con Ingeniería. Documentar estándares NEC y flujo de trabajo.',checklist:[{id:'a',text:'Agendar reuniones con Ingeniería',done:false},{id:'b',text:'Conducir entrevistas de levantamiento',done:false},{id:'c',text:'Documentar estándares NEC',done:false},{id:'d',text:'Validar con stakeholders',done:false}],overdue:false,title:'Completar levantamiento de estándares NEC y flujo de Ingeniería'},
     {id:'o3k2',type:'okr',parent:'O3',q:'Q2',period:'Q2',diff:'DIFÍCIL',deadline:D(6,30),measure:'checklist',target:3,current:0,desc:'Analizar proceso de memorias técnicas. Proponer plantillas estándar y automatizaciones.',checklist:[{id:'a',text:'Analizar proceso actual',done:false},{id:'b',text:'Diseñar propuesta',done:false},{id:'c',text:'Presentar al equipo',done:false}],overdue:false,title:'Entregar propuesta de estandarización de memorias técnicas'},
-    {id:'o3k3',type:'okr',parent:'O3',q:'Q2',period:'Q2',diff:'DIFÍCIL',deadline:D(6,30),measure:'checklist',target:4,current:0,desc:'Coordinar con C+I. Documentar requerimientos funcionales y no funcionales del sistema de monitoreo.',checklist:[{id:'a',text:'Identificar stakeholders C+I',done:false},{id:'b',text:'Entrevistas de levantamiento',done:false},{id:'c',text:'Documentar requerimientos',done:false},{id:'d',text:'Validar',done:false}],overdue:false,title:'Completar levantamiento de requerimientos del Sistema de Monitoreo C+I'},
-    {id:'o3k4',type:'okr',parent:'O3',q:'Q3',period:'Q3',diff:'DIFÍCIL',deadline:D(9,30),measure:'checklist',target:3,current:0,desc:'Sintetizar investigación de C+I en documento ejecutivo con análisis y recomendaciones.',checklist:[{id:'a',text:'Sintetizar investigación',done:false},{id:'b',text:'Redactar documento ejecutivo',done:false},{id:'c',text:'Presentar a Dirección',done:false}],overdue:false,title:'Entregar documento de investigación C+I con recomendaciones'},
-    {id:'o3k5',type:'okr',parent:'O3',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:5,current:0,desc:'Planificar entrevistas por proyecto. Preparar guía, conducir y documentar hallazgos.',checklist:[],overdue:false,title:'Realizar 5+ entrevistas de usuario para proyectos de investigación'},
-    {id:'o3k6',type:'okr',parent:'O3',q:'Q1',period:'Febrero',diff:'MEDIO',deadline:D(2,28),measure:'checklist',target:3,current:0,desc:'Trabajar con Zorrilla para levantar requerimientos funcionales de La Forja.',checklist:[{id:'a',text:'Coordinar sesiones con Zorrilla',done:false},{id:'b',text:'Documentar requerimientos',done:false},{id:'c',text:'Validar con equipo y dirección',done:false}],overdue:true,title:'Completar levantamiento de requerimientos de La Forja'},
-    {id:'o3k7',type:'okr',parent:'O3',q:'Q4',period:'Anual',diff:'FÁCIL',deadline:D(12,31),measure:'checklist',target:2,current:0,desc:'Evaluar si el volumen requiere recursos adicionales. Documentar justificación.',checklist:[{id:'a',text:'Evaluar carga de trabajo',done:false},{id:'b',text:'Documentar y presentar si aplica',done:false}],overdue:false,title:'Solicitar y justificar personal/recursos necesarios'},
-    {id:'o4k1',type:'okr',parent:'O4',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:10,current:0,desc:'Definir calendario editorial. Recopilar noticias, casos de éxito y tendencias. Distribuir mensualmente.',checklist:[],overdue:false,title:'Publicar 10+ boletines de innovación'},
-    {id:'o4k2',type:'okr',parent:'O4',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'checklist',target:3,current:0,desc:'Crear plantilla de encuesta. Aplicarla después de cada lanzamiento y dar seguimiento.',checklist:[{id:'a',text:'Crear plantilla estándar',done:false},{id:'b',text:'Definir proceso post-lanzamiento',done:false},{id:'c',text:'Alcanzar tasa 90%+',done:false}],overdue:false,title:'Asegurar 90%+ de herramientas con encuesta de satisfacción'},
-    {id:'o4k3',type:'okr',parent:'O4',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:4,current:0,desc:'Analizar resultados de encuesta interna cada trimestre y preparar plan de mejoras.',checklist:[],overdue:false,title:'Presentar plan de mejoras basado en encuesta interna (1 por Q)'},
+    {id:'o3k3',type:'okr',parent:'O3',q:'Q2',period:'Q2',diff:'DIFÍCIL',deadline:D(6,30),measure:'checklist',target:4,current:0,desc:'Coordinar con C+I. Documentar requerimientos funcionales y no funcionales.',checklist:[{id:'a',text:'Identificar stakeholders C+I',done:false},{id:'b',text:'Entrevistas de levantamiento',done:false},{id:'c',text:'Documentar requerimientos',done:false},{id:'d',text:'Validar',done:false}],overdue:false,title:'Completar levantamiento de requerimientos del Sistema de Monitoreo C+I'},
+    {id:'o3k4',type:'okr',parent:'O3',q:'Q3',period:'Q3',diff:'DIFÍCIL',deadline:D(9,30),measure:'checklist',target:3,current:0,desc:'Sintetizar investigación C+I en documento ejecutivo con recomendaciones.',checklist:[{id:'a',text:'Sintetizar investigación',done:false},{id:'b',text:'Redactar documento ejecutivo',done:false},{id:'c',text:'Presentar a Dirección',done:false}],overdue:false,title:'Entregar documento de investigación C+I con recomendaciones'},
+    {id:'o3k5',type:'okr',parent:'O3',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:5,current:0,desc:'Planificar entrevistas por proyecto. Preparar guía y documentar hallazgos.',checklist:[],overdue:false,title:'Realizar 5+ entrevistas de usuario para proyectos de investigación'},
+    {id:'o3k6',type:'okr',parent:'O3',q:'Q1',period:'Febrero',diff:'MEDIO',deadline:D(2,28),measure:'checklist',target:3,current:0,desc:'Trabajar con Zorrilla para levantar requerimientos de La Forja.',checklist:[{id:'a',text:'Coordinar sesiones con Zorrilla',done:false},{id:'b',text:'Documentar requerimientos',done:false},{id:'c',text:'Validar con equipo y dirección',done:false}],overdue:true,title:'Completar levantamiento de requerimientos de La Forja'},
+    {id:'o3k7',type:'okr',parent:'O3',q:'Q4',period:'Anual',diff:'FÁCIL',deadline:D(12,31),measure:'checklist',target:2,current:0,desc:'Evaluar si el volumen requiere recursos adicionales.',checklist:[{id:'a',text:'Evaluar carga de trabajo',done:false},{id:'b',text:'Documentar y presentar si aplica',done:false}],overdue:false,title:'Solicitar y justificar personal/recursos necesarios'},
+    {id:'o4k1',type:'okr',parent:'O4',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:10,current:0,desc:'Definir calendario editorial. Recopilar noticias, casos de éxito y tendencias.',checklist:[],overdue:false,title:'Publicar 10+ boletines de innovación'},
+    {id:'o4k2',type:'okr',parent:'O4',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'checklist',target:3,current:0,desc:'Crear plantilla de encuesta. Aplicarla post-lanzamiento y dar seguimiento.',checklist:[{id:'a',text:'Crear plantilla estándar',done:false},{id:'b',text:'Definir proceso post-lanzamiento',done:false},{id:'c',text:'Alcanzar tasa 90%+',done:false}],overdue:false,title:'Asegurar 90%+ de herramientas con encuesta de satisfacción'},
+    {id:'o4k3',type:'okr',parent:'O4',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:4,current:0,desc:'Analizar encuesta interna cada trimestre y preparar plan de mejoras.',checklist:[],overdue:false,title:'Presentar plan de mejoras basado en encuesta interna (1 por Q)'},
     {id:'o4k4',type:'okr',parent:'O4',q:'Q4',period:'Anual',diff:'DIFÍCIL',deadline:D(12,31),measure:'checklist',target:3,current:0,desc:'Investigar grants, fondos y programas internacionales. Evaluar factibilidad.',checklist:[{id:'a',text:'Investigar fuentes disponibles',done:false},{id:'b',text:'Evaluar factibilidad',done:false},{id:'c',text:'Presentar análisis a Henfry',done:false}],overdue:false,title:'Identificar 1+ fuente de financiamiento externo'},
-    {id:'o5k1',type:'okr',parent:'O5',q:'Q2',period:'Q2',diff:'DIFÍCIL',deadline:D(6,30),measure:'counter',target:2,current:0,desc:'Tomar ownership de 2 iniciativas desde levantamiento hasta cierre. Documentar el proceso.',checklist:[],overdue:false,title:'Liderar 2+ iniciativas completas de principio a fin'},
-    {id:'o5k2',type:'okr',parent:'O5',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:2,current:0,desc:'Aplicar al menos 2 metodologías distintas con evidencia concreta de aplicación.',checklist:[],overdue:false,title:'Demostrar dominio de 2+ metodologías de gestión'},
-    {id:'o5k3',type:'okr',parent:'O5',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'checklist',target:4,current:0,desc:'Seguir el plan de capacitación de Platzi. Priorizar esenciales y reportar mensualmente.',checklist:[{id:'a',text:'Completar cursos esenciales Q1',done:false},{id:'b',text:'Completar cursos esenciales Q2',done:false},{id:'c',text:'Completar cursos esenciales Q3',done:false},{id:'d',text:'Completar cursos esenciales Q4',done:false}],overdue:false,title:'Completar ≥80% del plan de capacitación individual'},
-    {id:'o6k1',type:'okr',parent:'O6',q:'Q3',period:'Q3',diff:'MEDIO',deadline:D(9,30),measure:'checklist',target:3,current:0,desc:'Explorar procesos candidatos a automatización con agentes IA. Documentar caso de uso.',checklist:[{id:'a',text:'Mapear procesos candidatos',done:false},{id:'b',text:'Evaluar viabilidad con IA',done:false},{id:'c',text:'Documentar caso de uso',done:false}],overdue:false,title:'Identificar 1+ caso de uso viable para automatización con IA'},
-    {id:'o6k2',type:'okr',parent:'O6',q:'Q4',period:'Q3-Q4',diff:'MEDIO',deadline:D(12,31),measure:'checklist',target:3,current:0,desc:'Apoyar a Henfry en análisis de modelos de negocio. Usar Business Model Canvas.',checklist:[{id:'a',text:'Definir modelo a analizar',done:false},{id:'b',text:'Aplicar Business Model Canvas',done:false},{id:'c',text:'Presentar análisis',done:false}],overdue:false,title:'Asistir en análisis de 1+ modelo de nuevo negocio'},
-    {id:'o7k1',type:'okr',parent:'O7',q:'Q1',period:'Q1',diff:'DIFÍCIL',deadline:D(3,31),measure:'checklist',target:4,current:0,desc:'Mapear proceso de análisis de ideas. Documentar criterios, matriz de decisión y flujo completo.',checklist:[{id:'a',text:'Mapear proceso actual',done:false},{id:'b',text:'Definir criterios de evaluación',done:false},{id:'c',text:'Crear matriz de decisión',done:false},{id:'d',text:'Validar flujo con el equipo',done:false}],overdue:false,title:'Documentar 100% del proceso de análisis de ideas'},
-    {id:'o7k2',type:'okr',parent:'O7',q:'Q2',period:'Q2',diff:'DIFÍCIL',deadline:D(6,30),measure:'checklist',target:3,current:0,desc:'Crear casos de uso del agente. Redactar prompts base con ejemplos reales y validar.',checklist:[{id:'a',text:'Definir casos de uso',done:false},{id:'b',text:'Redactar prompts base',done:false},{id:'c',text:'Validar manualmente',done:false}],overdue:false,title:'Definir casos de uso y prompts base del agente'},
-    {id:'o7k3',type:'okr',parent:'O7',q:'Q3',period:'Julio',diff:'DIFÍCIL',deadline:D(7,31),measure:'checklist',target:4,current:0,desc:'Preparar set de prueba (20+ ideas). Evaluar manualmente y con el agente. Comparar resultados.',checklist:[{id:'a',text:'Preparar set de 20+ ideas',done:false},{id:'b',text:'Evaluación manual del set',done:false},{id:'c',text:'Comparar con agente',done:false},{id:'d',text:'Documentar resultados',done:false}],overdue:false,title:'Validar accuracy del agente ≥80% vs evaluación manual'},
+    {id:'o5k1',type:'okr',parent:'O5',q:'Q2',period:'Q2',diff:'DIFÍCIL',deadline:D(6,30),measure:'counter',target:2,current:0,desc:'Tomar ownership de 2 iniciativas desde levantamiento hasta cierre.',checklist:[],overdue:false,title:'Liderar 2+ iniciativas completas de principio a fin'},
+    {id:'o5k2',type:'okr',parent:'O5',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'counter',target:2,current:0,desc:'Aplicar al menos 2 metodologías distintas con evidencia de aplicación.',checklist:[],overdue:false,title:'Demostrar dominio de 2+ metodologías de gestión'},
+    {id:'o5k3',type:'okr',parent:'O5',q:'Q4',period:'Anual',diff:'MEDIO',deadline:D(12,31),measure:'checklist',target:4,current:0,desc:'Seguir el plan de capacitación de Platzi. Priorizar esenciales.',checklist:[{id:'a',text:'Completar cursos esenciales Q1',done:false},{id:'b',text:'Completar cursos esenciales Q2',done:false},{id:'c',text:'Completar cursos esenciales Q3',done:false},{id:'d',text:'Completar cursos esenciales Q4',done:false}],overdue:false,title:'Completar ≥80% del plan de capacitación individual'},
+    {id:'o6k1',type:'okr',parent:'O6',q:'Q3',period:'Q3',diff:'MEDIO',deadline:D(9,30),measure:'checklist',target:3,current:0,desc:'Explorar procesos candidatos a automatización con agentes IA.',checklist:[{id:'a',text:'Mapear procesos candidatos',done:false},{id:'b',text:'Evaluar viabilidad con IA',done:false},{id:'c',text:'Documentar caso de uso',done:false}],overdue:false,title:'Identificar 1+ caso de uso viable para automatización con IA'},
+    {id:'o6k2',type:'okr',parent:'O6',q:'Q4',period:'Q3-Q4',diff:'MEDIO',deadline:D(12,31),measure:'checklist',target:3,current:0,desc:'Apoyar a Henfry en análisis de modelos de negocio. Usar Business Model Canvas.',checklist:[{id:'a',text:'Definir modelo a analizar',done:false},{id:'b',text:'Aplicar BMC',done:false},{id:'c',text:'Presentar análisis',done:false}],overdue:false,title:'Asistir en análisis de 1+ modelo de nuevo negocio'},
+    {id:'o7k1',type:'okr',parent:'O7',q:'Q1',period:'Q1',diff:'DIFÍCIL',deadline:D(3,31),measure:'checklist',target:4,current:0,desc:'Mapear proceso de análisis de ideas. Documentar criterios, matriz y flujo.',checklist:[{id:'a',text:'Mapear proceso actual',done:false},{id:'b',text:'Definir criterios de evaluación',done:false},{id:'c',text:'Crear matriz de decisión',done:false},{id:'d',text:'Validar flujo con el equipo',done:false}],overdue:false,title:'Documentar 100% del proceso de análisis de ideas'},
+    {id:'o7k2',type:'okr',parent:'O7',q:'Q2',period:'Q2',diff:'DIFÍCIL',deadline:D(6,30),measure:'checklist',target:3,current:0,desc:'Crear casos de uso del agente. Redactar prompts base con ejemplos.',checklist:[{id:'a',text:'Definir casos de uso',done:false},{id:'b',text:'Redactar prompts base',done:false},{id:'c',text:'Validar manualmente',done:false}],overdue:false,title:'Definir casos de uso y prompts base del agente'},
+    {id:'o7k3',type:'okr',parent:'O7',q:'Q3',period:'Julio',diff:'DIFÍCIL',deadline:D(7,31),measure:'checklist',target:4,current:0,desc:'Preparar set de prueba (20+ ideas). Evaluar manualmente y con el agente.',checklist:[{id:'a',text:'Preparar set de 20+ ideas',done:false},{id:'b',text:'Evaluación manual del set',done:false},{id:'c',text:'Comparar con agente',done:false},{id:'d',text:'Documentar resultados',done:false}],overdue:false,title:'Validar accuracy del agente ≥80% vs evaluación manual'},
   ];
 }
-function lucasCaps(){
+function lucasCaps() {
   const D=(m,d)=>new Date(2026,m-1,d).toISOString().split('T')[0];
   return[
     {id:'cq1-1',type:'cap',q:'Q1',title:'User Research: Técnicas Efectivas',hrs:5,done:false,diff:'MEDIO',deadline:D(3,31),desc:'Técnicas de investigación de usuarios para proyectos de innovación.'},
@@ -1165,9 +1616,9 @@ function lucasCaps(){
     {id:'cq1-6',type:'cap',q:'Q1',title:'Scrum Profesional',hrs:2,done:false,diff:'FÁCIL',deadline:D(3,31),desc:'Metodología ágil para gestionar proyectos.'},
     {id:'cq1-7',type:'cap',q:'Q1',title:'ChatGPT / Claude AI / Gemini',hrs:4,done:false,diff:'FÁCIL',deadline:D(3,31),desc:'Dominar herramientas de IA conversacional.'},
     {id:'cq1-8',type:'cap',q:'Q1',title:'Business Model Canvas',hrs:3,done:false,diff:'FÁCIL',deadline:D(3,31),desc:'Análisis de modelos de negocio (O6).'},
-    {id:'cq1-9',type:'cap',q:'Q1',title:'Innovación para el Futuro y Coolhunting',hrs:3,done:false,diff:'FÁCIL',deadline:D(3,31),desc:'Técnicas para detectar tendencias emergentes.'},
+    {id:'cq1-9',type:'cap',q:'Q1',title:'Innovación para el Futuro y Coolhunting',hrs:3,done:false,diff:'FÁCIL',deadline:D(3,31),desc:'Detectar tendencias emergentes.'},
     {id:'cq1-10',type:'cap',q:'Q1',title:'Análisis de Datos para Gestión de Proyectos',hrs:2,done:false,diff:'MEDIO',deadline:D(3,31),desc:'Usar datos para mejores decisiones.'},
-    {id:'cq1-11',type:'cap',q:'Q1',title:'Creatividad e Innovación',hrs:3,done:false,diff:'FÁCIL',deadline:D(3,31),desc:'Técnicas para fomentar la creatividad.'},
+    {id:'cq1-11',type:'cap',q:'Q1',title:'Creatividad e Innovación',hrs:3,done:false,diff:'FÁCIL',deadline:D(3,31),desc:'Fomentar la creatividad en equipos.'},
     {id:'cq1-12',type:'cap',q:'Q1',title:'Comunicación Efectiva (Audio)',hrs:1,done:false,diff:'FÁCIL',deadline:D(3,31),desc:'Mejora la comunicación verbal.'},
     {id:'cq2-1',type:'cap',q:'Q2',title:'Product Management',hrs:4,done:false,diff:'MEDIO',deadline:D(6,30),desc:'Gestión de productos digitales para el rol de Coordinador.'},
     {id:'cq2-2',type:'cap',q:'Q2',title:'Design Thinking',hrs:3,done:false,diff:'MEDIO',deadline:D(6,30),desc:'Diseño centrado en el usuario.'},
