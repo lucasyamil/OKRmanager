@@ -349,14 +349,14 @@ a{color:inherit;text-decoration:none}
   cursor:pointer;user-select:none;
 }
 .okr-toggle{
-  width:20px;height:20px;border-radius:50%;
+  width:22px;height:22px;border-radius:6px;
   background:var(--gray-100);border:none;
   display:flex;align-items:center;justify-content:center;
-  font-size:9px;color:var(--gray-400);cursor:pointer;
-  transition:all var(--tr);flex-shrink:0;margin-top:2px;
+  color:var(--gray-400);cursor:pointer;
+  transition:all var(--tr);flex-shrink:0;margin-top:1px;
 }
 .okr-toggle:hover{background:var(--gray-200);color:var(--gray-700)}
-.okr-toggle.open{background:var(--indigo-600);color:#fff;transform:rotate(180deg)}
+.okr-toggle.open{background:var(--indigo-50);color:var(--indigo-600);transform:rotate(90deg)}
 
 .okr-body{padding:0 12px;min-width:0}
 .okr-title{font-size:14px;font-weight:600;color:var(--gray-900);line-height:1.45;margin-bottom:6px}
@@ -1703,11 +1703,11 @@ function okrCard(item) {
   const PL = {alta:'Alta',media:'Media',baja:'Baja'};
   return `<div class="okr-card ${cardCls}" id="card-${item.id}">
     <div class="okr-row" onclick="toggleOKRPanel('${item.id}')">
-      <button class="okr-toggle" id="xbtn-${item.id}">▼</button>
+      <button class="okr-toggle" id="xbtn-${item.id}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
       <div class="okr-body">
         <div class="okr-title">${item.title}</div>
         <div class="okr-meta-row">
-          ${item.parent?`<span class="okr-parent">${item.parent}</span>`:''}
+          ${item.parent?`<span style="font-size:10px;color:var(--gray-300);font-weight:600">${item.parent}</span>`:''}
           <span class="pill pill-${DM[item.diff]||'diff-med'}">${item.diff||'MEDIO'}</span>
           <span class="pill pill-${PM[pri]}">${PL[pri]}</span>
           <span class="pill pill-period">${item.period||item.q}</span>
@@ -1718,7 +1718,7 @@ function okrCard(item) {
         <span class="okr-pct ${pctCls}" id="opct-${item.id}">${prog}%</span>
         <div class="okr-mini-bar"><div class="okr-mini-fill ${pctCls}" id="omf-${item.id}" style="width:${prog}%"></div></div>
         <div class="okr-btns">
-          <button class="ib" onclick="toggleOKRPanel('${item.id}')" title="Editar">${ico('edit',13)}</button>
+          <button class="ib" onclick="openEditTab('${item.id}')" title="Editar">${ico('edit',13)}</button>
           <button class="ib del" onclick="delItem('${item.id}')" title="Eliminar">${ico('trash',13)}</button>
         </div>
       </div>
@@ -1848,6 +1848,16 @@ function toggleOKRPanel(id) {
   b.classList.toggle('open', isOpen);
 }
 
+function openEditTab(id) {
+  // Open panel and go directly to edit tab
+  const p = document.getElementById('panel-'+id);
+  const b = document.getElementById('xbtn-'+id);
+  if (!p) return;
+  p.classList.add('open');
+  if (b) b.classList.add('open');
+  switchTab(id, 'edit');
+}
+
 // ── CAP CARD ─────────────────────────────────────
 function capCard(item) {
   const prog = calcProg(item), pri = calcPri(item);
@@ -1871,6 +1881,7 @@ function capCard(item) {
       <div class="cap-right" onclick="event.stopPropagation()">
         <span class="cap-hrs-pill">${item.hrs||0}h</span>
         <div style="display:flex;gap:3px">
+          <button class="ib" onclick="toggleCapPanel('${item.id}')" title="Editar">${ico('edit',13)}</button>
           <button class="ib del" onclick="delItem('${item.id}')" title="Eliminar">${ico('trash',13)}</button>
         </div>
       </div>
