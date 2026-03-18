@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>OKR Hub — I+D+I 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -336,8 +336,11 @@ a{color:inherit;text-decoration:none}
   transition:box-shadow var(--tr),border-color var(--tr);
 }
 .okr-card:hover{box-shadow:var(--sh-sm);border-color:var(--gray-300)}
-.okr-card.is-over{border-left:3px solid var(--red-500)}
-.okr-card.is-urg{border-left:3px solid var(--amber-500)}
+.okr-card.is-over{border-left:4px solid var(--red-500)}
+.okr-card.is-urg{border-left:4px solid var(--amber-500)}
+.okr-card.diff-hard{border-left:4px solid var(--red-500)}
+.okr-card.diff-med{border-left:4px solid var(--amber-500)}
+.okr-card.diff-easy{border-left:4px solid var(--green-500)}
 
 /* Card main row */
 .okr-row{
@@ -495,6 +498,24 @@ a{color:inherit;text-decoration:none}
 .empty-icon{font-size:42px;margin-bottom:14px}
 .empty-text{font-size:14px}
 
+/* ── BOTTOM NAV (mobile only) ─────────────────── */
+.bottom-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;
+  background:#fff;border-top:1px solid var(--gray-200);
+  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+  z-index:200;
+  grid-template-columns:repeat(3,1fr);
+}
+.bn-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 4px;background:none;border:none;cursor:pointer;
+  color:var(--gray-400);transition:color var(--tr);
+  font-size:11px;font-weight:600;
+}
+.bn-item.active{color:var(--indigo-600)}
+.bn-item svg{width:22px;height:22px}
+
 /* ── PC: scale-up effect (zoom ~150%) ──────────── */
 @media(min-width:961px){
   html { font-size: 17px; }
@@ -632,6 +653,12 @@ a{color:inherit;text-decoration:none}
   .topbar-title { font-size: 15px; }
   #add-btn { padding: 7px 12px; font-size: 13px; }
   .sync-wrap { display: none; }
+  /* Hide hamburger on mobile — use bottom nav instead */
+  .topbar-menu-btn { display: none !important; }
+  /* Bottom nav visible on mobile */
+  .bottom-nav { display: grid; }
+  /* Extra padding so content doesn't hide behind bottom nav */
+  .page-content { padding-bottom: 80px; }
 
   /* Modal */
   .modal { padding: 22px 18px; }
@@ -1303,6 +1330,22 @@ function renderAppShell() {
     </div>
   </div>
 
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <button class="bn-item" id="bn-dashboard" onclick="navigate('dashboard')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+      Dashboard
+    </button>
+    <button class="bn-item" id="bn-okrs" onclick="navigate('okrs')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      OKRs
+    </button>
+    <button class="bn-item" id="bn-caps" onclick="navigate('caps')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+      Caps
+    </button>
+  </nav>
+
   <!-- ADD MODAL -->
   <div id="add-modal" style="display:none">
     <div class="modal-overlay" onclick="if(event.target===this)closeAddModal()">
@@ -1393,10 +1436,15 @@ function navigate(page) {
   currentPage = page;
   closeSidebar();
   document.getElementById('topbar-title').textContent = {dashboard:'Dashboard',okrs:'Mis OKRs',caps:'Capacitaciones'}[page] || page;
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page===page || n.getAttribute('onclick')?.includes(`'${page}'`)));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.getAttribute('onclick')?.includes("'"+page+"'")));
+  // Sync bottom nav
+  ['dashboard','okrs','caps'].forEach(p => {
+    const bn = document.getElementById('bn-'+p);
+    if(bn) bn.classList.toggle('active', p===page);
+  });
   const addBtn = document.getElementById('add-btn');
   if (page==='dashboard') { addBtn?.classList.add('hidden'); }
-  else { addBtn?.classList.remove('hidden'); addBtn.innerHTML=`${ico('plus',15)} ${page==='okrs'?'OKR':'Capacitación'}`; }
+  else { addBtn?.classList.remove('hidden'); addBtn.innerHTML=`${ico('plus',15)} ${page==='okrs'?'OKR':'Cap'}`; }
   renderPage();
 }
 
@@ -1493,16 +1541,23 @@ function reqNotif() {
 }
 function scheduleAlerts() {
   if (!userData) return;
-  const now=new Date(); let ov=0,urg=0;
+  const now = new Date(); let ov=0, urg=0;
+  const overdueIds = [];
   [...(userData.okrs||[]),...(userData.caps||[])].forEach(i=>{
-    if(i.overdue)ov++;
-    else{const dl=i.deadline?new Date(i.deadline):qDL(i.q);if((dl-now)/86400000<14)urg++;}
+    if(i.overdue){ ov++; overdueIds.push(i.id); }
+    else{ const dl=i.deadline?new Date(i.deadline):qDL(i.q); if((dl-now)/86400000<14) urg++; }
   });
-  setTimeout(()=>{
-    if(ov>0)notif('error',`${ov} elemento${ov>1?'s':''} vencido${ov>1?'s':''}`, 'Requieren tu atención.',7000);
-    else if(urg>0)notif('warning',`${urg} urgente${urg>1?'s':''}`, 'Menos de 14 días para su fecha límite.',5500);
-    else notif('success','¡Todo al día!','No tienes elementos vencidos.',4000);
-  },1200);
+  // Only notify about overdue items once per browser session using sessionStorage
+  const seenKey = 'okrhub_seen_overdue';
+  const seen = JSON.parse(sessionStorage.getItem(seenKey)||'[]');
+  const newOverdue = overdueIds.filter(id => !seen.includes(id));
+  if (newOverdue.length > 0) {
+    sessionStorage.setItem(seenKey, JSON.stringify([...seen, ...newOverdue]));
+    setTimeout(()=>notif('error',`${ov} elemento${ov>1?'s':''} vencido${ov>1?'s':''}`, 'Requieren tu atención.',7000), 1200);
+  } else if (urg > 0 && !sessionStorage.getItem('okrhub_seen_urgent')) {
+    sessionStorage.setItem('okrhub_seen_urgent','1');
+    setTimeout(()=>notif('warning',`${urg} urgente${urg>1?'s':''}`, 'Menos de 14 días para su fecha límite.',5500), 1200);
+  }
 }
 
 // ═══════════════════════════════════════════════════
@@ -1613,7 +1668,7 @@ function renderDashboard() {
         </div>
         <div class="q-stat-mini">
           <div class="q-stat-mini-val" style="${qov?'color:var(--red-500)':''}">${qov}</div>
-          <div class="q-stat-mini-lbl">${qov?'Vencidos':'Al día'}</div>
+          <div class="q-stat-mini-lbl">Vencidos</div>
         </div>
       </div>
     </div>`;
@@ -1697,7 +1752,8 @@ function renderCaps() {
 function okrCard(item) {
   const prog = calcProg(item), pri = calcPri(item);
   const pctCls = prog>=100?'done':item.overdue?'over':'';
-  const cardCls = item.overdue?'is-over':pri==='alta'?'is-urg':'';
+  const diffCls = item.diff==='DIFÍCIL'?'diff-hard':item.diff==='FÁCIL'?'diff-easy':'diff-med';
+  const cardCls = diffCls;
   const DM = {FÁCIL:'diff-easy',MEDIO:'diff-med',DIFÍCIL:'diff-hard'};
   const PM = {alta:'pri-hi',media:'pri-mid',baja:'pri-lo'};
   const PL = {alta:'Alta',media:'Media',baja:'Baja'};
@@ -2018,18 +2074,39 @@ async function rmCk(id,idx) {
 async function tgCap(id,c) {
   const item=(userData.caps||[]).find(i=>i.id===id); if(!item) return;
   item.done=c;
-  if(c)notif('success','¡Capacitación completada!',`${item.title} · ${item.hrs}h`);
-  // Update DOM in-place (don't close panel or re-render)
+  if(c) notif('success','¡Capacitación completada!',`${item.title} · ${item.hrs}h`);
+  // Update card title strikethrough
   const titleEl = document.getElementById('ctitle-'+id);
   if(titleEl) titleEl.classList.toggle('done', c);
   const card = document.getElementById('card-'+id);
   if(card) card.classList.toggle('is-done', c);
-  // Also update the cap-panel label if open
-  const lb = document.querySelector(`#cpanel-${id} label.done`);
-  // Re-find and update
-  const allLabels = document.querySelectorAll(`#cpanel-${id} label`);
-  allLabels.forEach(l => { if(l.htmlFor===`ck-${id}` || l.getAttribute('for')===`ck-${id}`) l.classList.toggle('done',c); });
+  // Update label inside panel
+  document.querySelectorAll(`#cpanel-${id} label`).forEach(l => {
+    if(l.htmlFor===`ck-${id}` || l.getAttribute('for')===`ck-${id}`) l.classList.toggle('done',c);
+  });
   await saveData();
+  // Update the Q section progress bar and count live
+  updateQProgress(item.q);
+  // If dashboard visible, refresh it
+  if(currentPage==='dashboard') document.getElementById('page-content').innerHTML = renderDashboard();
+}
+
+function updateQProgress(q) {
+  // Recalculate progress for this Q and update its header bar
+  const all = [...(userData.okrs||[]),...(userData.caps||[])].filter(i=>i.q===q);
+  if (!all.length) return;
+  const done = all.filter(i=>calcProg(i)>=100).length;
+  const pct = Math.round(done/all.length*100);
+  // Find the q-sec-fill for this Q section
+  document.querySelectorAll('.q-sec-head').forEach(head => {
+    const badge = head.querySelector('.q-sec-label');
+    if (badge && badge.textContent.trim()===q) {
+      const fill = head.querySelector('.q-sec-fill');
+      const pctEl = head.querySelector('.q-sec-pct');
+      if (fill) { fill.style.width=pct+'%'; fill.className='q-sec-fill'+(pct>=100?' done':''); }
+      if (pctEl) pctEl.textContent=pct+'%';
+    }
+  });
 }
 function uPB(id,prog,ov) {
   // Fat progress bar in panel
