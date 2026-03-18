@@ -1474,6 +1474,7 @@ function confirmLogout() {
 
 // ── LOGOUT ───────────────────────────────────────
 async function doLogout() {
+  document.getElementById('logout-confirm')?.remove();
   await auth.signOut();
   currentUser = null; userData = null;
   authView = 'login'; render();
