@@ -508,6 +508,56 @@ a{color:inherit;text-decoration:none}
 .empty-icon{font-size:42px;margin-bottom:14px}
 .empty-text{font-size:14px}
 
+/* ── PROFILE PAGE ─────────────────────────────── */
+.profile-page{max-width:480px;margin:0 auto}
+.profile-avatar-big{
+  width:80px;height:80px;border-radius:50%;
+  background:var(--indigo-600);color:#fff;
+  font-size:32px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;flex-shrink:0;
+}
+.profile-name{font-size:22px;font-weight:700;color:var(--gray-900);text-align:center;letter-spacing:-.3px;margin-bottom:4px}
+.profile-role{font-size:14px;color:var(--gray-400);text-align:center;margin-bottom:28px}
+.profile-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px}
+.profile-row{display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:1px solid var(--gray-100)}
+.profile-row:last-child{border-bottom:none}
+.profile-row-icon{width:36px;height:36px;border-radius:var(--r);background:var(--gray-100);display:flex;align-items:center;justify-content:center;color:var(--gray-500);flex-shrink:0}
+.profile-row-label{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px}
+.profile-row-value{font-size:14px;font-weight:500;color:var(--gray-800)}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.profile-stat{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:16px;text-align:center}
+.profile-stat-val{font-size:28px;font-weight:800;color:var(--gray-900);letter-spacing:-1px}
+.profile-stat-lbl{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+.btn-logout-big{
+  width:100%;padding:14px;
+  background:var(--red-50);color:var(--red-600);
+  border:1.5px solid var(--red-100);border-radius:var(--r-lg);
+  font-size:15px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  transition:all var(--tr);
+}
+.btn-logout-big:hover{background:var(--red-100);border-color:var(--red-200)}
+
+/* Logout confirm modal */
+.confirm-overlay{
+  position:fixed;inset:0;background:rgba(17,24,39,.5);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;z-index:2000;padding:20px;
+  animation:fadeIn .2s ease;
+}
+.confirm-box{
+  background:#fff;border-radius:var(--r-xl);padding:28px 28px 24px;
+  max-width:360px;width:100%;box-shadow:var(--sh-lg);animation:slideUp .2s ease;text-align:center;
+}
+.confirm-icon{font-size:40px;margin-bottom:12px}
+.confirm-title{font-size:18px;font-weight:700;color:var(--gray-900);margin-bottom:6px}
+.confirm-text{font-size:14px;color:var(--gray-500);line-height:1.55;margin-bottom:22px}
+.confirm-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.confirm-cancel{padding:12px;background:var(--gray-100);border:none;border-radius:var(--r);font-size:14px;font-weight:600;color:var(--gray-700);cursor:pointer;transition:background var(--tr)}
+.confirm-cancel:hover{background:var(--gray-200)}
+.confirm-ok{padding:12px;background:var(--red-500);border:none;border-radius:var(--r);font-size:14px;font-weight:700;color:#fff;cursor:pointer;transition:background var(--tr)}
+.confirm-ok:hover{background:var(--red-600)}
+
 /* ── BOTTOM NAV (mobile only) ─────────────────── */
 .bottom-nav{
   display:none;
@@ -715,6 +765,8 @@ a{color:inherit;text-decoration:none}
   <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
   <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
   <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
@@ -1332,15 +1384,19 @@ function renderAppShell() {
             <span class="nav-icon">${ico(n.icon,18)}</span>
             <span class="nav-label">${n.label}</span>
           </div>`).join('')}
+        <div class="nav-item${currentPage==='perfil'?' active':''}" onclick="navigate('perfil')" style="margin-top:8px;border-top:1px solid var(--gray-100);padding-top:14px">
+          <span class="nav-icon">${ico('user',18)}</span>
+          <span class="nav-label">Mi perfil</span>
+        </div>
       </div>
       <div class="sidebar-user">
-        <div class="sidebar-user-card">
+        <div class="sidebar-user-card" onclick="navigate('perfil')" style="cursor:pointer">
           <div class="sidebar-avatar">${av}</div>
           <div class="sidebar-user-info">
             <div class="sidebar-user-name">${name}</div>
             <div class="sidebar-user-role">${role}</div>
           </div>
-          <button class="btn-icon" onclick="doLogout()" title="Cerrar sesión" style="margin-left:auto">${ico('logout',16)}</button>
+          <span style="font-size:11px;color:var(--gray-400);margin-left:auto">${ico('chevron-right',14)}</span>
         </div>
       </div>
     </nav>
@@ -1362,10 +1418,10 @@ function renderAppShell() {
   </div>
 
   <!-- BOTTOM NAV -->
-  <nav class="bottom-nav" id="bottom-nav">
+  <nav class="bottom-nav" id="bottom-nav" style="grid-template-columns:repeat(4,1fr)">
     <button class="bn-item" id="bn-dashboard" onclick="navigate('dashboard')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-      Dashboard
+      Inicio
     </button>
     <button class="bn-item" id="bn-okrs" onclick="navigate('okrs')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
@@ -1373,7 +1429,11 @@ function renderAppShell() {
     </button>
     <button class="bn-item" id="bn-caps" onclick="navigate('caps')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-      Caps
+      Cursos
+    </button>
+    <button class="bn-item" id="bn-perfil" onclick="navigate('perfil')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Perfil
     </button>
   </nav>
 
@@ -1466,15 +1526,16 @@ function closeSidebar() { sidebarOpen=false; document.getElementById('sidebar')?
 function navigate(page) {
   currentPage = page;
   closeSidebar();
-  document.getElementById('topbar-title').textContent = {dashboard:'Dashboard',okrs:'Mis OKRs',caps:'Capacitaciones'}[page] || page;
+  const titles = {dashboard:'Dashboard',okrs:'Mis OKRs',caps:'Capacitaciones',perfil:'Mi Perfil'};
+  document.getElementById('topbar-title').textContent = titles[page] || page;
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.getAttribute('onclick')?.includes("'"+page+"'")));
   // Sync bottom nav
-  ['dashboard','okrs','caps'].forEach(p => {
+  ['dashboard','okrs','caps','perfil'].forEach(p => {
     const bn = document.getElementById('bn-'+p);
     if(bn) bn.classList.toggle('active', p===page);
   });
   const addBtn = document.getElementById('add-btn');
-  if (page==='dashboard') { addBtn?.classList.add('hidden'); }
+  if (page==='dashboard' || page==='perfil') { addBtn?.classList.add('hidden'); }
   else { addBtn?.classList.remove('hidden'); addBtn.innerHTML=`${ico('plus',15)} ${page==='okrs'?'OKR':'Cap'}`; }
   renderPage();
 }
@@ -1485,6 +1546,7 @@ function renderPage() {
   if (currentPage==='dashboard') el.innerHTML = renderDashboard();
   else if (currentPage==='okrs') el.innerHTML = renderOKRs();
   else if (currentPage==='caps') el.innerHTML = renderCaps();
+  else if (currentPage==='perfil') el.innerHTML = renderPerfil();
 }
 
 // ═══════════════════════════════════════════════════
